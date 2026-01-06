@@ -25,6 +25,19 @@
       background:var(--bg);
       color:var(--text);
     }
+
+    /* Subtle premium glow */
+    body::before{
+      content:"";
+      position:fixed;
+      inset:-200px;
+      background:
+        radial-gradient(800px 400px at 25% 15%, rgba(74,163,255,.12), transparent 60%),
+        radial-gradient(700px 380px at 70% 40%, rgba(255,255,255,.06), transparent 55%);
+      pointer-events:none;
+      z-index:-1;
+    }
+
     a{color:inherit;text-decoration:none}
     .wrap{max-width:var(--max);margin:0 auto;padding:80px 20px}
     .grid{display:grid;gap:20px}
@@ -37,6 +50,12 @@
       border:1px solid var(--border);
       border-radius:22px;
       padding:26px;
+      transition: transform .12s ease, border-color .12s ease;
+      backdrop-filter: blur(6px);
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.14);
     }
     h1{
       font-size:46px;
@@ -113,6 +132,7 @@
       margin:18px 0;
     }
 
+    /* Advisory (subtle, collapsible) */
     details{
       border:1px solid var(--border);
       border-radius:18px;
@@ -225,8 +245,9 @@
         </ul>
 
         <p class="small" style="margin-top:10px;">
-          <a href="https://brinksinvestments.substack.com/b1c0ca74" target="_blank" rel="noreferrer">
-            Early Supporter: 25 % Rabatt auf den Pro-Zugang
+          <a href="https://brinksinvestments.substack.com/b1c0ca74" target="_blank" rel="noreferrer"
+             style="display:inline-block;border:1px solid rgba(74,163,255,.35);border-radius:999px;padding:6px 10px;">
+            Early Supporter · 25 % Rabatt
           </a>
         </p>
 
@@ -247,10 +268,11 @@
     <section id="advisory" class="card" style="grid-column:1/-1;">
       <h2>Brinks Advisory</h2>
       <p>Persönliche Begleitung ohne Anlageberatung. Fokus: Struktur, Risiko, Prozesse, Vermögensarchitektur.</p>
+      <p class="small">Selektiv. Auf Anfrage.</p>
 
       <details>
         <summary>
-          Advisory-Leistungen ansehen (auf Anfrage)
+          Leistungen (auf Anfrage)
           <span class="chev">⌄</span>
         </summary>
 
