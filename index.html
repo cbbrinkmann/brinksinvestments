@@ -4,18 +4,19 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Brinks Investments</title>
-  <meta name="description" content="Makroökonomisches Framework zu Liquidität, Zyklen und Marktregimen." />
+  <meta name="description" content="Makro-Framework für Liquidität, Zyklen und Marktregime. Klar. Datenbasiert. Umsetzbar." />
   <meta name="theme-color" content="#132033" />
+
   <style>
     :root{
       --bg:#132033;
       --card:rgba(255,255,255,.06);
       --border:rgba(255,255,255,.10);
       --text:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.72);
+      --muted:rgba(255,255,255,.70);
       --accent:#4aa3ff;
       --accentText:#06101a;
-      --max:980px;
+      --max:1080px;
     }
     *{box-sizing:border-box}
     body{
@@ -26,138 +27,307 @@
     }
     a{color:inherit;text-decoration:none}
     .wrap{max-width:var(--max);margin:0 auto;padding:80px 20px}
+    .grid{display:grid;gap:20px}
+    @media(min-width:900px){
+      .grid-2{grid-template-columns:1.3fr .7fr}
+      .grid-3{grid-template-columns:repeat(3,1fr)}
+    }
     .card{
       background:var(--card);
       border:1px solid var(--border);
       border-radius:22px;
-      padding:32px;
+      padding:26px;
     }
     h1{
       font-size:46px;
       line-height:1.05;
-      margin:0 0 18px;
+      margin:0 0 16px;
       letter-spacing:-0.02em;
     }
     h2{
       font-size:18px;
-      margin:32px 0 10px;
+      margin:0 0 10px;
+    }
+    h3{
+      font-size:16px;
+      margin:18px 0 8px;
+      color:var(--text);
     }
     p{
       margin:0 0 14px;
       color:var(--muted);
       line-height:1.7;
-      font-size:18px;
+      font-size:17px;
     }
-    .lead{font-size:20px;color:var(--text)}
+    .lead{
+      font-size:19px;
+      color:var(--text);
+    }
     ul{
       margin:10px 0 0;
       padding-left:18px;
       color:var(--muted);
-      line-height:1.85;
-      font-size:17px;
+      line-height:1.75;
+      font-size:16px;
     }
-    .cta{
+    .badge{
       display:inline-block;
-      margin-top:26px;
-      padding:14px 18px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:13px;
+      color:var(--muted);
+    }
+    .ctaRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:18px;
+    }
+    .btn{
+      display:inline-block;
+      padding:12px 16px;
+      border-radius:12px;
+      font-weight:800;
+    }
+    .btnPrimary{
       background:var(--accent);
       color:var(--accentText);
-      border-radius:14px;
+    }
+    .btnGhost{
+      border:1px solid var(--border);
+      color:var(--text);
+    }
+    .price{
+      font-size:20px;
       font-weight:800;
+    }
+    .small{
+      font-size:13px;
+      color:rgba(255,255,255,.55);
+      line-height:1.6;
     }
     .divider{
       height:1px;
       background:var(--border);
-      margin:36px 0;
+      margin:18px 0;
     }
-    footer{
-      margin-top:36px;
+
+    /* Advisory (subtle, collapsible) */
+    details{
+      border:1px solid var(--border);
+      border-radius:18px;
+      background:rgba(255,255,255,.03);
+      padding:18px;
+    }
+    details > summary{
+      cursor:pointer;
+      list-style:none;
+      font-weight:800;
+      color:var(--text);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    details > summary::-webkit-details-marker{display:none}
+    .chev{
+      color:rgba(255,255,255,.60);
+      font-weight:900;
+      transition:transform .15s ease;
+    }
+    details[open] .chev{transform:rotate(180deg)}
+    .note{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.10);
+      color:rgba(255,255,255,.70);
       font-size:13px;
-      color:rgba(255,255,255,.55);
+      line-height:1.6;
+    }
+
+    footer{
+      margin-top:18px;
+      display:flex;
+      gap:16px;
+      flex-wrap:wrap;
     }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
+  <div class="wrap grid grid-2">
+
+    <!-- HERO -->
     <section class="card">
+      <span class="badge">Makro | Liquidität | Zyklen | Regime</span>
+      <h1 style="margin-top:14px;">Brinks Investments</h1>
 
-      <h1>Willkommen bei Brinks Investments</h1>
+      <p class="lead">Makro-Framework für Liquidität, Zyklen und Marktregime.</p>
+      <p>Klare, datenbasierte Einordnung der Märkte – mit Fokus auf Wahrscheinlichkeiten statt Prognosen.</p>
 
-      <p class="lead">
-        Märkte folgen Mustern. Sie werden von Liquidität, Zyklen und menschlichem Verhalten bestimmt.
+      <div class="ctaRow">
+        <a class="btn btnPrimary" href="https://brinksinvestments.substack.com/" target="_blank" rel="noreferrer">
+          Zum Newsletter
+        </a>
+        <a class="btn btnGhost" href="#pro">
+          Pro ansehen
+        </a>
+      </div>
+
+      <p class="small" style="margin-top:14px;">
+        Free Macro Updates · Pro mit Portfolios & Deep Dives ·
+        <a href="#advisory">Advisory auf Anfrage</a>
       </p>
-      <p>
-        Wer diese Dynamiken versteht, kann Risiken besser einordnen und Chancen früher erkennen.
-        Wer sie ignoriert, reagiert nur.
-      </p>
+    </section>
 
-      <div class="divider"></div>
-
-      <h2>Worum es hier wirklich geht</h2>
-      <p>
-        Brinks Investments ist ein Rahmenwerk, um das Marktgeschehen aus einer makroökonomischen Perspektive zu verstehen.
-      </p>
-      <p>
-        Nicht über Prognosen.  
-        Nicht über kurzfristige Meinungen.  
-        Sondern über Wahrscheinlichkeiten und Zyklen.
-      </p>
-
+    <!-- WAS DU BEKOMMST -->
+    <aside class="card">
+      <h2>Was du bekommst</h2>
       <ul>
-        <li>der aktuelle Konjunkturzyklus</li>
-        <li>globale Liquiditätsbewegungen</li>
-        <li>die Positionierung verschiedener Assetklassen im jeweiligen Regime</li>
+        <li>Monatliche Makro- & Liquiditätsanalyse</li>
+        <li>Zyklusstatus, Regime, zentrale Treiber</li>
+        <li>3 Kerncharts, 3 Kernaussagen</li>
+        <li>Deep Dives zu Makro, Technologie & digitalen Assets</li>
       </ul>
+    </aside>
 
-      <p style="margin-top:14px;"><strong>Makro steht am Anfang jeder Entscheidung.</strong></p>
+    <!-- TIERS -->
+    <section class="grid grid-3" style="grid-column:1/-1;">
 
-      <div class="divider"></div>
+      <!-- FREE -->
+      <div class="card">
+        <h2>Monthly Macro Updates</h2>
+        <div class="price">Kostenfrei</div>
+        <p>Kompakte Orientierung ohne Empfehlungen.</p>
+        <ul>
+          <li>Zyklusstatus & Liquidität</li>
+          <li>ISM, USD, Kreditimpuls</li>
+          <li>Regime-Einordnung</li>
+          <li>Öffentliches Archiv</li>
+        </ul>
+        <div class="ctaRow">
+          <a class="btn btnGhost" href="https://brinksinvestments.substack.com/" target="_blank" rel="noreferrer">
+            Free abonnieren
+          </a>
+        </div>
+      </div>
 
-      <h2>Warum das aktuell besonders relevant ist</h2>
-      <ul>
-        <li>steigende Verschuldung</li>
-        <li>anhaltende Geldentwertung</li>
-        <li>beschleunigte technologische Entwicklung</li>
-        <li>digitale Assets als neue makroökonomische Variable</li>
-      </ul>
+      <!-- PRO -->
+      <div id="pro" class="card" style="border-color:rgba(74,163,255,.45);">
+        <h2>Brinks Investments Pro</h2>
+        <div class="price">299 € / Jahr</div>
+        <p><strong>Portfolios + Deep Dives + Frameworks.</strong></p>
+        <ul>
+          <li>2 Modellportfolios (Digital Assets & Aktien)</li>
+          <li>Fokussierte Deep Dives</li>
+          <li>Flash-Updates zwischen Monatsreports</li>
+        </ul>
 
-      <p style="margin-top:14px;">
-        Das verändert Bewertungsmaßstäbe, Kapitalflüsse und Risikoannahmen.
-      </p>
-      <p><strong>Zyklen sind kein Detail. Sie definieren den Rahmen.</strong></p>
+        <p class="small" style="margin-top:10px;">
+          <a href="https://brinksinvestments.substack.com/b1c0ca74" target="_blank" rel="noreferrer">
+            Early Supporter: 25 % Rabatt auf den Pro-Zugang
+          </a>
+        </p>
 
-      <div class="divider"></div>
+        <div class="ctaRow">
+          <a class="btn btnPrimary" href="https://brinksinvestments.substack.com/b1c0ca74" target="_blank" rel="noreferrer">
+            Pro werden
+          </a>
+        </div>
 
-      <h2>Was Abonnenten erwartet</h2>
-      <ul>
-        <li>monatlicher Überblick über Makro und Marktregime</li>
-        <li>ein einfaches Beta-Portfolio entlang des Zyklus</li>
-        <li>Deep Dives bei strukturellen Veränderungen</li>
-        <li>Portfolio-Updates bei veränderten Risiko- oder Chancenlagen</li>
-      </ul>
+        <p class="small" style="margin-top:12px;">
+          Hinweis: Portfolios dienen der Einordnung. Keine Signale. Keine Anlageberatung.
+        </p>
+      </div>
 
-      <p style="margin-top:14px;"><strong>Reduziert. Fokussiert. Umsetzbar.</strong></p>
-
-      <a class="cta" href="https://brinksinvestments.substack.com/" target="_blank" rel="noreferrer">
-        Zum Newsletter
-      </a>
-
-      <div class="divider"></div>
-
-      <h2>Für wen das gedacht ist</h2>
-      <p>
-        Für Investoren mit langfristigem Horizont.  
-        Für Menschen, die Zusammenhänge verstehen wollen, nicht Schlagzeilen.  
-        Für alle, die Makro als Grundlage ernst nehmen.
-      </p>
-      <p><strong>Makro ist kein Zusatz. Es ist der Kontext, in dem alles andere passiert.</strong></p>
-      <p>Wenn das deinem Denken entspricht, bist du hier richtig.</p>
-
-      <footer>
-        © <span id="y"></span> Brinks Investments
-      </footer>
+      <!-- FORMAT -->
+      <div class="card">
+        <h2>Format</h2>
+        <ul>
+          <li>Kurzfazit (Executive Summary)</li>
+          <li>Charts → Einordnung → Implikationen</li>
+          <li>Klare Thesen, klare Trigger</li>
+        </ul>
+      </div>
 
     </section>
+
+    <!-- ADVISORY -->
+    <section id="advisory" class="card" style="grid-column:1/-1;">
+      <h2>Brinks Advisory</h2>
+      <p>Persönliche Begleitung ohne Anlageberatung. Fokus: Struktur, Risiko, Prozesse, Vermögensarchitektur.</p>
+
+      <details>
+        <summary>
+          Advisory-Leistungen ansehen (auf Anfrage)
+          <span class="chev">⌄</span>
+        </summary>
+
+        <div class="divider"></div>
+
+        <h3>1) Family Office Advisory</h3>
+        <p>Für Unternehmer, Professionals und Familien, die klare Struktur, Übersicht und strategische Orientierung wollen – ohne Produktverkauf und ohne regulierte Anlageberatung.</p>
+        <ul>
+          <li>Ganzheitliche Vermögens- & Lebensanalyse</li>
+          <li>Digitales Vermögens-Cockpit (inkl. App)</li>
+          <li>Digitaler Notfall- & Vorsorgeordner</li>
+          <li>Strategische Finanz- & Lebensplanung (ohne Produkte)</li>
+          <li>Monatliche Orientierungsgespräche (Makro, Risiko, Zyklen)</li>
+          <li>Jährliches Strategic Review</li>
+        </ul>
+        <p class="small" style="margin-top:10px;">Optional: Digital Art & Collectibles Advisory · Strukturierung alternativer Sachwerte</p>
+
+        <h3>2) Strategic Sessions</h3>
+        <p>Unabhängiges 1:1 Sparring für Einordnung, Struktur und bessere Entscheidungen.</p>
+        <ul>
+          <li>Zyklus- & Makroeinordnung</li>
+          <li>Risiko- & Entscheidungs-Frameworks</li>
+          <li>Finanz- & Lebensorganisation</li>
+          <li>Entscheidungsarchitektur</li>
+        </ul>
+
+        <h3>3) Digital Art & Collectibles Advisory</h3>
+        <p>Kuratierte Begleitung bei digitaler Kunst und ausgewählten Collectibles mit Fokus auf Qualität, Struktur und langfristige Werthaltigkeit.</p>
+        <ul>
+          <li>Setup & Onboarding (Wallet, Custody, Security)</li>
+          <li>Portfolioaufbau & Kuratierung</li>
+          <li>Übertragbar auf Kunst, Wein & Collectibles</li>
+        </ul>
+
+        <div class="note">
+          Hinweis: Keine Anlageberatung. Keine Produktempfehlungen. Keine Vermittlung oder Verwaltung von Finanzinstrumenten.
+          Keine Garantien oder Wertversprechen. Kuratierung ≠ Empfehlung.
+        </div>
+
+        <div class="ctaRow" style="margin-top:16px;">
+          <a class="btn btnGhost"
+             href="mailto:info@brinksinvestments.com?subject=Brinks%20Advisory%20%E2%80%93%20Anfrage&body=Hi%20Christopher%2C%0A%0Aich%20interessiere%20mich%20f%C3%BCr%20Brinks%20Advisory.%20Worum%20geht%20es%20bei%20mir%3A%20%5Bkurz%20beschreiben%5D%0A%0A(optional)%20Zeithorizont%3A%20%5B%5D%0A(optional)%20Asset-Fokus%3A%20%5B%5D%0A%0AViele%20Gr%C3%BC%C3%9Fe">
+            Advisory anfragen
+          </a>
+        </div>
+      </details>
+
+      <p class="small" style="margin-top:14px;">
+        Advisory ist bewusst selektiv und findet ausschließlich auf Anfrage statt.
+      </p>
+    </section>
+
+    <!-- ÜBER -->
+    <section class="card" style="grid-column:1/-1;">
+      <h2>Über</h2>
+      <p>Unabhängiges Research mit Fokus auf Makro, Liquidität und Technologiestruktur. Perspektive: DACH, globaler Treiberfokus (USD).</p>
+      <p><strong>Für langfristig orientierte Investoren, die Makro als Grundlage nutzen.</strong></p>
+
+      <footer class="small">
+        <a href="#" aria-disabled="true">Impressum</a>
+        <a href="#" aria-disabled="true">Datenschutz</a>
+        <span>© <span id="y"></span> Brinks Investments</span>
+      </footer>
+    </section>
+
   </div>
 
   <script>
