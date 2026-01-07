@@ -13,7 +13,7 @@
       --card:rgba(255,255,255,.06);
       --border:rgba(255,255,255,.10);
       --text:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.70);
+      --muted:rgba(255,255,255,.76); /* slightly brighter for readability */
       --accent:#4aa3ff;
       --accentText:#06101a;
       --max:1080px;
@@ -32,19 +32,16 @@
       position:fixed;
       inset:-200px;
       background:
-        radial-gradient(800px 400px at 25% 15%, rgba(74,163,255,.12), transparent 60%),
-        radial-gradient(700px 380px at 70% 40%, rgba(255,255,255,.06), transparent 55%);
+        radial-gradient(900px 450px at 28% 12%, rgba(74,163,255,.12), transparent 60%),
+        radial-gradient(780px 420px at 72% 42%, rgba(255,255,255,.06), transparent 55%);
       pointer-events:none;
       z-index:-1;
     }
 
     a{color:inherit;text-decoration:none}
     .wrap{max-width:var(--max);margin:0 auto;padding:80px 20px}
-    .grid{display:grid;gap:20px}
-    @media(min-width:900px){
-      .grid-2{grid-template-columns:1.3fr .7fr}
-      .grid-3{grid-template-columns:repeat(3,1fr)}
-    }
+    .stack{display:grid;gap:20px}
+
     .card{
       background:var(--card);
       border:1px solid var(--border);
@@ -57,10 +54,27 @@
       transform: translateY(-2px);
       border-color: rgba(255,255,255,.14);
     }
+
+    /* Hero is intentionally narrower for readability */
+    .hero{
+      max-width:760px;
+      margin:0 auto;
+      text-align:left;
+    }
+
+    .grid{display:grid;gap:20px}
+    @media(min-width:900px){
+      .grid-2{grid-template-columns:1fr 1fr}
+      .grid-4{grid-template-columns:repeat(4,1fr)}
+    }
+    @media(max-width:899px){
+      .grid-4{grid-template-columns:repeat(2,1fr)}
+    }
+
     h1{
-      font-size:46px;
-      line-height:1.05;
-      margin:0 0 16px;
+      font-size:44px;
+      line-height:1.06;
+      margin:0 0 14px;
       letter-spacing:-0.02em;
     }
     h2{
@@ -73,14 +87,15 @@
       color:var(--text);
     }
     p{
-      margin:0 0 14px;
+      margin:0 0 16px;
       color:var(--muted);
-      line-height:1.7;
+      line-height:1.75;
       font-size:17px;
     }
     .lead{
       font-size:19px;
       color:var(--text);
+      margin-bottom:10px;
     }
     ul{
       margin:10px 0 0;
@@ -95,13 +110,13 @@
       border-radius:999px;
       padding:6px 10px;
       font-size:13px;
-      color:var(--muted);
+      color:rgba(255,255,255,.70);
     }
     .ctaRow{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
-      margin-top:18px;
+      margin-top:16px;
     }
     .btn{
       display:inline-block;
@@ -123,13 +138,33 @@
     }
     .small{
       font-size:13px;
-      color:rgba(255,255,255,.55);
+      color:rgba(255,255,255,.58);
       line-height:1.6;
     }
     .divider{
       height:1px;
       background:var(--border);
       margin:18px 0;
+    }
+
+    /* Key points bar */
+    .kpi{
+      padding:18px;
+      border-radius:18px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.03);
+    }
+    .kpiTitle{
+      font-weight:900;
+      margin-bottom:6px;
+      color:rgba(255,255,255,.92);
+      letter-spacing:-0.01em;
+    }
+    .kpiText{
+      margin:0;
+      font-size:14px;
+      line-height:1.55;
+      color:rgba(255,255,255,.70);
     }
 
     /* Advisory (subtle, collapsible) */
@@ -162,10 +197,17 @@
       border-radius:14px;
       border:1px solid rgba(255,255,255,.10);
       background:rgba(0,0,0,.10);
-      color:rgba(255,255,255,.70);
+      color:rgba(255,255,255,.72);
       font-size:13px;
       line-height:1.6;
     }
+
+    /* Closing card also narrower for readability */
+    .closing{
+      max-width:860px;
+      margin:0 auto;
+    }
+
     footer{
       margin-top:18px;
       display:flex;
@@ -176,10 +218,10 @@
 </head>
 
 <body>
-  <div class="wrap grid grid-2">
+  <div class="wrap stack">
 
-    <!-- HERO -->
-    <section class="card">
+    <!-- HERO (single card only, centered for readability) -->
+    <section class="card hero">
       <span class="badge">Makro | Liquidität | Zyklen | Regime</span>
       <h1 style="margin-top:14px;">Brinks Investments</h1>
 
@@ -196,24 +238,38 @@
       </div>
 
       <p class="small" style="margin-top:14px;">
-        Free Macro Updates · Pro mit Portfolios & Deep Dives ·
-        <a href="#advisory">Advisory auf Anfrage</a>
+        Free Macro Updates · Pro mit Portfolios & Deep Dives · <a href="#advisory">Advisory auf Anfrage</a>
       </p>
     </section>
 
-    <!-- WAS DU BEKOMMST -->
-    <aside class="card">
-      <h2>Was du bekommst</h2>
-      <ul>
-        <li>Monatliche Makro- & Liquiditätsanalyse</li>
-        <li>Zyklusstatus, Regime, zentrale Treiber</li>
-        <li>3 Kerncharts, 3 Kernaussagen</li>
-        <li>Deep Dives zu Makro, Technologie & digitalen Assets</li>
-      </ul>
-    </aside>
+    <!-- KEY POINTS (replaces the side card; calmer and more readable) -->
+    <section class="card">
+      <h2 style="margin-bottom:12px;">Was du bekommst</h2>
+      <div class="grid grid-4">
+        <div class="kpi">
+          <div class="kpiTitle">Zyklus</div>
+          <p class="kpiText">Wo wir im Business Cycle stehen – und warum das zählt.</p>
+        </div>
+        <div class="kpi">
+          <div class="kpiTitle">Liquidität</div>
+          <p class="kpiText">Globale USD-Liquidität, Impulse und Risikodynamik.</p>
+        </div>
+        <div class="kpi">
+          <div class="kpiTitle">Regime</div>
+          <p class="kpiText">Risk-On/Risk-Off Einordnung und Treiber-Map.</p>
+        </div>
+        <div class="kpi">
+          <div class="kpiTitle">Portfolios</div>
+          <p class="kpiText">Regelbasierte Modellportfolios als Orientierung.</p>
+        </div>
+      </div>
+      <p class="small" style="margin-top:14px;margin-bottom:0;">
+        3 Kerncharts, 3 Kernaussagen. Reduziert. Fokussiert. Umsetzbar.
+      </p>
+    </section>
 
     <!-- TIERS -->
-    <section class="grid grid-3" style="grid-column:1/-1;">
+    <section class="grid grid-2" style="align-items:stretch;">
 
       <!-- FREE -->
       <div class="card">
@@ -224,7 +280,6 @@
           <li>Zyklusstatus & Liquidität</li>
           <li>ISM, USD, Kreditimpuls</li>
           <li>Regime-Einordnung</li>
-          <li>Öffentliches Archiv</li>
         </ul>
         <div class="ctaRow">
           <a class="btn btnGhost" href="https://brinksinvestments.substack.com/" target="_blank" rel="noreferrer">
@@ -237,11 +292,12 @@
       <div id="pro" class="card" style="border-color:rgba(74,163,255,.45);">
         <h2>Brinks Investments Pro</h2>
         <div class="price">299 € / Jahr</div>
-        <p><strong>Portfolios + Deep Dives + Frameworks.</strong></p>
+        <p><strong>2 Modellportfolios + laufende Einordnung.</strong></p>
         <ul>
-          <li>2 Modellportfolios (Digital Assets & Aktien)</li>
-          <li>Fokussierte Deep Dives</li>
+          <li>Portfolios (Digital Assets & Aktien)</li>
+          <li>Deep Dives (Makro/Tech/Digital Assets)</li>
           <li>Flash-Updates zwischen Monatsreports</li>
+          <li>Frameworks für Timing & Risiko</li>
         </ul>
 
         <p class="small" style="margin-top:10px;">
@@ -257,7 +313,7 @@
           </a>
         </div>
 
-        <p class="small" style="margin-top:12px;">
+        <p class="small" style="margin-top:12px;margin-bottom:0;">
           Hinweis: Portfolios dienen der Einordnung. Keine Signale. Keine Anlageberatung.
         </p>
       </div>
@@ -265,7 +321,7 @@
     </section>
 
     <!-- ADVISORY -->
-    <section id="advisory" class="card" style="grid-column:1/-1;">
+    <section id="advisory" class="card closing">
       <h2>Brinks Advisory</h2>
       <p>Persönliche Begleitung ohne Anlageberatung. Fokus: Struktur, Risiko, Prozesse, Vermögensarchitektur.</p>
       <p class="small">Selektiv. Auf Anfrage.</p>
@@ -316,8 +372,8 @@
       </details>
     </section>
 
-    <!-- FOOTER / CLOSING -->
-    <section class="card" style="grid-column:1/-1;">
+    <!-- CLOSING / FOOTER -->
+    <section class="card closing">
       <p>
         Unabhängiges Research mit Fokus auf Makro, Liquidität und Technologiestruktur.
         Perspektive: DACH, globaler Treiberfokus (USD).
