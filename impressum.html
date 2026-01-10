@@ -4,9 +4,110 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Impressum – Brinks Investments</title>
+  <meta name="theme-color" content="#132033" />
 
-  <!-- EXAKT derselbe Style-Block oder dieselbe CSS-Datei wie auf der Hauptseite -->
-  <link rel="stylesheet" href="/assets/styles.css">
+  <style>
+    :root{
+      --bg:#132033;
+      --card:rgba(255,255,255,.06);
+      --border:rgba(255,255,255,.10);
+      --text:rgba(255,255,255,.92);
+      --muted:rgba(255,255,255,.76);
+      --accent:#4aa3ff;
+      --accentText:#06101a;
+      --col: 980px;
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:-220px;
+      background:
+        radial-gradient(980px 520px at 28% 12%, rgba(74,163,255,.12), transparent 60%),
+        radial-gradient(820px 460px at 72% 42%, rgba(255,255,255,.06), transparent 55%);
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    a{color:inherit;text-decoration:underline;text-underline-offset:3px}
+
+    .wrap{padding:88px 20px 96px}
+    .col{
+      width:min(100%, var(--col));
+      margin:0 auto;
+      display:grid;
+      gap:22px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:22px;
+      padding:28px;
+      backdrop-filter: blur(6px);
+    }
+
+    h1{
+      font-size:46px;
+      line-height:1.05;
+      margin:14px 0 10px;
+      letter-spacing:-0.02em;
+    }
+
+    h2{
+      font-size:18px;
+      margin:0 0 12px;
+      letter-spacing:-0.01em;
+    }
+
+    p{
+      margin:0 0 14px;
+      line-height:1.75;
+      font-size:17px;
+      color:var(--muted);
+    }
+
+    .lead{
+      font-size:19px;
+      color:var(--text);
+    }
+
+    .badge{
+      display:inline-block;
+      border:1px solid var(--border);
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:13px;
+      color:rgba(255,255,255,.70);
+    }
+
+    .note{
+      margin-top:12px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.10);
+      color:rgba(255,255,255,.72);
+      font-size:13px;
+      line-height:1.6;
+    }
+
+    footer{
+      display:flex;
+      gap:14px;
+      flex-wrap:wrap;
+      font-size:13px;
+      color:rgba(255,255,255,.60);
+    }
+  </style>
 </head>
 
 <body>
@@ -16,7 +117,6 @@
       <section class="card">
         <span class="badge">Rechtliches</span>
         <h1>Impressum</h1>
-
         <p class="lead">Angaben gemäß § 5 TMG</p>
 
         <p>
@@ -27,9 +127,7 @@
 
         <p>
           E-Mail:
-          <a href="mailto:info@brinksinvestments.com">
-            info@brinksinvestments.com
-          </a>
+          <a href="mailto:info@brinksinvestments.com">info@brinksinvestments.com</a>
         </p>
 
         <p>
@@ -38,8 +136,10 @@
         </p>
 
         <div class="note">
+          <strong>Hinweis:</strong><br>
           Die Inhalte dieser Website dienen ausschließlich der Information und Einordnung.
-          Keine Anlageberatung, keine Produktempfehlungen, keine Anlagevermittlung.
+          Es handelt sich nicht um Anlageberatung im Sinne des WpHG oder sonstiger regulatorischer Vorschriften.
+          Keine Produktempfehlungen, keine Anlagevermittlung.
         </div>
       </section>
 
@@ -47,6 +147,8 @@
         <footer>
           <span>© 2026 Brinks Investments</span>
           <a href="/">Home</a>
+          <a href="/impressum.html">Impressum</a>
+          <a href="/datenschutz.html">Datenschutz</a>
         </footer>
       </section>
 
