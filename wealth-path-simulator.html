@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Wealth Path Simulator · brinks investments</title>
+<meta name="description" content="Monte-Carlo-Simulation für ein Vermögen aus Cash, Gold, Weltaktien und Bitcoin auf Basis der Jahresrenditen 2015 bis 2025.">
+<meta property="og:title" content="Wealth Path Simulator · brinks investments">
+<meta property="og:description" content="Monte-Carlo-Simulation für ein Vermögen aus Cash, Gold, Weltaktien und Bitcoin auf Basis der Jahresrenditen 2015 bis 2025.">
+<meta property="og:image" content="https://www.brinksinvestments.com/assets/bi-icon.png">
+<meta name="theme-color" content="#1F3A2E">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/bi-icon.png">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="index.html">brinks investments</a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="index.html#research">Research</a>
+      <a href="index.html#thesen">Thesen</a>
+      <a href="tools.html" aria-current="page">Tools</a>
+      <a href="angebot.html">Angebot</a>
+      <a href="index.html#ueber">Über</a>
+      <a class="btn btn-green" href="https://brinksinvestments.substack.com/subscribe">Newsletter</a>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="on-dark">
+  <div class="wrap tool-head">
+    <p class="eyebrow">Monte-Carlo-Simulation</p>
+    <h1>Wealth Path Simulator</h1>
+    <p style="max-width:680px;color:var(--on-dark)">1.000 mögliche Pfade für dein Vermögen, gezogen aus den echten Jahresrenditen von 2015 bis 2025. Nicht die Frage „Was kommt raus?“, sondern: Welches Vermögen erreichst du mit welcher Sicherheit?</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:48px">
+  <div class="wrap stack-lg">
+    <form id="wps" class="grid-auto" onsubmit="return false">
+      <fieldset class="panel fieldset">
+        <legend>I · Aufteilung</legend>
+        <div class="f"><div class="row"><label for="a-cash">Cash</label><output id="o-cash" for="a-cash"></output></div>
+          <input id="a-cash" type="range" min="0" max="100" step="5" value="10"><span class="hint">Euro-Tagesgeld, Einlagensatz der EZB</span></div>
+        <div class="f"><div class="row"><label for="a-gold">Gold</label><output id="o-gold" for="a-gold"></output></div>
+          <input id="a-gold" type="range" min="0" max="100" step="5" value="20"><span class="hint">Goldpreis in Euro</span></div>
+        <div class="f"><div class="row"><label for="a-acwi">Weltaktien (MSCI ACWI)</label><output id="o-acwi" for="a-acwi"></output></div>
+          <input id="a-acwi" type="range" min="0" max="100" step="5" value="60"><span class="hint">inkl. Dividenden, in US-Dollar</span></div>
+        <div class="f"><div class="row"><label for="a-btc">Bitcoin</label><output id="o-btc" for="a-btc"></output></div>
+          <input id="a-btc" type="range" min="0" max="100" step="5" value="10"><span class="hint">in US-Dollar</span></div>
+        <p class="small" id="sum-note" style="border-top:1px solid var(--rule);padding-top:12px"></p>
+      </fieldset>
+
+      <fieldset class="panel fieldset">
+        <legend>II · Kapital</legend>
+        <div class="f"><label for="start">Startkapital in €</label>
+          <input id="start" type="number" inputmode="numeric" min="0" step="1000" value="100000"></div>
+        <div class="f"><label for="save">Sparrate pro Jahr in €</label>
+          <input id="save" type="number" inputmode="numeric" min="0" step="500" value="12000">
+          <span class="hint">wird jeweils zu Jahresbeginn investiert</span></div>
+        <div class="f"><label for="target">Zielvermögen in €</label>
+          <input id="target" type="number" inputmode="numeric" min="0" step="10000" value="1000000"></div>
+      </fieldset>
+
+      <fieldset class="panel fieldset">
+        <legend>III · Zeit</legend>
+        <div class="f"><div class="row"><label for="years">Anlagedauer</label><output id="o-years" for="years"></output></div>
+          <input id="years" type="range" min="1" max="25" step="1" value="15"></div>
+        <div class="f"><span class="lab">Ausnahmejahr 2017</span>
+          <div class="choice"><label><input type="checkbox" id="y2017"><span>2017 einbeziehen<span class="desc">Bitcoin +1.328 % in einem Jahr. Ohne dieses Jahr zieht der Simulator aus den übrigen zehn Jahren.</span></span></label></div></div>
+        <p class="small muted">Die Aufteilung wird jedes Jahr auf die Zielgewichte zurückgesetzt. Jedes simulierte Jahr übernimmt die Renditen aller vier Anlageklassen aus demselben historischen Jahr, damit ihr Zusammenspiel erhalten bleibt.</p>
+      </fieldset>
+    </form>
+
+    <div class="kpis" id="kpis" aria-live="polite"></div>
+
+    <div class="panel stack">
+      <div class="row" style="display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:baseline">
+        <h2 style="font-size:26px">Mögliche Vermögenspfade</h2>
+        <div class="legend">
+          <span><i style="background:#C9D6CC"></i>10 bis 90 % der Pfade</span>
+          <span><i style="background:#8FA99A"></i>25 bis 75 %</span>
+          <span><i style="background:#1F3A2E;height:3px"></i>Median</span>
+          <span><i style="background:none;border-top:2px dashed #8A6A3A;height:0"></i>Eingezahlt</span>
+          <span><i style="background:#B08D57;height:2px"></i>Ziel</span>
+        </div>
+      </div>
+      <div id="fan"></div>
+    </div>
+
+    <div class="panel stack">
+      <h2 style="font-size:26px">Wahrscheinlichkeit, das Ziel zu erreichen</h2>
+      <div id="prob"></div>
+    </div>
+
+    <div class="panel stack">
+      <details class="disclose">
+        <summary>Datengrundlage und Annahmen</summary>
+        <div class="stack" style="margin-top:12px">
+          <p class="small muted">Jahresrenditen in Prozent, nominal. Weltaktien und Bitcoin in US-Dollar ohne Währungsumrechnung, Gold in Euro, Cash als Jahresdurchschnitt des EZB-Einlagensatzes. Keine Kosten, keine Steuern, keine Inflation. Elf Jahre sind eine kurze Stichprobe mit einem außergewöhnlich starken Jahrzehnt für Bitcoin; das Jahr 2017 mit über 1.300 % ist ein extremer Ausreißer. Vergangene Renditen sind kein verlässlicher Indikator für künftige Ergebnisse.</p>
+          <div class="scroll-x"><table class="data" id="data-table"></table></div>
+          <p class="small muted">Quellen: <a href="https://chartrow.com/msci-acwi/returns">MSCI ACWI (ChartRow)</a>, <a href="https://ingoldwetrust.report/performance-von-gold">Gold in EUR (In Gold We Trust)</a>, <a href="https://chartrow.com/quote/btc-usd/returns">Bitcoin (ChartRow)</a>, <a href="https://www.ecb.europa.eu/stats/policy_and_exchange_rates/key_ecb_interest_rates/html/index.en.html">EZB-Leitzinsen</a>. Stand: Oktober 2026.</p>
+        </div>
+      </details>
+      <p class="small muted">Modellrechnung zur Orientierung, keine Prognose und keine Anlageberatung.</p>
+    </div>
+
+    <div class="card" style="display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between">
+      <div class="stack" style="gap:6px;max-width:640px">
+        <h3>Und wie sieht deine Struktur insgesamt aus?</h3>
+        <p class="muted">Der Vermögensstruktur-Check verteilt deine Ziele auf Sicherheit, Markt und Wachstum und zeigt, wo Lücken sind.</p>
+      </div>
+      <a class="btn btn-green" href="finanzplanung.html">Check starten</a>
+    </div>
+  </div>
+</section>
+
+<script>
+(function(){
+  "use strict";
+  var YEARS=[2015,2016,2017,2018,2019,2020,2021,2022,2023,2024,2025];
+  var R={
+    cash:[-0.21,-0.38,-0.40,-0.40,-0.43,-0.50,-0.50,0.08,3.31,3.73,2.26],
+    gold:[-0.1,12.1,-0.8,3.0,20.9,14.7,1.7,6.0,13.0,35.6,45.6],
+    acwi:[-2.2,8.4,24.3,-9.1,26.6,16.3,18.7,-18.4,22.3,17.4,22.4],
+    btc:[35.3,125.3,1327.7,-72.2,88.2,301.4,59.7,-64.2,155.5,121.6,-6.5]
+  };
+  var KEYS=["cash","gold","acwi","btc"];
+  var NAMES={cash:"Cash",gold:"Gold",acwi:"Weltaktien",btc:"Bitcoin"};
+  var PATHS=1000;
+  var $=function(id){return document.getElementById(id)};
+  var fmtInt=new Intl.NumberFormat("de-DE",{maximumFractionDigits:0});
+  function eur(v){return fmtInt.format(Math.round(v))+" €"}
+  function short(v){
+    var a=Math.abs(v);
+    if(a>=1e6) return (v/1e6).toLocaleString("de-DE",{maximumFractionDigits:a>=1e7?0:1})+" Mio. €";
+    if(a>=1e3) return fmtInt.format(Math.round(v/1e3))+" Tsd. €";
+    return fmtInt.format(Math.round(v))+" €";
+  }
+  function pct(v){return v.toLocaleString("de-DE",{maximumFractionDigits:0})+" %"}
+  function rng(seed){return function(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+  function num(id){var v=parseFloat($(id).value);return isFinite(v)&&v>0?v:0}
+  function quant(sorted,q){var i=(sorted.length-1)*q,lo=Math.floor(i),hi=Math.ceil(i);return sorted[lo]+(sorted[hi]-sorted[lo])*(i-lo)}
+
+  // Datentabelle
+  (function(){
+    var h="<thead><tr><th>Jahr</th>"+KEYS.map(function(k){return"<th>"+NAMES[k]+"</th>"}).join("")+"</tr></thead><tbody>";
+    YEARS.forEach(function(y,i){h+="<tr><td>"+y+"</td>"+KEYS.map(function(k){return"<td>"+R[k][i].toLocaleString("de-DE",{minimumFractionDigits:1,maximumFractionDigits:1})+"</td>"}).join("")+"</tr>"});
+    h+="<tr><td><strong>Ø p. a. (geometrisch)</strong></td>"+KEYS.map(function(k){var g=R[k].reduce(function(a,r){return a*(1+r/100)},1);return"<td><strong>"+((Math.pow(g,1/YEARS.length)-1)*100).toLocaleString("de-DE",{minimumFractionDigits:1,maximumFractionDigits:1})+"</strong></td>"}).join("")+"</tr></tbody>";
+    $("data-table").innerHTML=h;
+  })();
+
+  function weights(){
+    var w={},s=0;KEYS.forEach(function(k){w[k]=parseFloat($("a-"+k).value);s+=w[k]});
+    KEYS.forEach(function(k){$("o-"+k).textContent=w[k]+" %"});
+    $("o-years").textContent=$("years").value+" Jahre";
+    if(s===0){$("sum-note").innerHTML="<strong>Summe 0 %</strong>: bitte mindestens eine Anlageklasse wählen.";return null}
+    $("sum-note").innerHTML="Summe <strong class='tabular'>"+s+" %</strong>"+(s!==100?" · wird auf 100 % umgerechnet":"");
+    KEYS.forEach(function(k){w[k]/=s});return w;
+  }
+
+  function simulate(){
+    var w=weights(); if(!w) return;
+    var start=num("start"),save=num("save"),target=num("target"),N=parseInt($("years").value,10);
+    var incl=$("y2017").checked;
+    var yr=[];YEARS.forEach(function(y,i){if(y===2017&&!incl)return;yr.push(KEYS.reduce(function(a,k){return a+w[k]*R[k][i]/100},0))});
+    var rand=rng(20261025),paths=[],i,t;
+    for(i=0;i<PATHS;i++){var v=start,p=[v];for(t=1;t<=N;t++){v=(v+save)*(1+yr[Math.floor(rand()*yr.length)]);p.push(v)}paths.push(p)}
+    var bands=[],hit=[];
+    for(t=0;t<=N;t++){
+      var col=paths.map(function(p){return p[t]}).sort(function(a,b){return a-b});
+      bands.push({p10:quant(col,.1),p25:quant(col,.25),p30:quant(col,.3),p50:quant(col,.5),p75:quant(col,.75),p90:quant(col,.9),paid:start+save*t});
+      hit.push(target>0?col.filter(function(v){return v>=target}).length/PATHS*100:0);
+    }
+    var end=bands[N];
+    $("kpis").innerHTML=
+      kpi("Mit 90 % Sicherheit","mindestens "+short(end.p10),"Untergrenze, die 9 von 10 Pfaden erreichen")+
+      kpi("Mit 70 % Sicherheit","mindestens "+short(end.p30),"übliche Planungsbasis",true)+
+      kpi("Mit 50 % Sicherheit","mindestens "+short(end.p50),"Median: ein Münzwurf, zu wenig zum Planen")+
+      kpi("Eingezahlt",short(end.paid),"Startkapital plus "+N+" Sparraten")+
+      kpi("Ziel erreicht",target>0?pct(hit[N]):"–",target>0?"in "+N+" Jahren, Ziel "+short(target):"kein Ziel gesetzt");
+    drawFan(bands,N,target);drawProb(hit,N);
+  }
+  function kpi(k,v,s,em){return'<div class="kpi'+(em?" em":"")+'"><span class="k">'+k+'</span><span class="v">'+v+'</span><span class="s">'+s+'</span></div>'}
+
+  var W=760,H=340,M={l:72,r:16,t:16,b:36};
+  function niceMax(v){if(v<=0)return 1;var e=Math.pow(10,Math.floor(Math.log10(v))),f=v/e;return(f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*e}
+  function axes(N,ymax,yfmt){
+    var s="",i,f=ymax/Math.pow(10,Math.floor(Math.log10(ymax))),ticks=(Math.abs(f-2.5)<1e-9||Math.abs(f-5)<1e-9||Math.abs(f-10)<1e-9||Math.abs(f-1)<1e-9)?5:4;
+    for(i=0;i<=ticks;i++){var v=ymax*i/ticks,y=M.t+(H-M.t-M.b)*(1-i/ticks);
+      s+='<line x1="'+M.l+'" x2="'+(W-M.r)+'" y1="'+y+'" y2="'+y+'" stroke="#DDD5C3" stroke-width="1"/>';
+      s+='<text x="'+(M.l-8)+'" y="'+(y+4)+'" text-anchor="end" font-size="12" fill="#5A5A52">'+yfmt(v)+'</text>'}
+    var step=N<=10?1:N<=20?2:5;
+    for(i=0;i<=N;i+=step){var x=M.l+(W-M.l-M.r)*i/N;
+      s+='<text x="'+x+'" y="'+(H-M.b+20)+'" text-anchor="middle" font-size="12" fill="#5A5A52">'+i+'</text>'}
+    s+='<text x="'+(W-M.r)+'" y="'+(H-4)+'" text-anchor="end" font-size="12" fill="#5A5A52">Jahre</text>';
+    return s;
+  }
+  function xs(t,N){return M.l+(W-M.l-M.r)*t/N}
+  function ys(v,ymax){return M.t+(H-M.t-M.b)*(1-Math.min(v,ymax*1.02)/ymax)}
+  function area(b,lo,hi,N,ymax){
+    var up=b.map(function(p,t){return xs(t,N)+","+ys(p[hi],ymax)}),dn=b.map(function(p,t){return xs(t,N)+","+ys(p[lo],ymax)}).reverse();
+    return up.concat(dn).join(" ");
+  }
+  function line(b,key,N,ymax){return b.map(function(p,t){return xs(t,N)+","+ys(p[key],ymax)}).join(" ")}
+  function drawFan(b,N,target){
+    var ymax=niceMax(Math.max(b[N].p90,target*1.05,b[N].paid));
+    var s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Fächerdiagramm: Median nach '+N+' Jahren '+short(b[N].p50)+', 10 bis 90 Prozent der Pfade zwischen '+short(b[N].p10)+' und '+short(b[N].p90)+'">';
+    s+=axes(N,ymax,short);
+    s+='<polygon points="'+area(b,"p10","p90",N,ymax)+'" fill="#C9D6CC"/>';
+    s+='<polygon points="'+area(b,"p25","p75",N,ymax)+'" fill="#8FA99A"/>';
+    s+='<polyline points="'+line(b,"paid",N,ymax)+'" fill="none" stroke="#8A6A3A" stroke-width="2" stroke-dasharray="6 5"/>';
+    s+='<polyline points="'+line(b,"p50",N,ymax)+'" fill="none" stroke="#1F3A2E" stroke-width="3"/>';
+    if(target>0&&target<=ymax){var y=ys(target,ymax);s+='<line x1="'+M.l+'" x2="'+(W-M.r)+'" y1="'+y+'" y2="'+y+'" stroke="#B08D57" stroke-width="2"/><text x="'+(M.l+8)+'" y="'+(y-6)+'" text-anchor="start" font-size="12" fill="#8A6A3A">Ziel '+short(target)+'</text>'}
+    s+='<text x="'+(xs(N,N)-4)+'" y="'+(ys(b[N].p50,ymax)-8)+'" text-anchor="end" font-size="13" font-weight="600" fill="#1F3A2E">Median '+short(b[N].p50)+'</text>';
+    s+='</svg>';
+    $("fan").innerHTML=s;
+  }
+  function drawProb(hit,N){
+    var pts=hit.map(function(h,t){return{p50:h}});
+    var s='<svg class="chart" viewBox="0 0 '+W+' '+(H-80)+'" role="img" aria-label="Wahrscheinlichkeit, das Ziel zu erreichen: nach '+N+' Jahren '+pct(hit[N])+'">';
+    var Hs=H;H=H-80;s+=axes(N,100,function(v){return v+" %"});
+    s+='<line x1="'+M.l+'" x2="'+(W-M.r)+'" y1="'+ys(70,100)+'" y2="'+ys(70,100)+'" stroke="#B08D57" stroke-width="1.5" stroke-dasharray="4 4"/><text x="'+(M.l+6)+'" y="'+(ys(70,100)-6)+'" font-size="12" fill="#8A6A3A">70 % Planungsbasis</text>';
+    s+='<polyline points="'+pts.map(function(p,t){return xs(t,N)+","+ys(p.p50,100)}).join(" ")+'" fill="none" stroke="#1F3A2E" stroke-width="3"/>';
+    var first=hit.findIndex(function(h){return h>=70});
+    if(first>0){s+='<circle cx="'+xs(first,N)+'" cy="'+ys(hit[first],100)+'" r="5" fill="#1F3A2E"/><text x="'+(xs(first,N)+8)+'" y="'+(ys(hit[first],100)+18)+'" font-size="13" font-weight="600" fill="#1F3A2E">ab Jahr '+first+'</text>'}
+    H=Hs;s+='</svg>';
+    $("prob").innerHTML=s;
+  }
+
+  var timer;
+  document.getElementById("wps").addEventListener("input",function(){clearTimeout(timer);timer=setTimeout(simulate,60)});
+  simulate();
+})();
+</script>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <span class="bi" aria-hidden="true">bi</span>
+        <span class="claim">Long the Future.</span>
+      </div>
+      <nav aria-label="Weitere Seiten">
+        <a href="angebot.html">Angebot</a>
+        <a href="tools.html">Tools</a>
+        <a href="https://brinksinvestments.substack.com/">Substack</a>
+        <a href="mailto:info@brinksinvestments.com">Kontakt</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </nav>
+    </div>
+    <p class="note">Keine Anlageberatung. Alle Inhalte dienen ausschließlich der Information und Bildung. Es werden keine Finanzinstrumente empfohlen oder vermittelt. © 2026 brinks investments</p>
+  </div>
+</footer>
+</body>
+</html>

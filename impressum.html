@@ -1,158 +1,69 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Impressum – Brinks Investments</title>
-  <meta name="theme-color" content="#132033" />
-
-  <style>
-    :root{
-      --bg:#132033;
-      --card:rgba(255,255,255,.06);
-      --border:rgba(255,255,255,.10);
-      --text:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.76);
-      --accent:#4aa3ff;
-      --accentText:#06101a;
-      --col: 980px;
-    }
-
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
-
-    body::before{
-      content:"";
-      position:fixed;
-      inset:-220px;
-      background:
-        radial-gradient(980px 520px at 28% 12%, rgba(74,163,255,.12), transparent 60%),
-        radial-gradient(820px 460px at 72% 42%, rgba(255,255,255,.06), transparent 55%);
-      pointer-events:none;
-      z-index:-1;
-    }
-
-    a{color:inherit;text-decoration:underline;text-underline-offset:3px}
-
-    .wrap{padding:88px 20px 96px}
-    .col{
-      width:min(100%, var(--col));
-      margin:0 auto;
-      display:grid;
-      gap:22px;
-    }
-
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:22px;
-      padding:28px;
-      backdrop-filter: blur(6px);
-    }
-
-    h1{
-      font-size:46px;
-      line-height:1.05;
-      margin:14px 0 10px;
-      letter-spacing:-0.02em;
-    }
-
-    h2{
-      font-size:18px;
-      margin:0 0 12px;
-      letter-spacing:-0.01em;
-    }
-
-    p{
-      margin:0 0 14px;
-      line-height:1.75;
-      font-size:17px;
-      color:var(--muted);
-    }
-
-    .lead{
-      font-size:19px;
-      color:var(--text);
-    }
-
-    .badge{
-      display:inline-block;
-      border:1px solid var(--border);
-      border-radius:999px;
-      padding:6px 10px;
-      font-size:13px;
-      color:rgba(255,255,255,.70);
-    }
-
-    .note{
-      margin-top:12px;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(0,0,0,.10);
-      color:rgba(255,255,255,.72);
-      font-size:13px;
-      line-height:1.6;
-    }
-
-    footer{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      font-size:13px;
-      color:rgba(255,255,255,.60);
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Impressum · brinks investments</title>
+<meta name="description" content="Impressum von brinks investments.">
+<meta property="og:title" content="Impressum · brinks investments">
+<meta property="og:description" content="Impressum von brinks investments.">
+<meta property="og:image" content="https://www.brinksinvestments.com/assets/bi-icon.png">
+<meta name="theme-color" content="#1F3A2E">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/bi-icon.png">
+<link rel="stylesheet" href="assets/site.css">
 </head>
-
 <body>
+<header class="site-header">
   <div class="wrap">
-    <main class="col">
-
-      <section class="card">
-        <span class="badge">Rechtliches</span>
-        <h1>Impressum</h1>
-        <p class="lead">Angaben gemäß § 5 TMG</p>
-
-        <p>
-          <strong>Brinks Investments</strong><br>
-          Verantwortlich: Christopher Brinkmann<br>
-          München, Deutschland
-        </p>
-
-        <p>
-          E-Mail:
-          <a href="mailto:info@brinksinvestments.com">info@brinksinvestments.com</a>
-        </p>
-
-        <p>
-          <strong>Inhaltlich verantwortlich gemäß § 55 Abs. 2 RStV</strong><br>
-          Christopher Brinkmann
-        </p>
-
-        <div class="note">
-          <strong>Hinweis:</strong><br>
-          Die Inhalte dieser Website dienen ausschließlich der Information und Einordnung.
-          Es handelt sich nicht um Anlageberatung im Sinne des WpHG oder sonstiger regulatorischer Vorschriften.
-          Keine Produktempfehlungen, keine Anlagevermittlung.
-        </div>
-      </section>
-
-      <section class="card">
-        <footer>
-          <span>© 2026 Brinks Investments</span>
-          <a href="/">Home</a>
-          <a href="/impressum.html">Impressum</a>
-          <a href="/datenschutz.html">Datenschutz</a>
-        </footer>
-      </section>
-
-    </main>
+    <a class="logo" href="index.html">brinks investments</a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="index.html#research">Research</a>
+      <a href="index.html#thesen">Thesen</a>
+      <a href="tools.html">Tools</a>
+      <a href="angebot.html">Angebot</a>
+      <a href="index.html#ueber">Über</a>
+      <a class="btn btn-green" href="https://brinksinvestments.substack.com/subscribe">Newsletter</a>
+    </nav>
   </div>
+</header>
+<main>
+<section class="section legal">
+  <div class="wrap narrow stack">
+    <p class="eyebrow">Rechtliches</p>
+    <h1>Impressum</h1>
+    <h2>Angaben gemäß § 5 DDG</h2>
+    <p>brinks investments<br>Christopher Brinkmann<br><span class="placeholder">[Straße und Hausnummer]</span><br><span class="placeholder">[Postleitzahl]</span> München<br>Deutschland</p>
+    <h2>Kontakt</h2>
+    <p>E-Mail: <a href="mailto:info@brinksinvestments.com">info@brinksinvestments.com</a></p>
+    <h2>Umsatzsteuer</h2>
+    <p>Gemäß § 19 UStG wird keine Umsatzsteuer berechnet.</p>
+    <h2>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h2>
+    <p>Christopher Brinkmann, Anschrift wie oben</p>
+    <h2>Hinweis</h2>
+    <p>Die Inhalte dieser Website und des Newsletters dienen ausschließlich der Information und Bildung. Es handelt sich nicht um Anlageberatung, Anlagevermittlung oder Finanzanalyse im Sinne des WpHG. Es werden keine Finanzinstrumente empfohlen. Die Rechner liefern Modellrechnungen auf Basis offengelegter Annahmen und historischer Daten; vergangene Wertentwicklungen sind kein verlässlicher Indikator für künftige Ergebnisse.</p>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <span class="bi" aria-hidden="true">bi</span>
+        <span class="claim">Long the Future.</span>
+      </div>
+      <nav aria-label="Weitere Seiten">
+        <a href="angebot.html">Angebot</a>
+        <a href="tools.html">Tools</a>
+        <a href="https://brinksinvestments.substack.com/">Substack</a>
+        <a href="mailto:info@brinksinvestments.com">Kontakt</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </nav>
+    </div>
+    <p class="note">Keine Anlageberatung. Alle Inhalte dienen ausschließlich der Information und Bildung. Es werden keine Finanzinstrumente empfohlen oder vermittelt. © 2026 brinks investments</p>
+  </div>
+</footer>
 </body>
 </html>

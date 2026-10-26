@@ -1,361 +1,193 @@
 <!doctype html>
 <html lang="de">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Brinks Investments</title>
-  <meta name="description" content="Makro-Framework für Liquidität, Zyklen und Marktregime. Klar. Datenbasiert. Umsetzbar." />
-  <meta name="theme-color" content="#132033" />
-
-  <style>
-    :root{
-      --bg:#132033;
-      --card:rgba(255,255,255,.06);
-      --border:rgba(255,255,255,.10);
-      --text:rgba(255,255,255,.92);
-      --muted:rgba(255,255,255,.76);
-      --accent:#4aa3ff;
-      --accentText:#06101a;
-
-      /* ONE consistent page column width */
-      --col: 980px; /* less squished than before */
-    }
-
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg);
-      color:var(--text);
-    }
-
-    /* Subtle premium glow */
-    body::before{
-      content:"";
-      position:fixed;
-      inset:-220px;
-      background:
-        radial-gradient(980px 520px at 28% 12%, rgba(74,163,255,.12), transparent 60%),
-        radial-gradient(820px 460px at 72% 42%, rgba(255,255,255,.06), transparent 55%);
-      pointer-events:none;
-      z-index:-1;
-    }
-
-    a{color:inherit;text-decoration:none}
-
-    /* Outer page padding */
-    .wrap{
-      padding:88px 20px 96px;
-    }
-
-    /* The ONLY layout column: everything aligns to this */
-    .col{
-      width:min(100%, var(--col));
-      margin:0 auto;
-      display:grid;
-      gap:22px; /* more breathing room */
-    }
-
-    .card{
-      width:100%;               /* critical: every card equals column width */
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:22px;
-      padding:28px;             /* less squished */
-      backdrop-filter: blur(6px);
-    }
-
-    .card:hover{
-      border-color:rgba(255,255,255,.14);
-    }
-
-    h1{
-      font-size:46px;
-      line-height:1.05;
-      margin:14px 0 10px;
-      letter-spacing:-0.02em;
-    }
-
-    h2{
-      font-size:18px;
-      margin:0 0 12px;
-      letter-spacing:-0.01em;
-    }
-
-    p{
-      margin:0 0 14px;
-      line-height:1.75;
-      font-size:17px;
-      color:var(--muted);
-    }
-
-    .lead{
-      font-size:19px;
-      color:var(--text);
-      margin-bottom:10px;
-    }
-
-    .badge{
-      display:inline-block;
-      border:1px solid var(--border);
-      border-radius:999px;
-      padding:6px 10px;
-      font-size:13px;
-      color:rgba(255,255,255,.70);
-    }
-
-    .ctaRow{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:16px;
-    }
-
-    .btn{
-      display:inline-block;
-      padding:12px 16px;
-      border-radius:12px;
-      font-weight:800;
-    }
-
-    .btnPrimary{
-      background:var(--accent);
-      color:var(--accentText);
-    }
-
-    .btnGhost{
-      border:1px solid var(--border);
-      color:var(--text);
-    }
-
-    /* Key points */
-    .kpiGrid{
-      display:grid;
-      gap:12px;
-      grid-template-columns:repeat(4, 1fr);
-    }
-    @media(max-width:900px){
-      .kpiGrid{grid-template-columns:repeat(2, 1fr);}
-    }
-    .kpi{
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.03);
-      border-radius:16px;
-      padding:14px 14px;
-    }
-    .kpi strong{
-      display:block;
-      margin-bottom:6px;
-      color:rgba(255,255,255,.92);
-      letter-spacing:-0.01em;
-    }
-    .kpi span{
-      display:block;
-      color:rgba(255,255,255,.72);
-      font-size:14px;
-      line-height:1.55;
-    }
-
-    /* Free / Pro cards */
-    .tiers{
-      width:100%; /* ensure equals column width */
-      display:grid;
-      gap:16px;
-      grid-template-columns:1fr 1fr;
-      align-items:stretch;
-    }
-    @media(max-width:900px){
-      .tiers{grid-template-columns:1fr;}
-    }
-
-    ul{
-      margin:10px 0 0;
-      padding-left:18px;
-      line-height:1.75;
-      color:var(--muted);
-      font-size:16px;
-    }
-
-    .price{
-      font-size:20px;
-      font-weight:900;
-      margin:4px 0 10px;
-      color:rgba(255,255,255,.92);
-    }
-
-    .small{
-      font-size:13px;
-      color:rgba(255,255,255,.58);
-      line-height:1.6;
-    }
-
-    /* Advisory */
-    details{
-      border:1px solid var(--border);
-      border-radius:16px;
-      padding:14px 16px;
-      background:rgba(255,255,255,.03);
-    }
-    summary{
-      cursor:pointer;
-      list-style:none;
-      font-weight:900;
-      color:rgba(255,255,255,.92);
-    }
-    summary::-webkit-details-marker{display:none}
-
-    .note{
-      margin-top:12px;
-      padding:12px 14px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(0,0,0,.10);
-      color:rgba(255,255,255,.72);
-      font-size:13px;
-      line-height:1.6;
-    }
-
-    footer{
-      margin-top:16px;
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      font-size:13px;
-      color:rgba(255,255,255,.60);
-    }
-    footer a{
-      color:rgba(255,255,255,.60);
-      text-decoration:underline;
-      text-underline-offset:3px;
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>brinks investments · Long the Future.</title>
+<meta name="description" content="Makro, Liquidität und digitale Assets. Monthly Macro Brief, Rechner und persönliche Begleitung für die Vermögensstruktur.">
+<meta property="og:title" content="brinks investments · Long the Future.">
+<meta property="og:description" content="Makro, Liquidität und digitale Assets. Monthly Macro Brief, Rechner und persönliche Begleitung für die Vermögensstruktur.">
+<meta property="og:image" content="https://www.brinksinvestments.com/assets/bi-icon.png">
+<meta name="theme-color" content="#1F3A2E">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/bi-icon.png">
+<link rel="stylesheet" href="assets/site.css">
 </head>
-
 <body>
+<header class="site-header">
   <div class="wrap">
-    <main class="col">
-
-      <!-- HERO -->
-      <section class="card">
-        <span class="badge">Makro | Liquidität | Zyklen | Regime</span>
-        <h1>Brinks Investments</h1>
-        <p class="lead">Makro-Framework für Liquidität, Zyklen und Marktregime.</p>
-        <p>Strukturiertes Research zur Einordnung von Risiken und Wahrscheinlichkeiten.</p>
-
-        <div class="ctaRow">
-          <a class="btn btnPrimary" href="https://brinksinvestments.substack.com/" target="_blank" rel="noreferrer">
-            Zum Newsletter
-          </a>
-          <a class="btn btnGhost" href="#pro">
-            Pro ansehen
-          </a>
-        </div>
-
-        <p class="small" style="margin-top:12px;margin-bottom:0;">
-          Free Macro Updates · Pro mit Modellportfolios & Fokus-Reports · Advisory auf Anfrage
-        </p>
-      </section>
-
-      <!-- WAS DU BEKOMMST -->
-      <section class="card">
-        <h2>Was du bekommst</h2>
-        <div class="kpiGrid">
-          <div class="kpi"><strong>Zyklus</strong><span>Wo wir im Business Cycle stehen und warum das zählt.</span></div>
-          <div class="kpi"><strong>Liquidität</strong><span>Globale Liquidität, Kreditimpulse und Risikodynamik.</span></div>
-          <div class="kpi"><strong>Regime</strong><span>Risk-On / Risk-Off Einordnung und Treiberstruktur.</span></div>
-          <div class="kpi"><strong>Portfolios</strong><span>Regelbasierte Modellportfolios als Orientierung.</span></div>
-        </div>
-        <p class="small" style="margin-top:12px;margin-bottom:0;">
-          Klar. Datenbasiert. Umsetzbar.
-        </p>
-      </section>
-
-      <!-- FREE / PRO -->
-      <section class="tiers">
-        <div class="card">
-          <h2>Monthly Macro Updates</h2>
-          <div class="price">Kostenfrei</div>
-          <p class="small" style="margin-top:-6px;">Makro-Einordnung zur Orientierung</p>
-          <ul>
-            <li>Monatliches Makro-Lagebild: Zyklus, Liquidität, Regime</li>
-            <li>Zentrale Treiber: ISM, USD, Kreditimpuls</li>
-            <li>Ausgewählte Deep Dives zur Vertiefung einzelner Themen</li>
-            <li>Konsistentes Makro-Framework zur Markteinordnung</li>
-          </ul>
-          <div class="ctaRow">
-            <a class="btn btnGhost" href="https://brinksinvestments.substack.com/" target="_blank" rel="noreferrer">
-              Free abonnieren
-            </a>
-          </div>
-        </div>
-
-        <div id="pro" class="card" style="border-color:rgba(74,163,255,.40);">
-          <h2>Brinks Investments Pro</h2>
-          <div class="price">299 € / Jahr</div>
-          <p class="small" style="margin-top:-6px;">Modellportfolios mit laufender Einordnung</p>
-          <ul>
-            <li>Zwei regelbasierte Modellportfolios für digitale Assets und Aktien</li>
-            <li>Fokus-Reports mit konkreter Einordnung und Allokationslogik</li>
-            <li>Flash-Updates zwischen den Reports</li>
-          </ul>
-
-          <div class="ctaRow">
-            <a class="btn btnPrimary" href="https://brinksinvestments.substack.com/b1c0ca74" target="_blank" rel="noreferrer">
-              Pro werden
-            </a>
-          </div>
-
-          <p class="small" style="margin-top:10px;margin-bottom:0;">
-            Early Supporter · 25 % Rabatt<br>
-          </p>
-        </div>
-      </section>
-
-      <!-- ADVISORY -->
-      <section id="advisory" class="card">
-        <h2>Brinks Advisory</h2>
-        <p>Persönliche Begleitung ohne Anlageberatung. Fokus auf Struktur, Risiko, Entscheidungslogik und Vermögensarchitektur.</p>
-        <p class="small">Selektiv. Auf Anfrage.</p>
-
-        <details>
-          <summary>Leistungen (auf Anfrage)</summary>
-          <ul>
-            <li>Family-Office-nahe Struktur- und Vermögensarchitektur</li>
-            <li>Strategisches Sparring und belastbare Entscheidungsframeworks</li>
-            <li>Digital Art & Collectibles Advisory (Struktur, Bewertung, Prozesse)</li>
-          </ul>
-
-          <div class="ctaRow" style="margin-top:12px;">
-            <a class="btn btnGhost" href="mailto:info@brinksinvestments.com?subject=Brinks%20Advisory%20%E2%80%93%20Anfrage">
-              Advisory anfragen
-            </a>
-          </div>
-
-          <div class="note">
-            Keine Anlageberatung. Keine Produktempfehlungen. Kuratierung ≠ Empfehlung.
-          </div>
-        </details>
-      </section>
-
-      <!-- CLOSING / FOOTER -->
-      <section class="card">
-        <p>
-          Unabhängiges Research an der Schnittstelle von Makro, Liquidität und Technologie.
-        </p>
-        <p><strong>Für Investoren mit strukturellem Makro-Ansatz.</strong></p>
-
-        <footer>
-          <span>© 2026 Brinks Investments</span>
-          <a href="/impressum.html">Impressum</a>
-          <a href="/datenschutz.html">Datenschutz</a>
-        </footer>
-      </section>
-
-    </main>
+    <a class="logo" href="index.html">brinks investments</a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="index.html#research">Research</a>
+      <a href="index.html#thesen">Thesen</a>
+      <a href="tools.html">Tools</a>
+      <a href="angebot.html">Angebot</a>
+      <a href="index.html#ueber">Über</a>
+      <a class="btn btn-green" href="https://brinksinvestments.substack.com/subscribe">Newsletter</a>
+    </nav>
   </div>
+</header>
+<main>
+<section class="hero on-dark">
+  <div class="wrap">
+    <p class="eyebrow">Makro · Liquidität · Digitale Assets</p>
+    <h1>Long the Future.</h1>
+    <hr class="rule-brass">
+    <p class="lead">Klarheit für komplexe Vermögen. Globale Liquidität, Technologie und Geldpolitik, übersetzt in klare, regelbasierte Denkmodelle für Menschen, die ihr Vermögen selbst steuern.</p>
+    <form class="signup" action="https://brinksinvestments.substack.com/subscribe" method="get">
+        <div class="field">
+          <label for="mail-hero">E-Mail-Adresse</label>
+          <input id="mail-hero" name="email" type="email" autocomplete="email" placeholder="name@beispiel.de" required>
+        </div>
+        <button class="btn btn-brass" type="submit">Abonnieren</button>
+      </form>
+    <p class="sub">Der Monthly Macro Brief erscheint am ersten Sonntag jedes Monats. Kostenlos, jederzeit abbestellbar.</p>
+  </div>
+</section>
 
-  <script>
-    document.getElementById("y").textContent = new Date().getFullYear();
-  </script>
+<section id="research" class="section">
+  <div class="wrap stack-lg">
+    <div class="stack">
+      <p class="eyebrow">Research</p>
+      <h2>Monthly Macro Brief</h2>
+    </div>
+    <article class="card brief">
+      <div class="stack">
+        <h3 style="color:var(--green)">Eine These pro Monat. Mit Zahlen, nicht mit Schlagzeilen.</h3>
+        <p style="color:var(--ink-2)">Einmal im Monat ordne ich ein, was an den Märkten wirklich zählt: wohin die Liquidität fließt, was Zinsen und Dollar sagen und was das für Aktien, Gold und digitale Assets bedeutet. Dazu die Termine, auf die es im kommenden Monat ankommt.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <a class="btn btn-green" href="https://brinksinvestments.substack.com/">Aktuelle Ausgabe lesen</a>
+          <a class="btn btn-ghost" href="https://brinksinvestments.substack.com/archive">Archiv</a>
+        </div>
+      </div>
+      <div class="points">
+        <p class="eyebrow" style="color:var(--muted)">In jeder Ausgabe</p>
+        <p>Liquidität: Notenbank, Finanzministerium, Treasury-Emissionen.</p>
+        <p>Zinsen, Dollar und die Preise von Aktien, Gold, Bitcoin und Ether.</p>
+        <p>Die Termine des kommenden Monats und was sie auslösen können.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="thesen" class="paper">
+  <div class="wrap section stack-lg">
+    <div class="stack">
+      <p class="eyebrow">Haltung</p>
+      <h2>Sechs Thesen</h2>
+    </div>
+    <div class="theses">
+        <div class="thesis"><span class="num">01</span><span class="title">Debasement</span><span class="text">Staaten bauen ihre Schulden über Geldentwertung ab. Wer in Geld spart, bezahlt dafür.</span></div>
+        <div class="thesis"><span class="num">02</span><span class="title">Liquidität</span><span class="text">Die Menge an Geld im System bewegt die Märkte stärker als Gewinne oder Schlagzeilen.</span></div>
+        <div class="thesis"><span class="num">03</span><span class="title">Zyklen</span><span class="text">Märkte verlaufen in Zyklen. Wer weiß, wo im Zyklus wir stehen, muss nicht raten.</span></div>
+        <div class="thesis"><span class="num">04</span><span class="title">Knappheit</span><span class="text">Was sich nicht beliebig vermehren lässt, gewinnt gegenüber Geld, das sich beliebig vermehren lässt. Dazu zählen Gold und Bitcoin.</span></div>
+        <div class="thesis"><span class="num">05</span><span class="title">Technologie</span><span class="text">Technologie macht vieles billiger und reichlicher. Profitieren wird, wer an ihr beteiligt ist.</span></div>
+        <div class="thesis"><span class="num">06</span><span class="title">Struktur</span><span class="text">Vermögen entsteht über Jahrzehnte aus einer klaren Struktur und festen Regeln.</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="tools" class="on-ink">
+  <div class="wrap section stack-lg">
+    <div class="stack">
+      <p class="eyebrow light">Tools</p>
+      <h2>Rechnen statt raten</h2>
+      <p style="color:var(--on-dark);max-width:640px">Zwei Werkzeuge, die sofort ein Ergebnis liefern. Alle Berechnungen laufen in deinem Browser, nichts wird gespeichert oder übertragen.</p>
+    </div>
+    <div class="grid-auto">
+      <a class="tool-card" href="wealth-path-simulator.html">
+        <p class="eyebrow">Monte-Carlo-Simulation</p>
+        <h3>Wealth Path Simulator</h3>
+        <p class="muted">Wie sich ein Vermögen aus Cash, Gold, Weltaktien und Bitcoin über bis zu 25 Jahre entwickeln kann. 1.000 Pfade auf Basis echter Jahresrenditen 2015 bis 2025.</p>
+        <span class="go">Simulator öffnen</span>
+      </a>
+      <a class="tool-card" href="finanzplanung.html">
+        <p class="eyebrow">Finanzplanung in vier Schritten</p>
+        <h3>Vermögensstruktur-Check</h3>
+        <p class="muted">Deine Ziele, deine Zahlen, deine drei Töpfe: Sicherheit, Markt und Wachstum. Mit Lücken, Stellschrauben und Report zum Ausdrucken.</p>
+        <span class="go">Check starten</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap stack-lg">
+    <div class="stack">
+      <p class="eyebrow">Angebot</p>
+      <h2>Persönliche Begleitung</h2>
+      <p class="muted" style="max-width:640px">Für alle, die ihre Vermögensstruktur nicht nur einmal prüfen, sondern über das Jahr im Blick behalten wollen.</p>
+    </div>
+    <div class="grid-auto">
+      <div class="card offer">
+        <h3>Vermögensstruktur-Begleitung</h3>
+        <p class="muted">Finanzplan, drei Quartalsgespräche und der Monthly Brief. Zwölf Monate.</p>
+      </div>
+      <div class="card offer">
+        <h3>Finanzplanung einmalig</h3>
+        <p class="muted">Bestandsaufnahme, Finanzplan und Nachbesprechung. Ein klares Bild, wo du stehst.</p>
+      </div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px">
+      <a class="btn btn-green" href="angebot.html">Zum Angebot</a>
+      <a class="btn btn-ghost" href="mailto:info@brinksinvestments.com?subject=Vorgespr%C3%A4ch%20Verm%C3%B6gensstruktur">15 Minuten Vorgespräch</a>
+    </div>
+  </div>
+</section>
+
+<section id="ueber" class="paper">
+  <div class="wrap section" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:48px;align-items:center">
+    <div style="aspect-ratio:1/1;max-width:360px;width:100%;background:var(--green);display:flex;align-items:center;justify-content:center">
+      <span style="font-family:var(--serif);font-weight:500;font-size:clamp(96px,16vw,160px);line-height:1;color:var(--ivory);padding-bottom:.12em" aria-hidden="true">bi</span>
+    </div>
+    <div class="stack">
+      <p class="eyebrow">Über</p>
+      <h2>Christopher Brinkmann</h2>
+      <p style="color:var(--ink-2)">Ich schreibe über Liquidität, das Geldsystem und digitale Assets. Für Unternehmer, Family Offices und Investoren, die in Zyklen denken statt in Schlagzeilen.</p>
+      <p style="color:var(--ink-2)">Ich investiere nach denselben Prinzipien, über die ich schreibe.</p>
+      <div class="principles">
+        <span>Liquidität vor Narrativ</span>
+        <span>Regeln vor Bauchgefühl</span>
+        <span>Zyklen statt Schlagzeilen</span>
+        <span>Langfristig optimistisch</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="newsletter" class="on-dark">
+  <div class="wrap section" style="max-width:760px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:24px">
+    <h2 style="font-size:clamp(32px,4.5vw,52px)">Jeden Monat eine klare These.</h2>
+    <p style="color:var(--on-dark)">Makro, Liquidität und digitale Assets. Kompakt, regelbasiert, auf Deutsch.</p>
+    <form class="signup" action="https://brinksinvestments.substack.com/subscribe" method="get" style="margin:0 auto">
+        <div class="field">
+          <label for="mail-footer">E-Mail-Adresse</label>
+          <input id="mail-footer" name="email" type="email" autocomplete="email" placeholder="name@beispiel.de" required>
+        </div>
+        <button class="btn btn-brass" type="submit">Abonnieren</button>
+      </form>
+  </div>
+</section>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <span class="bi" aria-hidden="true">bi</span>
+        <span class="claim">Long the Future.</span>
+      </div>
+      <nav aria-label="Weitere Seiten">
+        <a href="angebot.html">Angebot</a>
+        <a href="tools.html">Tools</a>
+        <a href="https://brinksinvestments.substack.com/">Substack</a>
+        <a href="mailto:info@brinksinvestments.com">Kontakt</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </nav>
+    </div>
+    <p class="note">Keine Anlageberatung. Alle Inhalte dienen ausschließlich der Information und Bildung. Es werden keine Finanzinstrumente empfohlen oder vermittelt. © 2026 brinks investments</p>
+  </div>
+</footer>
 </body>
 </html>

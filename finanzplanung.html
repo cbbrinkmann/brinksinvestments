@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vermögensstruktur-Check · brinks investments</title>
+<meta name="description" content="Finanzplanung in vier Schritten: Ziele, Einkommen, Bestand und drei Töpfe nach dem Wealth Allocation Framework.">
+<meta property="og:title" content="Vermögensstruktur-Check · brinks investments">
+<meta property="og:description" content="Finanzplanung in vier Schritten: Ziele, Einkommen, Bestand und drei Töpfe nach dem Wealth Allocation Framework.">
+<meta property="og:image" content="https://www.brinksinvestments.com/assets/bi-icon.png">
+<meta name="theme-color" content="#1F3A2E">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/bi-icon.png">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="index.html">brinks investments</a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="index.html#research">Research</a>
+      <a href="index.html#thesen">Thesen</a>
+      <a href="tools.html" aria-current="page">Tools</a>
+      <a href="angebot.html">Angebot</a>
+      <a href="index.html#ueber">Über</a>
+      <a class="btn btn-green" href="https://brinksinvestments.substack.com/subscribe">Newsletter</a>
+    </nav>
+  </div>
+</header>
+<main>
+<section class="on-dark no-print">
+  <div class="wrap tool-head">
+    <p class="eyebrow">Finanzplanung in vier Schritten</p>
+    <h1>Vermögensstruktur-Check</h1>
+    <p style="max-width:680px;color:var(--on-dark)">Vermögen ist kein Selbstzweck. Es soll dich schützen, dir ein gutes Leben ermöglichen und dir Chancen eröffnen. Deshalb fangen wir nicht bei Renditen an, sondern bei dem, was du willst.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:40px">
+  <div class="wrap stack-lg">
+    <ol class="steps no-print" id="stepper" aria-label="Fortschritt">
+      <li data-s="1"><strong>Ziele</strong><span class="muted small">Was soll dein Vermögen leisten?</span></li>
+      <li data-s="2"><strong>Du und dein Einkommen</strong><span class="muted small">Woraus sich deine Zielwerte ergeben</span></li>
+      <li data-s="3"><strong>Bestand</strong><span class="muted small">Was du heute hast</span></li>
+      <li data-s="4"><strong>Ergebnis</strong><span class="muted small">Töpfe, Lücken, Stellschrauben</span></li>
+    </ol>
+
+    <form id="fp" onsubmit="return false" class="no-print">
+      <!-- Schritt 1 -->
+      <div class="panel stack" data-step="1">
+        <h2 style="font-size:28px">Was soll dein Vermögen für dich leisten?</h2>
+        <p class="muted">Wähle alle Ziele, die dir wichtig sind. Jedes Ziel landet automatisch in dem Topf, der zur Konsequenz eines Scheiterns passt: Was nie ausfallen darf, gehört in Sicherheit. Was wichtig ist, in Markt. Was ein Traum ist, in Wachstum.</p>
+        <div class="choice">
+          <label><input type="checkbox" name="g" value="reserve" checked disabled><span>Ich will jederzeit handlungsfähig sein.<span class="desc">Liquide Reserve für das Unerwartete. Immer dabei. → Sicherheit</span></span></label>
+          <label><input type="checkbox" name="g" value="ruhestand" checked><span>Ich will im Alter sicher leben.<span class="desc">Ruhestand ab 67: Existenz in Sicherheit, Lebensstandard in Markt.</span></span></label>
+          <label><input type="checkbox" name="g" value="frueher"><span>Ich will früher aufhören können.<span class="desc">Ausstieg vor 67, finanziert über ein Brückenkapital. → Wachstum</span></span></label>
+          <label id="g-heim-l"><input type="checkbox" name="g" value="eigenheim"><span>Ich will in den eigenen vier Wänden leben.<span class="desc">Eigenkapital für ein Eigenheim. → Sicherheit</span></span></label>
+          <label><input type="checkbox" name="g" value="freiheit"><span>Ich will finanziell frei sein.<span class="desc">Von den Erträgen leben können, unabhängig vom Alter. → Markt</span></span></label>
+          <label><input type="checkbox" name="g" value="ausbildung"><span>Ich will meinen Kindern Bildung ermöglichen.<span class="desc">Ausbildung und Start ins Leben. → Markt</span></span></label>
+          <label><input type="checkbox" name="g" value="nachlass"><span>Ich will etwas weitergeben.<span class="desc">Vermögen über das eigene Leben hinaus. → Wachstum</span></span></label>
+        </div>
+        <div class="no-print" style="display:flex;justify-content:flex-end"><button type="button" class="btn btn-green" data-go="2">Weiter</button></div>
+      </div>
+
+      <!-- Schritt 2 -->
+      <div class="panel stack" data-step="2" hidden>
+        <h2 style="font-size:28px">Du und dein Einkommen</h2>
+        <p class="muted">Aus Einnahmen und Ausgaben leiten wir deine Zielwerte ab. Alle Beträge in heutiger Kaufkraft und pro Monat, für deinen Haushalt.</p>
+        <div class="grid-auto">
+          <div class="f"><label for="age">Alter</label><input id="age" type="number" min="18" max="85" value="40"></div>
+          <div class="f"><label for="net">Nettoeinkommen pro Monat in €</label><input id="net" type="number" min="0" step="100" value="6000"></div>
+          <div class="f"><label for="exp">Ausgaben pro Monat in €</label><input id="exp" type="number" min="0" step="100" value="4000"><span class="hint">alles, was monatlich ausgegeben wird, ohne Sparen</span></div>
+          <div class="f"><label for="fix">Unverzichtbare Fixkosten im Alter in €</label><input id="fix" type="number" min="0" step="100" placeholder="Vorschlag: Hälfte der Ausgaben"><span class="hint">Wohnen, Versicherungen, Grundbedarf</span></div>
+          <div class="f"><label for="need">Wunschbedarf im Ruhestand in €</label><input id="need" type="number" min="0" step="100" placeholder="Vorschlag: 80 % der Ausgaben"><span class="hint">so willst du im Alter leben</span></div>
+          <div class="f"><label for="pension">Erwartete Rente und Versorgung in €</label><input id="pension" type="number" min="0" step="100" value="1800"><span class="hint">gesetzlich, betrieblich, Versorgungswerk, ab 67</span></div>
+          <div class="f" id="exit-f" hidden><label for="exit">Wunschalter für den Ausstieg</label><input id="exit" type="number" min="30" max="66" value="58"></div>
+        </div>
+        <div class="f"><span class="lab">Wo stehst du beruflich?</span>
+          <div class="choice">
+            <label><input type="radio" name="phase" value="0"><span>Einkommen bleibt etwa gleich<span class="desc">oder du bist bereits im Ruhestand</span></span></label>
+            <label><input type="radio" name="phase" value="2" checked><span>Mitten im Berufsleben<span class="desc">real etwa 2 % mehr pro Jahr</span></span></label>
+            <label><input type="radio" name="phase" value="4"><span>Am Anfang der Karriere<span class="desc">real etwa 4 % mehr pro Jahr</span></span></label>
+          </div>
+        </div>
+        <div class="grid-auto">
+          <div class="f"><label for="phaseYears">Wie viele Jahre noch steigend?</label><input id="phaseYears" type="number" min="0" max="40" value="10"></div>
+          <div class="f"><span class="lab">Eigenes Unternehmen?</span><div class="choice"><label><input type="radio" name="biz" value="0" checked><span>Nein</span></label><label><input type="radio" name="biz" value="1"><span>Ja</span></label></div></div>
+          <div class="f"><span class="lab">Eigenheim vorhanden?</span><div class="choice"><label><input type="radio" name="home" value="0" checked><span>Nein</span></label><label><input type="radio" name="home" value="1"><span>Ja</span></label></div></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;gap:12px"><button type="button" class="btn btn-ghost" data-go="1">Zurück</button><button type="button" class="btn btn-green" data-go="3">Weiter</button></div>
+      </div>
+
+      <!-- Schritt 3 -->
+      <div class="panel stack" data-step="3" hidden>
+        <h2 style="font-size:28px">Was du heute hast</h2>
+        <p class="muted">Grobe Werte reichen. Felder ohne Bestand leer lassen. Schulden werden automatisch abgezogen.</p>
+        <fieldset class="fieldset"><legend>Sicherheit</legend><div class="grid-auto">
+          <div class="f"><label for="v-cash">Tagesgeld, Festgeld, Konten</label><input id="v-cash" type="number" min="0" step="1000" value="30000"></div>
+          <div class="f"><label for="v-bonds">Anleihen</label><input id="v-bonds" type="number" min="0" step="1000"></div>
+          <div class="f"><label for="v-gold">Gold</label><input id="v-gold" type="number" min="0" step="1000"></div>
+          <div class="f"><label for="v-ins">Lebens- und Rentenversicherungen (Rückkaufswert)</label><input id="v-ins" type="number" min="0" step="1000"><span class="hint">nur Verträge mit Kapitalauszahlung</span></div>
+          <div class="f home-only" hidden><label for="v-home">Eigenheim (Marktwert)</label><input id="v-home" type="number" min="0" step="10000"></div>
+          <div class="f home-only" hidden><label for="d-home">Restschuld Eigenheim</label><input id="d-home" type="number" min="0" step="10000"></div>
+          <div class="f"><label for="d-cons">Konsum- und sonstige Kredite</label><input id="d-cons" type="number" min="0" step="1000"></div>
+        </div></fieldset>
+        <fieldset class="fieldset"><legend>Markt</legend><div class="grid-auto">
+          <div class="f"><label for="v-eq">Aktien, ETFs, Fonds</label><input id="v-eq" type="number" min="0" step="1000" value="80000"></div>
+          <div class="f"><label for="v-re">Vermietete Immobilien (Marktwert)</label><input id="v-re" type="number" min="0" step="10000"></div>
+          <div class="f"><label for="d-re">Darlehen auf vermietete Immobilien</label><input id="d-re" type="number" min="0" step="10000"></div>
+        </div></fieldset>
+        <fieldset class="fieldset"><legend>Wachstum</legend><div class="grid-auto">
+          <div class="f"><label for="v-crypto">Kryptowährungen</label><input id="v-crypto" type="number" min="0" step="1000" value="10000"></div>
+          <div class="f biz-only" hidden><label for="v-biz">Eigenes Unternehmen (Wert deines Anteils)</label><input id="v-biz" type="number" min="0" step="10000"></div>
+          <div class="f"><label for="v-pe">Beteiligungen, Start-ups, Mitarbeiterbeteiligung</label><input id="v-pe" type="number" min="0" step="1000"></div>
+          <div class="f"><label for="v-coll">Sammlerwerte (Kunst, NFTs, Wein, Uhren)</label><input id="v-coll" type="number" min="0" step="1000"></div>
+        </div></fieldset>
+        <div style="display:flex;justify-content:space-between;gap:12px"><button type="button" class="btn btn-ghost" data-go="2">Zurück</button><button type="button" class="btn btn-green" data-go="4">Ergebnis zeigen</button></div>
+      </div>
+    </form>
+
+    <!-- Schritt 4 -->
+    <div id="result" class="stack-lg" data-step="4" hidden>
+      <div class="print-only" style="display:none"><p class="eyebrow">brinks investments · Vermögensstruktur-Check</p></div>
+      <div class="panel stack">
+        <p class="eyebrow">Dein Profil</p>
+        <p id="profile" class="serif" style="font-size:clamp(20px,2.4vw,26px);line-height:1.4;color:var(--green)"></p>
+      </div>
+      <div class="kpis" id="topline"></div>
+      <div class="grid-auto" id="pots"></div>
+      <div class="panel stack" id="levers-box"><h2 style="font-size:26px">Stellschrauben</h2><div id="levers" class="stack"></div></div>
+      <div class="panel stack"><h2 style="font-size:26px">Meilensteine</h2><p class="muted small">Gesamtvermögen in heutiger Kaufkraft. Optimistisch: Wachstum erzielt real 12 % pro Jahr. Pessimistisch: Wachstum geht komplett verloren.</p><div class="scroll-x"><table class="data" id="miles"></table></div></div>
+      <div class="panel stack" id="notes-box"><h2 style="font-size:26px">Hinweise</h2><div id="notes" class="stack"></div></div>
+      <div class="panel stack">
+        <details class="disclose" open>
+          <summary>Annahmen dieser Rechnung</summary>
+          <ul class="small muted" style="margin:8px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px">
+            <li>Alle Werte real, also in heutiger Kaufkraft. Es gibt deshalb keine separate Inflationsannahme. Inflation wird hier am Verbraucherpreisindex gemessen; die Geldmenge wächst historisch schneller, der Kaufkraftverlust von Vermögenswerten kann also höher ausfallen.</li>
+            <li>Reale Rendite pro Jahr: Sicherheit 0 %, Markt 4 %, Wachstum zwei Pfade: 12 % oder Totalverlust.</li>
+            <li>Entnahme aus Kapital: 4 % pro Jahr. Ein Euro Monatsbedarf braucht daher 300 Euro Kapital.</li>
+            <li>Mindestreserve: 6 Monatsausgaben, mit eigenem Unternehmen 12. Sie zählt nur aus Konten, Festgeld und Anleihen.</li>
+            <li>Eigenheim: tragbare Rate 35 % des Nettoeinkommens, 3,5 % Zins und 2 % Tilgung, Finanzierung von 80 % des Kaufpreises, Eigenkapital 20 % plus 10 % Nebenkosten.</li>
+            <li>Sparrate: Einkommen minus Ausgaben. Sie füllt zuerst die Mindestreserve, danach Sicherheit, Markt und Wachstum im Verhältnis 20 : 60 : 20, mit eigenem Unternehmen 10 : 80 : 10. Einkommenssteigerungen fließen voll in die Sparrate.</li>
+            <li>Keine Steuern und keine Kosten. Modellrechnung zur Orientierung, keine Anlageberatung.</li>
+          </ul>
+        </details>
+      </div>
+      <div class="no-print" style="display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between">
+        <button type="button" class="btn btn-ghost" data-go="3">Eingaben ändern</button>
+        <div style="display:flex;flex-wrap:wrap;gap:12px">
+          <button type="button" class="btn btn-ghost" onclick="window.print()">Report als PDF speichern</button>
+          <a class="btn btn-green" href="mailto:info@brinksinvestments.com?subject=Vorgespr%C3%A4ch%20Verm%C3%B6gensstruktur">Ergebnis besprechen</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.steps li[aria-current="step"]{border-top-color:var(--brass)}
+.steps li.done{opacity:.7}
+.bar{display:flex;height:14px;background:#EDE7DA;overflow:hidden}
+.bar span{display:block;height:100%}
+.pot{display:flex;flex-direction:column;gap:14px}
+.pot .big{font-family:var(--serif);font-size:30px;line-height:1.1;color:var(--green);font-variant-numeric:tabular-nums}
+.pot dl{margin:0;display:grid;grid-template-columns:1fr auto;gap:6px 16px;font-size:14px}
+.pot dt{color:var(--muted)}
+.pot dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.lever{border-left:3px solid var(--brass);padding-left:16px}
+@media print{.print-only{display:block!important}#result{display:flex!important}.pot,.panel{border:1px solid #ccc}}
+</style>
+
+<script>
+(function(){
+  "use strict";
+  var $=function(id){return document.getElementById(id)};
+  var form=$("fp");
+  var fmt=new Intl.NumberFormat("de-DE",{maximumFractionDigits:0});
+  function eur(v){return fmt.format(Math.round(v))+" €"}
+  function short(v){var a=Math.abs(v);if(a>=1e6)return(v/1e6).toLocaleString("de-DE",{maximumFractionDigits:2})+" Mio. €";if(a>=1e4)return fmt.format(Math.round(v/1e3))+" Tsd. €";return eur(v)}
+  function n(id){var e=$(id);if(!e||e.closest(".home-only[hidden],.biz-only[hidden],#exit-f[hidden]"))return 0;var v=parseFloat(e.value);return isFinite(v)&&v>0?v:0}
+  function radio(name){var e=form.querySelector('input[name="'+name+'"]:checked');return e?e.value:null}
+  function goals(){var g={};form.querySelectorAll('input[name="g"]').forEach(function(e){if(e.checked)g[e.value]=true});g.reserve=true;return g}
+
+  // Sichtbarkeit abhängiger Felder
+  function sync(){
+    var home=radio("home")==="1",biz=radio("biz")==="1",g=goals();
+    form.querySelectorAll(".home-only").forEach(function(e){e.hidden=!home});
+    form.querySelectorAll(".biz-only").forEach(function(e){e.hidden=!biz});
+    var hl=$("g-heim-l"),hi=hl.querySelector("input");hl.hidden=home;if(home)hi.checked=false;
+    $("exit-f").hidden=!g.frueher;
+    var exp=parseFloat($("exp").value)||0;
+    $("fix").placeholder="Vorschlag: "+fmt.format(Math.round(exp*0.5));
+    $("need").placeholder="Vorschlag: "+fmt.format(Math.round(exp*0.8));
+  }
+  form.addEventListener("input",sync);form.addEventListener("change",sync);sync();
+
+  // Schritte
+  function show(s){
+    form.querySelectorAll("[data-step]").forEach(function(p){p.hidden=String(p.dataset.step)!==String(s)});
+    $("result").hidden=s!==4;
+    $("stepper").querySelectorAll("li").forEach(function(li){var k=+li.dataset.s;li.removeAttribute("aria-current");li.classList.toggle("done",k<s);if(k===s)li.setAttribute("aria-current","step")});
+    if(s===4)compute();
+    window.scrollTo({top:$("stepper").getBoundingClientRect().top+window.scrollY-24,behavior:"smooth"});
+  }
+  document.addEventListener("click",function(e){var b=e.target.closest("[data-go]");if(b){e.preventDefault();show(+b.dataset.go)}});
+  show(1);
+
+  function compute(){
+    var g=goals(),biz=radio("biz")==="1",home=radio("home")==="1";
+    var age=Math.max(18,Math.min(85,parseFloat($("age").value)||40));
+    var net=n("net"),exp=n("exp");
+    var F=$("fix").value!==""?n("fix"):exp*0.5;
+    var B=$("need").value!==""?n("need"):exp*0.8;
+    var P=n("pension"),growth=(+radio("phase")||0)/100,gYears=n("phaseYears");
+    var exitAge=g.frueher?Math.max(30,Math.min(66,parseFloat($("exit").value)||58)):67;
+
+    // Bestand
+    var liquid=n("v-cash")+n("v-bonds");
+    var cons=n("d-cons");
+    var homeEq=home?n("v-home")-n("d-home"):0;
+    var safeIst=liquid+n("v-gold")+n("v-ins")+homeEq-cons;
+    var marketIst=n("v-eq")+n("v-re")-n("d-re");
+    var growthIst=n("v-crypto")+(biz?n("v-biz"):0)+n("v-pe")+n("v-coll");
+    var total=safeIst+marketIst+growthIst;
+
+    // Ziele
+    var reserveMonths=biz?12:6, reserveT=exp*reserveMonths;
+    var sockel=g.ruhestand?Math.max(0,F-P)*300:0;
+    var maxHome=0,homeEK=0;
+    if(g.eigenheim&&!home){var loan=net*0.35*12/0.055;maxHome=loan/0.8;homeEK=maxHome*0.30}
+    var safeT=reserveT+sockel+homeEK;
+    var lifestyle=g.ruhestand?Math.max(0,B-Math.max(F,P))*300:0;
+    var freedom=g.freiheit?exp*300:0;
+    var marketT=Math.max(lifestyle,freedom);
+    var bridgeYears=g.frueher?Math.max(0,67-exitAge):0;
+    var bridge=B*12*bridgeYears;
+
+    // Sparrate
+    var save=Math.max(0,net-exp),quote=net>0?save/net:0;
+    var split=biz?[0.1,0.8,0.1]:[0.2,0.6,0.2];
+
+    // Projektion (real, jährlich)
+    function project(years,growthReturn,extraMarket){
+      var s=safeIst,m=marketIst,w=growthIst,liq=liquid-cons,rows=[],netY=net;
+      for(var t=1;t<=years;t++){
+        if(t>1&&t-1<=gYears)netY*=1+growth;
+        var sv=Math.max(0,netY-exp)*12+(extraMarket||0)*12;
+        var toRes=Math.max(0,Math.min(sv,reserveT-liq));liq+=toRes;s+=toRes;var rest=sv-toRes;
+        s+=rest*split[0];m=m*1.04+rest*split[1];w=growthReturn<-0.99?0:w*(1+growthReturn)+rest*split[2];
+        rows.push({t:t,age:age+t,s:s,m:m,w:w,tot:s+m+w});
+      }
+      return rows;
+    }
+    var horizon=Math.max(1,Math.round(90-age));
+    var opt=project(horizon,0.12),pes=project(horizon,-1);
+    var yrsTo67=Math.max(0,Math.round(67-age));
+    var at67=yrsTo67>0?opt[yrsTo67-1]:{s:safeIst,m:marketIst,w:growthIst};
+    var yearMarket=null;for(var i=0;i<opt.length;i++){if(marketT>0&&opt[i].m>=marketT){yearMarket=opt[i];break}}
+
+    // Profil
+    var pos=Math.max(1,Math.max(0,safeIst)+Math.max(0,marketIst)+Math.max(0,growthIst));
+    var sh=[Math.max(0,safeIst)/pos,Math.max(0,marketIst)/pos,Math.max(0,growthIst)/pos];
+    var pct=function(x){return Math.round(x*100)+" %"};
+    var prof="Dein Vermögen liegt zu "+pct(sh[0])+" in Sicherheit, zu "+pct(sh[1])+" im Markt und zu "+pct(sh[2])+" in Wachstum. ";
+    if(sh[2]>0.4)prof+="Du setzt stark auf Wachstum: Dein Wohlstand hängt an wenigen, schwankungsreichen Werten.";
+    else if(sh[0]>0.6)prof+="Du bist sicherheitsorientiert: Dein Vermögen ist geschützt, arbeitet aber kaum für dich.";
+    else if(sh[1]>=0.5)prof+="Du bist marktorientiert: Der Kern deines Vermögens wächst mit der Weltwirtschaft.";
+    else prof+="Deine Struktur ist breit verteilt.";
+    if(biz)prof+=" Mit eigenem Unternehmen steckt ein großer Teil deines Risikos bereits in einer einzigen Firma. Umso wichtiger ist ein stetig wachsender Markttopf.";
+    $("profile").textContent=prof;
+
+    // Kennzahlen
+    $("topline").innerHTML=
+      k("Vermögen netto",short(total),"nach Abzug aller Schulden")+
+      k("Sparrate",eur(save)+" / Monat","Sparquote "+Math.round(quote*100)+" %",quote>=0.3)+
+      k("Zielsparquote","30 %",quote>=0.3?"erreicht":"Lücke "+eur(Math.max(0,net*0.3-save))+" pro Monat")+
+      k("Vermögen mit 67",short((at67.s||0)+(at67.m||0)+(at67.w||0)),"optimistischer Pfad, heutige Kaufkraft");
+
+    // Töpfe
+    var liqCover=exp>0?(liquid-cons)/exp:0;
+    var safeBar=seg([[Math.min(Math.max(0,liquid-cons),reserveT),"#1F3A2E"],[Math.min(Math.max(0,safeIst-(liquid-cons)),Math.max(0,safeT-reserveT)),"#8FA99A"]],Math.max(safeT,safeIst,1));
+    var safeHtml='<div class="panel pot"><p class="eyebrow">Sicherheit</p><span class="big">'+(exp>0?fmt.format(Math.floor(Math.max(0,safeIst)/exp)):"–")+' Monate</span><span class="muted small">deines Bedarfs sind abgesichert, davon '+Math.max(0,Math.floor(liqCover))+' Monate sofort verfügbar.</span>'+safeBar+
+      '<dl><dt>Mindestreserve ('+reserveMonths+' Monate)</dt><dd>'+eur(reserveT)+'</dd>'+(sockel?'<dt>Existenzsockel im Alter</dt><dd>'+eur(sockel)+'</dd>':'')+(homeEK?'<dt>Eigenkapital Eigenheim</dt><dd>'+eur(homeEK)+'</dd>':'')+'<dt>Ziel gesamt</dt><dd>'+eur(safeT)+'</dd><dt>Heute</dt><dd>'+eur(safeIst)+'</dd><dt>'+(safeIst>=safeT?'Überschuss':'Lücke')+'</dt><dd>'+eur(Math.abs(safeT-safeIst))+'</dd></dl>'+
+      (homeEK?'<p class="small muted">Mit deinem Einkommen ist ein Eigenheim bis etwa '+short(maxHome)+' finanzierbar.</p>':'')+
+      (sockel===0&&g.ruhestand?'<p class="small muted">Deine Rente deckt die unverzichtbaren Fixkosten. Dein Existenzsockel ist bereits gesichert.</p>':'')+'</div>';
+    var mPct=marketT>0?Math.min(1,Math.max(0,marketIst)/marketT):0;
+    var marketHtml='<div class="panel pot"><p class="eyebrow">Markt</p><span class="big">'+(marketT>0?Math.round(mPct*100)+' %':'kein Zielwert')+'</span><span class="muted small">'+(marketT>0?'deines Markt-Ziels sind heute erreicht.':'Wähle Ruhestand oder finanzielle Freiheit, um einen Zielwert zu erhalten.')+'</span>'+(marketT>0?seg([[Math.max(0,marketIst),"#1F3A2E"]],marketT):'')+
+      '<dl>'+(lifestyle?'<dt>Lebensstandard im Ruhestand</dt><dd>'+eur(lifestyle)+'</dd>':'')+(freedom?'<dt>Finanzielle Freiheit</dt><dd>'+eur(freedom)+'</dd>':'')+'<dt>Heute</dt><dd>'+eur(marketIst)+'</dd><dt>Erreicht</dt><dd>'+(marketT<=0?'–':marketIst>=marketT?'heute':yearMarket?'mit '+Math.round(yearMarket.age)+' Jahren':'nicht bis 90')+'</dd></dl>'+
+      (g.ausbildung?'<p class="small muted">Ausbildung der Kinder wird ebenfalls aus dem Markttopf finanziert.</p>':'')+'</div>';
+    var w67o=at67.w||0;
+    var growthHtml='<div class="panel pot"><p class="eyebrow">Wachstum</p><span class="big">'+short(growthIst)+'</span><span class="muted small">Kein Erfüllungsgrad: Dieser Topf darf auf null fallen. Er entscheidet über Träume, nie über die Existenz.</span>'+
+      '<dl><dt>Mit 67, optimistisch</dt><dd>'+short(w67o)+'</dd><dt>Mit 67, pessimistisch</dt><dd>0 €</dd>'+(bridge?'<dt>Brückenkapital ('+bridgeYears+' Jahre)</dt><dd>'+eur(bridge)+'</dd>':'')+'</dl>'+
+      (bridge?'<p class="small muted">Dein früherer Ausstieg mit '+Math.round(exitAge)+' wird aus Wachstum erreicht, muss aber vor dem Ausstieg in Sicherheit überführt werden. Optimistisch liegen mit '+Math.round(exitAge)+' etwa '+short(exitAge>age?(opt[Math.max(0,Math.round(exitAge-age)-1)]||{w:growthIst}).w:growthIst)+' im Wachstumstopf.</p>':'')+
+      (g.nachlass?'<p class="small muted">Was du weitergeben willst, wächst hier am stärksten, mit dem größten Risiko.</p>':'')+
+      '<p class="small muted">Genusstopf: Steigen Wachstumswerte stark, darfst du einen Teil der realisierten Gewinne bewusst ausgeben. Nie aus der Sparrate.</p></div>';
+    $("pots").innerHTML=safeHtml+marketHtml+growthHtml;
+
+    // Stellschrauben
+    var L=[];
+    if(quote<0.3&&net>0)L.push("Sparquote: Du sparst "+Math.round(quote*100)+" %. Für 30 % fehlen "+eur(net*0.3-save)+" pro Monat, durch weniger Ausgaben oder mehr Einkommen.");
+    var resGap=reserveT-(liquid-cons);
+    if(resGap>0)L.push("Reserve zuerst: Dir fehlen "+eur(resGap)+" an sofort verfügbarem Geld. Bei deiner Sparrate dauert das "+(save>0?Math.ceil(resGap/save)+" Monate":"ohne Sparrate unbegrenzt")+".");
+    if(safeIst<safeT&&resGap<=0){
+      var ySafe=null;for(var j=0;j<opt.length;j++){if(opt[j].s>=safeT){ySafe=opt[j];break}}
+      L.push("Sicherheit: Dir fehlen "+eur(safeT-safeIst)+(sockel?" für Reserve, Existenzsockel im Alter":" für deine Reserve")+(homeEK?" und Eigenkapital":"")+". Mit "+Math.round(split[0]*100)+" % deiner Sparrate in Sicherheit ist der Topf "+(ySafe?"mit "+Math.round(ySafe.age)+" Jahren":"bis 90 nicht")+" gefüllt. Schneller geht es mit einem höheren Anteil, etwa über Gold oder Anleihen.");
+    }
+    if(marketT>0&&yrsTo67>0&&at67.m<marketT){
+      var gap=marketT-at67.m,fv=0;for(var y=0;y<yrsTo67;y++)fv+=Math.pow(1.04,y);
+      var extra=gap/(fv*12)/split[1];
+      var later=yearMarket?Math.max(0,Math.round(yearMarket.age-67)):null;
+      L.push("Markt-Lücke mit 67: Dir fehlen voraussichtlich "+short(gap)+". Stellschrauben: etwa "+eur(extra)+" mehr Sparrate pro Monat, "+(later!==null?"oder "+later+" Jahre länger arbeiten, ":"")+"oder "+eur(gap/300)+" weniger Monatsbedarf im Ruhestand, oder ein Ziel streichen oder verschieben.");
+    }
+    if(g.frueher&&bridge>0){var gx=Math.max(1,Math.round(exitAge-age));var wx=(opt[gx-1]||{w:growthIst}).w;if(wx<bridge)L.push("Früherer Ausstieg: Selbst im optimistischen Pfad liegen mit "+Math.round(exitAge)+" nur "+short(wx)+" statt "+short(bridge)+" im Wachstumstopf. Später aussteigen oder mehr in Wachstum sparen.")}
+    if(!L.length)L.push("Keine Lücke: Deine Struktur trägt deine Ziele. Prüfe sie einmal im Jahr.");
+    $("levers").innerHTML=L.map(function(t){return'<p class="lever">'+t+'</p>'}).join("");
+
+    // Meilensteine
+    var steps=[100000,250000,500000,1000000,2500000],h='<thead><tr><th>Meilenstein</th><th>Optimistisch</th><th>Pessimistisch</th></tr></thead><tbody>';
+    steps.forEach(function(sv){h+='<tr><td>'+short(sv)+'</td><td>'+when(opt,sv)+'</td><td>'+when(pes,sv)+'</td></tr>'});
+    $("miles").innerHTML=h+'</tbody>';
+    function when(rows,sv){if(total>=sv)return"erreicht";for(var i=0;i<rows.length;i++)if(rows[i].tot>=sv)return(new Date().getFullYear()+rows[i].t)+" · mit "+Math.round(rows[i].age);return"nicht bis 90"}
+
+    // Hinweise: Klumpen
+    var items=[["Konten und Festgeld",n("v-cash")],["Anleihen",n("v-bonds")],["Gold",n("v-gold")],["Versicherungen",n("v-ins")],["Eigenheim",home?n("v-home"):0],["Aktien, ETFs, Fonds",n("v-eq")],["Vermietete Immobilien",n("v-re")],["Kryptowährungen",n("v-crypto")],["Eigenes Unternehmen",biz?n("v-biz"):0],["Beteiligungen",n("v-pe")],["Sammlerwerte",n("v-coll")]];
+    var gross=items.reduce(function(a,x){return a+x[1]},0),N=[];
+    items.forEach(function(x){if(gross>0&&x[1]/gross>=0.2&&["Aktien, ETFs, Fonds","Konten und Festgeld","Anleihen","Versicherungen"].indexOf(x[0])<0)N.push(x[0]+" macht "+Math.round(x[1]/gross*100)+" % deines Bruttovermögens aus. Eine einzelne Position dieser Größe bestimmt dein Ergebnis stärker als jede Aufteilung.")});
+    if(biz)N.push("Mit eigenem Unternehmen ist es besonders wichtig, außerhalb der Firma breit im Markt investiert zu sein und den Markttopf kontinuierlich aufzubauen.");
+    N.push("Dein wichtigster Vermögenswert ist oft dein Einkommen. Es ist hier über die Sparrate berücksichtigt.");
+    $("notes").innerHTML=N.map(function(t){return'<p class="small">'+t+'</p>'}).join("");
+  }
+  function k(a,b,c,em){return'<div class="kpi'+(em?" em":"")+'"><span class="k">'+a+'</span><span class="v">'+b+'</span><span class="s">'+c+'</span></div>'}
+  function seg(parts,max){return'<div class="bar" role="img" aria-label="Füllstand">'+parts.map(function(p){return'<span style="width:'+Math.max(0,Math.min(100,p[0]/max*100))+'%;background:'+p[1]+'"></span>'}).join("")+'</div>'}
+})();
+</script>
+
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <span class="bi" aria-hidden="true">bi</span>
+        <span class="claim">Long the Future.</span>
+      </div>
+      <nav aria-label="Weitere Seiten">
+        <a href="angebot.html">Angebot</a>
+        <a href="tools.html">Tools</a>
+        <a href="https://brinksinvestments.substack.com/">Substack</a>
+        <a href="mailto:info@brinksinvestments.com">Kontakt</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </nav>
+    </div>
+    <p class="note">Keine Anlageberatung. Alle Inhalte dienen ausschließlich der Information und Bildung. Es werden keine Finanzinstrumente empfohlen oder vermittelt. © 2026 brinks investments</p>
+  </div>
+</footer>
+</body>
+</html>
