@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Freiheitsrechner · brinks investments</title>
+<meta name="description" content="Ab welchem Alter trägt dein Vermögen deinen Lebensstil? Der Freiheitsrechner zeigt es in Sekunden, mit Verlauf und Stellschrauben.">
+<meta property="og:title" content="Freiheitsrechner · brinks investments">
+<meta property="og:description" content="Ab welchem Alter trägt dein Vermögen deinen Lebensstil? Der Freiheitsrechner zeigt es in Sekunden, mit Verlauf und Stellschrauben.">
+<meta property="og:image" content="https://www.brinksinvestments.com/assets/bi-icon.png">
+<meta name="theme-color" content="#1F3A2E">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/bi-icon.png">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+/* Layout: Eingaben links, Ergebnis rechts (ab 900px), darunter der Verlauf über die volle Breite.
+   Farben und Schriften kommen aus site.css (brinks investments); hier nur Ergänzungen. */
+:root{
+  --wealth:#2F6B4E; --wealth-soft:#DCE6DF; --need:#3A3D3A; --bad:#9A3B2E;
+}
+body{background:var(--ivory)}
+
+.calc{display:grid;grid-template-columns:minmax(0,1fr);gap:24px;align-items:start}
+@media (min-width:900px){.calc{grid-template-columns:minmax(0,5fr) minmax(0,6fr)}.result{position:sticky;top:24px}}
+.inputs .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:16px}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.seg button{font:600 14px var(--sans);padding:10px 14px;border:1px solid var(--rule);background:#fff;color:var(--ink);cursor:pointer;min-height:44px}
+.seg button[aria-pressed="true"]{border-color:var(--green);background:var(--green);color:var(--ivory)}
+.seg-note{font-size:13px;color:var(--muted)}
+.result{display:flex;flex-direction:column;gap:20px}
+.hero-age{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.hero-age .n{font-family:var(--serif);font-weight:500;font-size:clamp(72px,12vw,120px);line-height:.9;color:var(--green);font-variant-numeric:tabular-nums}
+.hero-age .u{font-family:var(--serif);font-size:clamp(20px,2.4vw,26px);color:var(--green)}
+.hero-age .n.none{font-size:clamp(40px,6vw,56px)}
+.range{font-size:15px;color:var(--ink-2)}
+.facts{margin:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.facts div{background:var(--paper);padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.facts dt{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.facts dd{margin:0;font-family:var(--serif);font-size:22px;color:var(--green);font-variant-numeric:tabular-nums}
+.levers{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;border-top:1px solid var(--rule)}
+.levers li{display:flex;justify-content:space-between;align-items:baseline;gap:8px 16px;flex-wrap:wrap;padding:12px 0;border-bottom:1px solid var(--rule)}
+.levers .what{min-width:0;flex:1 1 200px}
+.levers .to{font-variant-numeric:tabular-nums;font-weight:600;color:var(--green);white-space:nowrap}
+.levers .to small{font-weight:400;color:var(--muted);font-size:13px;margin-left:6px}
+.chart-wrap{position:relative}
+.chart-wrap svg{width:100%;height:auto;display:block;touch-action:pan-y}
+.legend{display:flex;flex-wrap:wrap;gap:8px 20px;font-size:13px;color:var(--muted)}
+.legend .sw{display:inline-block;width:18px;height:0;border-top:2px solid;vertical-align:middle;margin-right:6px}
+.tip{position:absolute;pointer-events:none;background:var(--paper);border:1px solid var(--rule);padding:8px 10px;font-size:13px;line-height:1.45;box-shadow:0 2px 8px rgba(20,22,24,.08);white-space:nowrap;font-variant-numeric:tabular-nums}
+.tip b{font-weight:600}
+.cta{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px}
+.cta p{flex:1 1 320px;min-width:0}
+@media (prefers-reduced-motion:no-preference){.hero-age .n{transition:color .2s}}
+</style>
+</head>
+<body>
+<header class="site-header">
+  <div class="wrap">
+    <a class="logo" href="start.html">brinks investments</a>
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a href="start.html#research">Research</a>
+      <a href="start.html#thesen">Thesen</a>
+      <a href="tools.html" aria-current="page">Tools</a>
+      <a href="angebot.html">Angebot</a>
+      <a href="start.html#ueber">Über</a>
+      <a class="btn btn-green" href="https://brinksinvestments.substack.com/subscribe">Newsletter</a>
+    </nav>
+  </div>
+</header>
+<main>
+
+<section class="on-dark">
+  <div class="wrap tool-head">
+    <p class="eyebrow">Ab wann dein Vermögen für dich arbeitet</p>
+    <h1>Freiheitsrechner</h1>
+    <p style="max-width:680px;color:var(--on-dark)">Ab wann trägt dein Vermögen deinen Lebensstil? Trag deine Zahlen ein, das Ergebnis rechnet sofort mit.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-top:40px">
+  <div class="wrap stack-lg">
+    <div class="calc">
+      <form id="f" class="panel stack inputs" onsubmit="return false">
+        <p class="small muted">Vorausgefüllt mit einem Beispiel. Ersetze die Werte durch deine eigenen.</p>
+        <fieldset class="fieldset"><legend>Du heute</legend>
+          <div class="grid2">
+            <div class="f"><label for="age">Alter</label><input id="age" type="number" min="18" max="70" value="35"></div>
+            <div class="f"><label for="net">Nettoeinkommen pro Monat in €</label><input id="net" class="money" type="text" inputmode="numeric" value="5000"></div>
+            <div class="f"><label for="exp">Ausgaben pro Monat in €</label><input id="exp" class="money" type="text" inputmode="numeric" value="3500"><span class="hint">alles, was monatlich ausgegeben wird, ohne Sparen</span></div>
+            <div class="f"><label for="w0">Vermögen heute in €</label><input id="w0" class="money" type="text" inputmode="numeric" value="50000"><span class="hint">Konten, Depots, Gold, Krypto. Ohne selbst genutzte Immobilie.</span></div>
+          </div>
+          <div class="f"><span class="lab">Dein Einkommen</span>
+            <div class="seg" role="group" aria-label="Einkommen"><button type="button" data-k="rise" data-v="1" aria-pressed="true">steigt noch</button><button type="button" data-k="rise" data-v="0" aria-pressed="false">bleibt etwa gleich</button></div>
+            <span class="seg-note" id="rise-note"></span>
+          </div>
+        </fieldset>
+        <fieldset class="fieldset"><legend>Deine Freiheit</legend>
+          <div class="grid2">
+            <div class="f"><label for="need">Wunschbedarf pro Monat in €</label><input id="need" class="money" type="text" inputmode="numeric" placeholder=""><span class="hint">leer lassen, um deinen heutigen Lebensstandard zu halten</span></div>
+            <div class="f"><label for="pension">Erwartete Rente netto ab 67 in €</label><input id="pension" class="money" type="text" inputmode="numeric" value="1600"><span class="hint">aus der Renteninformation, davon etwa 75 % für Steuern und Krankenversicherung</span></div>
+          </div>
+          <div class="f"><span class="lab">Wie lange soll dein Vermögen reichen?</span>
+            <div class="seg" role="group" aria-label="Reichweite"><button type="button" data-k="keep" data-v="erhalt" aria-pressed="true">für immer</button><button type="button" data-k="keep" data-v="verzehr" aria-pressed="false">bis 95</button></div>
+            <span class="seg-note" id="keep-note"></span>
+          </div>
+          <div class="f"><span class="lab">Wie legst du an?</span>
+            <div class="seg" role="group" aria-label="Aufteilung"><button type="button" data-k="mix" data-v="vors" aria-pressed="false">Vorsichtig</button><button type="button" data-k="mix" data-v="ausg" aria-pressed="true">Ausgewogen</button><button type="button" data-k="mix" data-v="wachs" aria-pressed="false">Wachstum</button></div>
+            <span class="seg-note" id="mix-note"></span>
+          </div>
+        </fieldset>
+      </form>
+
+      <div class="panel result" aria-live="polite">
+        <div class="stack" style="gap:10px">
+          <p class="eyebrow" id="r-eyebrow">Finanziell frei mit</p>
+          <div class="hero-age"><span class="n" id="r-age">–</span><span class="u" id="r-unit">Jahren</span></div>
+          <p class="range" id="r-range"></p>
+        </div>
+        <dl class="facts">
+          <div><dt>Sparrate</dt><dd id="r-save">–</dd></div>
+          <div><dt>Kapital nötig</dt><dd id="r-cap">–</dd></div>
+          <div><dt>Noch</dt><dd id="r-years">–</dd></div>
+        </dl>
+        <div class="stack" style="gap:8px">
+          <h2 style="font-size:22px">Was dich früher frei macht</h2>
+          <ul class="levers" id="r-levers"></ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel stack">
+      <h2 style="font-size:26px">Dein Weg dorthin</h2>
+      <p class="small muted">Wo dein Vermögen das nötige Kapital erreicht, bist du frei. Alle Werte in heutiger Kaufkraft.</p>
+      <div class="legend"><span><span class="sw" style="border-color:var(--wealth)"></span>Vermögen, in 7 von 10 Fällen mindestens</span><span><span class="sw" style="border-color:var(--wealth-soft);border-top-width:8px"></span>Spanne von 3 bis 7 von 10 Fällen</span><span><span class="sw" style="border-color:var(--need);border-top-style:dashed"></span>Kapital, das du brauchst</span></div>
+      <div class="chart-wrap" id="chart"></div>
+      <details class="disclose"><summary>Werte als Tabelle</summary><div class="scroll-x" style="margin-top:8px"><table class="data" id="tbl"></table></div></details>
+    </div>
+
+    <div class="panel cta">
+      <p>Weitere Ziele wie ein Eigenheim? Im Zielplaner prüfst du deinen ganzen Plan.</p>
+      <a class="btn btn-green" href="zielplaner.html">Zum Zielplaner</a>
+    </div>
+
+    <div class="panel">
+      <details class="disclose" style="border-top:0;padding-top:0"><summary>So rechnen wir</summary>
+        <ul class="small muted" style="margin:8px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:6px">
+          <li>Alle Werte real, also in heutiger Kaufkraft nach 2 % Inflation pro Jahr, vor Steuern.</li>
+          <li>Dein Vermögen und deine Sparrate werden in 1.000 möglichen Verläufen gerechnet, mit denselben Renditen, Schwankungen und Zusammenhängen wie im Zielplaner: Cash −0,1 %, Gold 4,2 %, Aktien 5,1 %, Anleihen 1,5 %, Digitale Assets 13 % reale Rendite pro Jahr. Die Renditen stammen aus den Kapitalmarktannahmen von Amundi und Fidelity, Stand Oktober 2026, Digitale Assets sind eine eigene Einschätzung von brinks investments.</li>
+          <li>Aufteilungen: Vorsichtig = Cash 5 %, Gold 15 %, Aktien 45 %, Anleihen 30 %, Digitale Assets 5 %. Ausgewogen = Gold 10 %, Aktien 65 %, Anleihen 15 %, Digitale Assets 10 %. Wachstum = Gold 10 %, Aktien 60 %, Digitale Assets 30 %. Jedes Jahr wiederhergestellt.</li>
+          <li>Sparrate: Einkommen minus Ausgaben. Steigt das Einkommen noch, dann bis 40 real um 2 % pro Jahr und von 40 bis 50 um 0,5 % (Verdiensterhebung 2025 des Statistischen Bundesamts). Die Hälfte jeder Steigerung fließt in die Sparrate.</li>
+          <li>Kapital, das du brauchst, mit 3,5 % realer Entnahme. „Für immer“: Die Erträge decken deinen Bedarf, das Kapital schrumpft nie, also 343 € Kapital je Euro Monatsbedarf. Vor 67 gilt das für den vollen Bedarf, ab 67 nur für den Teil, den die Rente nicht deckt. „Bis 95“: Das Kapital trägt bis 67 den vollen Bedarf, danach den Rest über der Rente, und ist mit 95 aufgebraucht.</li>
+          <li>Frei bist du in dem Alter, ab dem dein Vermögen in 7 von 10 Verläufen mindestens so groß ist wie das Kapital, das du dann brauchst.</li>
+          <li>Vereinfachung: Alles liegt in einem Depot. Eine Reserve für den Notfall, ein Eigenheim und die Absicherung der Grundkosten rechnet der Zielplaner. Modellrechnung zur Orientierung, keine Anlageberatung.</li>
+        </ul>
+      </details>
+    </div>
+  </div>
+</section>
+
+</main>
+<script>
+(function(){
+  "use strict";
+  var $=function(id){return document.getElementById(id)};
+  var fmt=new Intl.NumberFormat("de-DE",{maximumFractionDigits:0});
+  function eur(v){return fmt.format(Math.round(v))+" €"}
+  function short(v){var a=Math.abs(v);if(a>=1e6)return(v/1e6).toLocaleString("de-DE",{maximumFractionDigits:2})+" Mio. €";if(a>=1e4)return fmt.format(Math.round(v/1e3))+" Tsd. €";return eur(v)}
+  function num(id){var v=parseFloat(String($(id).value).replace(/\D/g,""));return isFinite(v)?v:0}
+  function has(id){return String($(id).value).replace(/\D/g,"")!==""}
+
+  // Beträge mit Tausenderpunkten
+  document.querySelectorAll("input.money").forEach(function(el){
+    function show(){var c=el.value.replace(/\D/g,"");el.value=c===""?"":fmt.format(+c)}
+    show();el.addEventListener("input",function(){var pos=el.selectionStart,before=el.value.slice(0,pos).replace(/\D/g,"").length;show();var i=0,c=0;while(i<el.value.length&&c<before){if(/\d/.test(el.value[i]))c++;i++}try{el.setSelectionRange(i,i)}catch(e){}});
+  });
+
+  // Annahmen wie im Zielplaner
+  var K=["cash","gold","eq","bonds","crypto"];
+  var R={cash:-0.001,gold:0.042,eq:0.051,bonds:0.015,crypto:0.13};
+  var SIG={cash:0.01,gold:0.15,eq:0.155,bonds:0.05,crypto:0.45};
+  var CORR=[[1,0,0,.1,0],[0,1,.1,.3,.1],[0,.1,1,.2,.4],[.1,.3,.2,1,0],[0,.1,.4,0,1]];
+  var MIX={vors:{name:"Vorsichtig",w:{cash:.05,gold:.15,eq:.45,bonds:.30,crypto:.05}},ausg:{name:"Ausgewogen",w:{cash:0,gold:.10,eq:.65,bonds:.15,crypto:.10}},wachs:{name:"Wachstum",w:{cash:0,gold:.10,eq:.60,bonds:0,crypto:.30}}};
+  var LN={cash:"Cash",gold:"Gold",eq:"Aktien",bonds:"Anleihen",crypto:"Digitale Assets"};
+  var N=1000,H=60,WR=0.035,LIFE=95,Z=null;
+  function init(){if(Z)return;var n=5,L=CORR.map(function(){return new Array(n).fill(0)});
+    for(var i=0;i<n;i++)for(var j=0;j<=i;j++){var x=CORR[i][j];for(var k=0;k<j;k++)x-=L[i][k]*L[j][k];L[i][j]=i===j?Math.sqrt(x):x/L[j][j]}
+    var seed=20261029;function r(){seed|=0;seed=seed+0x6D2B79F5|0;var t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}
+    Z=new Float64Array(N*H*n);var z=new Array(n);
+    for(var p=0;p<N;p++)for(var t=0;t<H;t++){for(var a=0;a<n;a++){var u=1-r(),w=r();z[a]=Math.sqrt(-2*Math.log(u))*Math.cos(2*Math.PI*w)}
+      for(var b=0;b<n;b++){var e=0;for(var c=0;c<=b;c++)e+=L[b][c]*z[c];Z[(p*H+t)*n+b]=e}}}
+  function gRate(a){return a<40?0.02:a<50?0.005:0}
+  function ann(r,y){return y<=0?0:(1-Math.pow(1+r,-y))/r}
+  function capNeed(B,P,a,keep){var pre=B,post=Math.max(0,B-P),n1=Math.max(0,67-a);
+    if(keep==="erhalt")return 12*Math.max(n1>0?pre:0,post)/WR;
+    return 12*pre*ann(WR,n1)+12*post*ann(WR,LIFE-Math.max(a,67))/Math.pow(1+WR,n1)}
+  function q(arr,p){return arr[Math.floor((arr.length-1)*p)]}
+
+  // Simulation: Quantile des Vermögens je Jahr
+  function simulate(s){init();var T=Math.min(H,Math.max(1,90-s.age)),w=MIX[s.mix].w;
+    var mu=K.map(function(k){return Math.log(1+R[k])}),wv=K.map(function(k){return w[k]||0}),sg=K.map(function(k){return SIG[k]});
+    var sv=[0],netY=s.net;for(var t=1;t<=T;t++){if(t>1&&s.rise)netY*=1+gRate(s.age+t-1);sv.push(Math.max(0,(s.net-s.exp)+(netY-s.net)*0.5)*12)}
+    var cols=[];for(var t2=0;t2<=T;t2++)cols.push(new Float64Array(N));
+    for(var p=0;p<N;p++){var W=s.w0;cols[0][p]=W;
+      for(var t3=1;t3<=T;t3++){var base=(p*H+t3-1)*5,rr=0;for(var j=0;j<5;j++)if(wv[j])rr+=wv[j]*(Math.exp(mu[j]+sg[j]*Z[base+j])-1);W=(W+sv[t3])*(1+rr);cols[t3][p]=W}}
+    var q10=[],q30=[],q50=[],q70=[];cols.forEach(function(c){c.sort();q10.push(q(c,0.1));q30.push(q(c,0.3));q50.push(q(c,0.5));q70.push(q(c,0.7))});
+    return{T:T,q10:q10,q30:q30,q50:q50,q70:q70}}
+  function freeAt(s,qs){for(var t=0;t<qs.length;t++){var a=s.age+t;if(a>80)break;if(qs[t]>=capNeed(s.B,s.P,a,s.keep))return a}return null}
+  function ageFor(s){var r=simulate(s);return{sim:r,a30:freeAt(s,r.q30),a50:freeAt(s,r.q50),a10:freeAt(s,r.q10)}}
+
+  var st={rise:true,keep:"erhalt",mix:"ausg"};
+  function read(){var age=Math.round(Math.max(18,Math.min(70,num("age")||35))),exp=num("exp");
+    return{age:age,net:num("net"),exp:exp,w0:num("w0"),B:has("need")?num("need"):exp,P:num("pension"),rise:st.rise,keep:st.keep,mix:st.mix}}
+
+  function render(){
+    var s=read();
+    $("need").placeholder="Vorschlag: "+fmt.format(s.exp);
+    var ry=Math.max(0,50-s.age);
+    $("rise-note").textContent=st.rise?(ry>0?"Gerechnet wird mit dem typischen Verlauf in Deutschland. Bei dir steigt es noch "+ry+(ry===1?" Jahr.":" Jahre."):"In deinem Alter steigt es im Durchschnitt nicht mehr."):"Das Einkommen bleibt real gleich.";
+    $("keep-note").textContent=st.keep==="erhalt"?"Du lebst von den Erträgen. Das Vermögen bleibt erhalten, auch für deine Erben.":"Du darfst das Vermögen bis 95 aufbrauchen. Dafür reicht weniger Kapital.";
+    $("mix-note").textContent=K.filter(function(k){return MIX[st.mix].w[k]>0}).map(function(k){return LN[k]+" "+Math.round(MIX[st.mix].w[k]*100)+" %"}).join(" · ");
+    var save=Math.max(0,s.net-s.exp);
+    $("r-save").textContent=eur(save);
+    var r=ageFor(s),a=r.a30;
+    var n=$("r-age");
+    if(a===s.age){$("r-eyebrow").textContent="Finanziell frei";n.textContent="schon heute";n.className="n none";$("r-unit").textContent="";
+      $("r-range").textContent="Dein Vermögen trägt deinen Wunschbedarf schon jetzt, in 7 von 10 Fällen."}
+    else if(a===null){$("r-eyebrow").textContent="Finanziell frei";n.textContent="nicht vor 80";n.className="n none";$("r-unit").textContent="";
+      $("r-range").textContent=save<=0?"Ohne Sparrate wächst dein Vermögen nur aus den Erträgen. Jeder Plan beginnt damit, dass etwas übrig bleibt.":"Mit dieser Sparrate reicht dein Vermögen bis 80 in weniger als 7 von 10 Fällen. Unten siehst du, was das ändert."}
+    else{$("r-eyebrow").textContent="Finanziell frei mit";n.textContent=a;n.className="n";$("r-unit").textContent="Jahren";
+      $("r-range").textContent="in 7 von 10 Fällen. Im mittleren Verlauf mit "+(r.a50||"über 80")+", im schlechten Fall (1 von 10) "+(r.a10?"mit "+r.a10:"nicht vor 80")+"."}
+    $("r-cap").textContent=a!=null?short(capNeed(s.B,s.P,a,s.keep)):"–";
+    $("r-years").textContent=a==null?"–":a===s.age?"0 Jahre":(a-s.age)+((a-s.age)===1?" Jahr":" Jahre");
+
+    // Stellschrauben
+    var L=[];
+    function lever(label,s2){var b=ageFor(s2).a30;var to,cls="";
+      if(b==null)to='nicht vor 80';else{to='mit '+b;if(a!=null){var d=a-b;to+=d>0?'<small>'+d+(d===1?' Jahr':' Jahre')+' früher</small>':d<0?'<small>'+(-d)+(d===-1?' Jahr':' Jahre')+' später</small>':'<small>unverändert</small>'}}
+      L.push('<li><span class="what">'+label+'</span><span class="to">'+to+'</span></li>')}
+    lever("500 € mehr sparen im Monat",Object.assign({},s,{exp:Math.max(0,s.exp-500),B:s.B}));
+    if(s.B>500)lever("500 € weniger Wunschbedarf im Monat",Object.assign({},s,{B:s.B-500}));
+    if(st.mix!=="wachs")lever("Aufteilung „Wachstum“ statt „"+MIX[st.mix].name+"“",Object.assign({},s,{mix:"wachs"}));
+    else lever("Aufteilung „Ausgewogen“ statt „Wachstum“",Object.assign({},s,{mix:"ausg"}));
+    if(st.keep==="erhalt")lever("Vermögen bis 95 aufbrauchen statt erhalten",Object.assign({},s,{keep:"verzehr"}));
+    $("r-levers").innerHTML=L.join("");
+    drawChart(s,r);
+  }
+
+  // Verlauf: Vermögen (Quantile) gegen nötiges Kapital
+  var CH=null;
+  function drawChart(s,r){
+    var a=r.a30,end=Math.min(s.age+r.sim.T,Math.max(a!=null?a+8:0,Math.max(s.age+15,70)),90),T=end-s.age;
+    var need=[],x=[];for(var t=0;t<=T;t++){x.push(s.age+t);need.push(capNeed(s.B,s.P,s.age+t,s.keep))}
+    var ymax=0;for(var t2=0;t2<=T;t2++)ymax=Math.max(ymax,need[t2],r.sim.q30[t2]);ymax=Math.max(ymax,1)*1.08;
+    var W=720,Hh=320,ml=64,mr=16,mt=16,mb=36,iw=W-ml-mr,ih=Hh-mt-mb;
+    function X(age){return ml+(age-s.age)/Math.max(1,T)*iw}
+    function Y(v){return mt+ih-Math.min(v,ymax)/ymax*ih}
+    // Achsen-Ticks
+    var step=[1e4,2.5e4,5e4,1e5,2.5e5,5e5,1e6,2.5e6,5e6,1e7].filter(function(s){return ymax/s<=6})[0]||1e7;
+    var g='';for(var v=0;v<=ymax;v+=step)g+='<line x1="'+ml+'" x2="'+(W-mr)+'" y1="'+Y(v)+'" y2="'+Y(v)+'" stroke="#E5DDCB" stroke-width="1"/><text x="'+(ml-8)+'" y="'+(Y(v)+4)+'" text-anchor="end" font-size="12" fill="#5A5A52">'+(v===0?"0":short(v).replace(" €",""))+'</text>';
+    var xs=T>30?10:5;for(var ag=Math.ceil(s.age/xs)*xs;ag<=end;ag+=xs)g+='<text x="'+X(ag)+'" y="'+(Hh-12)+'" text-anchor="middle" font-size="12" fill="#5A5A52">'+ag+'</text>';
+    g+='<text x="'+(W-mr)+'" y="'+(Hh-12)+'" text-anchor="end" font-size="12" fill="#5A5A52" dx="0" dy="0"></text>';
+    function path(arr){return arr.slice(0,T+1).map(function(v,i){return(i?"L":"M")+X(s.age+i).toFixed(1)+" "+Y(v).toFixed(1)}).join(" ")}
+    var band=path(r.sim.q70)+" "+r.sim.q30.slice(0,T+1).map(function(v,i){return"L"+X(s.age+T-i).toFixed(1)+" "+Y(r.sim.q30[T-i]).toFixed(1)}).join(" ")+" Z";
+    var svg='<svg viewBox="0 0 '+W+' '+Hh+'" role="img" aria-label="Vermögen und nötiges Kapital nach Alter">'+g+
+      '<path d="'+band+'" fill="#DCE6DF" stroke="none"/>'+
+      '<path d="'+path(need)+'" fill="none" stroke="#3A3D3A" stroke-width="2" stroke-dasharray="6 5"/>'+
+      '<path d="'+path(r.sim.q30)+'" fill="none" stroke="#2F6B4E" stroke-width="2.5" stroke-linejoin="round"/>'+
+      '<line x1="'+ml+'" x2="'+(W-mr)+'" y1="'+Y(0)+'" y2="'+Y(0)+'" stroke="#C9C0AC" stroke-width="1"/>';
+    if(a!=null&&a<=end&&a>s.age){var cx=X(a),cy=Y(need[a-s.age]);
+      svg+='<line x1="'+cx+'" x2="'+cx+'" y1="'+mt+'" y2="'+(mt+ih)+'" stroke="#B08D57" stroke-width="1"/><circle cx="'+cx+'" cy="'+cy+'" r="6" fill="#2F6B4E" stroke="#FBF8F1" stroke-width="2"/>'+
+        '<text x="'+(cx+(cx>W-140?-10:10))+'" y="'+(mt+14)+'" text-anchor="'+(cx>W-140?"end":"start")+'" font-size="13" font-weight="600" fill="#141618">frei mit '+a+'</text>'}
+    svg+='<line id="ch-x" x1="0" x2="0" y1="'+mt+'" y2="'+(mt+ih)+'" stroke="#5A5A52" stroke-width="1" visibility="hidden"/><rect id="ch-hit" x="'+ml+'" y="'+mt+'" width="'+iw+'" height="'+ih+'" fill="transparent"/></svg><div class="tip" id="ch-tip" hidden></div>';
+    $("chart").innerHTML=svg;
+    CH={s:s,r:r,T:T,need:need,X:X,W:W,ml:ml,iw:iw};
+    // Tabelle
+    var tb='<thead><tr><th>Alter</th><th>Vermögen, 7 von 10 mindestens</th><th>Mittlerer Verlauf</th><th>Kapital nötig</th></tr></thead><tbody>';
+    for(var t3=0;t3<=T;t3+=(T>30?5:1))tb+='<tr><td>'+(s.age+t3)+'</td><td>'+short(r.sim.q30[t3])+'</td><td>'+short(r.sim.q50[t3])+'</td><td>'+short(need[t3])+'</td></tr>';
+    $("tbl").innerHTML=tb+'</tbody>';
+  }
+  function hover(ev){if(!CH)return;var svg=$("chart").querySelector("svg"),rc=svg.getBoundingClientRect(),cx=(ev.touches?ev.touches[0].clientX:ev.clientX);
+    var vx=(cx-rc.left)/rc.width*CH.W,t=Math.round((vx-CH.ml)/CH.iw*CH.T);if(t<0||t>CH.T){leave();return}
+    var line=$("ch-x"),tip=$("ch-tip"),px=CH.X(CH.s.age+t);line.setAttribute("x1",px);line.setAttribute("x2",px);line.setAttribute("visibility","visible");
+    tip.hidden=false;tip.innerHTML='<b>Mit '+(CH.s.age+t)+'</b><br>Vermögen, 7 von 10: '+short(CH.r.sim.q30[t])+'<br>Mittlerer Verlauf: '+short(CH.r.sim.q50[t])+'<br>Kapital nötig: '+short(CH.need[t]);
+    var left=px/CH.W*rc.width,tw=tip.offsetWidth;tip.style.left=Math.max(0,Math.min(rc.width-tw,left+12))+"px";tip.style.top="8px"}
+  function leave(){var l=$("ch-x"),t=$("ch-tip");if(l)l.setAttribute("visibility","hidden");if(t)t.hidden=true}
+  $("chart").addEventListener("mousemove",hover);$("chart").addEventListener("touchstart",hover,{passive:true});$("chart").addEventListener("touchmove",hover,{passive:true});$("chart").addEventListener("mouseleave",leave);
+
+  // Eingaben
+  document.querySelectorAll(".seg button").forEach(function(b){b.addEventListener("click",function(){var k=b.dataset.k,v=b.dataset.v;st[k]=k==="rise"?v==="1":v;
+    b.parentNode.querySelectorAll("button").forEach(function(o){o.setAttribute("aria-pressed",String(o===b))});schedule()})});
+  var timer=null;function schedule(){clearTimeout(timer);timer=setTimeout(render,150)}
+  $("f").addEventListener("input",schedule);
+  render();
+})();
+</script>
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <span class="bi" aria-hidden="true">bi</span>
+        <span class="claim">Long the Future.</span>
+      </div>
+      <nav aria-label="Weitere Seiten">
+        <a href="angebot.html">Angebot</a>
+        <a href="tools.html">Tools</a>
+        <a href="https://brinksinvestments.substack.com/">Substack</a>
+        <a href="mailto:info@brinksinvestments.com">Kontakt</a>
+        <a href="impressum.html">Impressum</a>
+        <a href="datenschutz.html">Datenschutz</a>
+      </nav>
+    </div>
+    <p class="note">Keine Anlageberatung und keine individuelle Empfehlung. Alle Inhalte dienen ausschließlich der Information und Bildung. Es werden keine Finanzinstrumente vermittelt. © 2026 brinks investments</p>
+  </div>
+</footer>
+</body>
+</html>
