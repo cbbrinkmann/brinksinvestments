@@ -147,7 +147,7 @@ body{background:var(--ivory)}
           <div><dt>Noch</dt><dd id="r-years">–</dd></div>
         </dl>
         <div class="stack" style="gap:8px">
-          <h2 style="font-size:22px">Was dich früher frei macht</h2>
+          <h2 style="font-size:22px">Was den Zeitpunkt verändert</h2>
           <ul class="levers" id="r-levers"></ul>
         </div>
       </div>
@@ -176,7 +176,7 @@ body{background:var(--ivory)}
           <li>Dein Vermögen und deine Sparrate werden in 1.000 möglichen Verläufen gerechnet, mit denselben Renditen, Schwankungen und Zusammenhängen wie im Zielplaner: Cash −0,1 %, Gold 4,2 %, Aktien 5,1 %, Anleihen 1,5 %, Digitale Assets 13 % reale Rendite pro Jahr. Die Renditen stammen aus den Kapitalmarktannahmen von Amundi und Fidelity, Stand Oktober 2026, Digitale Assets sind eine eigene Einschätzung von brinks investments.</li>
           <li>Aufteilungen: Vorsichtig = Cash 5 %, Gold 15 %, Aktien 45 %, Anleihen 30 %, Digitale Assets 5 %. Ausgewogen = Gold 10 %, Aktien 65 %, Anleihen 15 %, Digitale Assets 10 %. Wachstum = Gold 10 %, Aktien 60 %, Digitale Assets 30 %. Jedes Jahr wiederhergestellt.</li>
           <li>Sparrate: Einkommen minus Ausgaben. Steigt das Einkommen noch, dann bis 40 real um 2 % pro Jahr und von 40 bis 50 um 0,5 % (Verdiensterhebung 2025 des Statistischen Bundesamts). Die Hälfte jeder Steigerung fließt in die Sparrate.</li>
-          <li>Kapital, das du brauchst, mit 3,5 % realer Entnahme. „Für immer“: Die Erträge decken deinen Bedarf, das Kapital schrumpft nie, also 343 € Kapital je Euro Monatsbedarf. Vor 67 gilt das für den vollen Bedarf, ab 67 nur für den Teil, den die Rente nicht deckt. „Bis 95“: Das Kapital trägt bis 67 den vollen Bedarf, danach den Rest über der Rente, und ist mit 95 aufgebraucht.</li>
+          <li>Kapital, das du brauchst, mit 3,5 % realer Entnahme. „Für immer“: Ab 67 decken die Erträge den Teil, den die Rente nicht deckt, das Kapital schrumpft dann nicht mehr. Das sind 343 € Kapital je Euro Monatsbedarf. Hörst du vor 67 auf, kommt die Brücke bis zur Rente dazu. „Bis 95“: Das Kapital trägt bis 67 den vollen Bedarf, danach den Rest über der Rente, und ist mit 95 aufgebraucht.</li>
           <li>Frei bist du in dem Alter, ab dem dein Vermögen in 7 von 10 Verläufen mindestens so groß ist wie das Kapital, das du dann brauchst.</li>
           <li>Vereinfachung: Alles liegt in einem Depot. Eine Reserve für den Notfall, ein Eigenheim und die Absicherung der Grundkosten rechnet der Zielplaner. Modellrechnung zur Orientierung, keine Anlageberatung.</li>
         </ul>
@@ -219,7 +219,7 @@ body{background:var(--ivory)}
   function gRate(a){return a<40?0.02:a<50?0.005:0}
   function ann(r,y){return y<=0?0:(1-Math.pow(1+r,-y))/r}
   function capNeed(B,P,a,keep){var pre=B,post=Math.max(0,B-P),n1=Math.max(0,67-a);
-    if(keep==="erhalt")return 12*Math.max(n1>0?pre:0,post)/WR;
+    if(keep==="erhalt")return 12*post/WR+12*(pre-post)*ann(WR,n1);
     return 12*pre*ann(WR,n1)+12*post*ann(WR,LIFE-Math.max(a,67))/Math.pow(1+WR,n1)}
   function q(arr,p){return arr[Math.floor((arr.length-1)*p)]}
 
@@ -244,7 +244,7 @@ body{background:var(--ivory)}
     $("need").placeholder="Vorschlag: "+fmt.format(s.exp);
     var ry=Math.max(0,50-s.age);
     $("rise-note").textContent=st.rise?(ry>0?"Gerechnet wird mit dem typischen Verlauf in Deutschland. Bei dir steigt es noch "+ry+(ry===1?" Jahr.":" Jahre."):"In deinem Alter steigt es im Durchschnitt nicht mehr."):"Das Einkommen bleibt real gleich.";
-    $("keep-note").textContent=st.keep==="erhalt"?"Du lebst von den Erträgen. Das Vermögen bleibt erhalten, auch für deine Erben.":"Du darfst das Vermögen bis 95 aufbrauchen. Dafür reicht weniger Kapital.";
+    $("keep-note").textContent=st.keep==="erhalt"?"Ab 67 lebst du von den Erträgen. Das Vermögen bleibt erhalten, auch für deine Erben.":"Du darfst das Vermögen bis 95 aufbrauchen. Dafür reicht weniger Kapital.";
     $("mix-note").textContent=K.filter(function(k){return MIX[st.mix].w[k]>0}).map(function(k){return LN[k]+" "+Math.round(MIX[st.mix].w[k]*100)+" %"}).join(" · ");
     var save=Math.max(0,s.net-s.exp);
     $("r-save").textContent=eur(save);
