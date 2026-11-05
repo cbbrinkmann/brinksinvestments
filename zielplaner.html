@@ -265,6 +265,7 @@
       <div class="panel stack"><details class="disclose"><summary>Meilensteine</summary><p class="muted small">Wann dein Vermögen nach Abzug der Schulden diese Schwellen in 7 von 10 Fällen mindestens erreicht, in heutiger Kaufkraft, bis zu deinem Ruhestand.</p><div class="scroll-x"><table class="data" id="miles"></table></div></details></div>
       <div class="panel stack"><details class="disclose"><summary>Zusammensetzung</summary><p class="muted small">Dein Vermögen vor Abzug der Schulden, nach Anlageklassen.</p><div class="scroll-x"><table class="data" id="mix"></table></div></details></div>
       <div class="panel stack" id="notes-box"><h2 style="font-size:26px">Hinweise</h2><div id="notes" class="stack"></div></div>
+      <div class="panel stack print-only" id="inputs-box" style="display:none"><h2 style="font-size:26px">Deine Angaben</h2><table class="data" id="inputs"></table></div>
       <div class="panel stack">
         <details class="disclose" open>
           <summary>Annahmen dieser Rechnung</summary>
@@ -825,6 +826,28 @@
   }
   function k(a,b,c,em){return'<div class="kpi'+(em?" em":"")+'"><span class="k">'+a+'</span><span class="v">'+b+'</span><span class="s">'+c+'</span></div>'}
   function seg(parts,max){return'<div class="bar" role="img" aria-label="Füllstand">'+parts.map(function(p){return'<span style="width:'+Math.max(0,Math.min(100,p[0]/max*100))+'%;background:'+p[1]+'"></span>'}).join("")+'</div>'}
+  // PDF: alle Eingaben ausgeben und zugeklappte Abschnitte öffnen
+  function fillInputs(){
+    var rows=[],g=goals(),biz=radio("biz")==="1",home=radio("home")==="1",retOn=g.ruhestand||g.freiheit;
+    function add(l,t){if(t!==""&&t!=null)rows.push([l,t])}
+    function money(l,id){var v=n(id);if(v)add(l,eur(v))}
+    add("Ziele",[g.reserve?"Reserve":"",g.ruhestand?"Ruhestand":"",g.freiheit?"Finanzielle Freiheit":"",g.eigenheim?"Eigenheim":""].filter(Boolean).join(", "));
+    add("Alter",$("age").value);
+    money("Nettoeinkommen pro Monat","net");money("Ausgaben pro Monat","exp");
+    add("Beruf",radio("phase")==="0"?"Einkommen bleibt etwa gleich":"im Berufsleben, Einkommen steigt");
+    if(g.ruhestand)add("Ruhestand mit",$("retAge").value);
+    if(retOn){add("Wunschbedarf pro Monat",$("need").value!==""?eur(n("need")):"heutiger Lebensstandard");
+      money("Erwartete Rente netto pro Monat","pension");
+      add("Vermögen soll reichen",radio("keep")==="erhalt"?"für immer":"bis 95")}
+    if(g.eigenheim&&!home){money("Geplanter Kaufpreis Eigenheim","homePrice");if(n("homePrice"))add("Kauf in Jahren",$("homeYears").value)}
+    add("Eigenes Unternehmen",biz?"ja":"nein");add("Eigenheim vorhanden",home?"ja":"nein");
+    [["Cash","v-cash"],["Gold","v-gold"],["Aktien","v-eq"],["Anleihen","v-bonds"],["Direkte Beteiligungen","v-pe"],["Digitale Assets","v-crypto"],["Eigenheim (Marktwert)","v-home"],["Vermietete Immobilien (Marktwert)","v-re"],["Eigenes Unternehmen (dein Anteil)","v-biz"],["Lebens- und Rentenversicherungen","v-ins"],["Sammlerwerte","v-coll"],["Restschuld Eigenheim","d-home"],["Darlehen auf vermietete Immobilien","d-re"],["Konsum- und sonstige Kredite","d-cons"]].forEach(function(x){money(x[0],x[1])});
+    $("inputs").innerHTML="<tbody>"+rows.map(function(r){return"<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>"}).join("")+"</tbody>";
+  }
+  var closedForPrint=[];
+  window.addEventListener("beforeprint",function(){fillInputs();closedForPrint=[].slice.call(document.querySelectorAll("#result details:not([open])"));closedForPrint.forEach(function(d){d.open=true})});
+  window.addEventListener("afterprint",function(){closedForPrint.forEach(function(d){d.open=false});closedForPrint=[]});
+
   // Übergabe an die Vermögenspfade: freies Vermögen, Sparrate, gewählte Aufteilung, Ruhestandsziel
   (function(){var a=$("to-vp");if(!a)return;a.addEventListener("click",function(){try{
     var R=compute({dry:true,w:varW(VSEL)}),w=varW(VSEL)||R.freeW||{},p=new URLSearchParams(),ag=Math.max(18,Math.min(85,parseFloat($("age").value)||40));
