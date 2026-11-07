@@ -279,9 +279,9 @@
           <div class="stack" style="margin-top:8px">
             <div class="scroll-x"><table class="data" id="rates"></table></div>
             <ul class="small muted" style="margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px">
-              <li>Alle Werte real, also in heutiger Kaufkraft nach 2 % Inflation pro Jahr, und vor Steuern. Steuern hängen zu stark vom Einzelfall ab, um sie hier sinnvoll zu rechnen. Die Renditen der sechs Anlageklassen entsprechen den Vermögenspfaden und stammen aus den Kapitalmarktannahmen von Amundi und Fidelity, Stand Oktober 2026. Werte mit Stern sind eigene Einschätzungen von brinks investments.</li>
+              <li>Alle Werte real, also in heutiger Kaufkraft nach 2 % Inflation pro Jahr, und vor Steuern. Steuern hängen zu stark vom Einzelfall ab, um sie hier sinnvoll zu rechnen. Die Renditen der sechs Anlageklassen stammen aus den Kapitalmarktannahmen von Amundi und Fidelity, Stand Oktober 2026. Werte mit Stern sind eigene Einschätzungen von brinks investments.</li>
               <li>Jeder Topf rechnet mit dem gewichteten Mittel seiner Bestände. Immobilien wachsen auf den vollen Marktwert, Darlehen werden mit ihrem Zins abgezogen. So wirkt der Hebel des Kredits auf das Eigenkapital. Neue Sparbeiträge rechnen in Sicherheit mit Anleihen, in Markt mit Aktien und in Wachstum mit der Mischung deiner Beteiligungen und Digitalen Assets, ohne Bestand mit Direkten Beteiligungen.</li>
-              <li>Markt und Wachstum werden gemeinsam in 1.000 möglichen Verläufen gerechnet, mit denselben Renditen, Schwankungen und Zusammenhängen wie in den Vermögenspfaden. Ein Ziel in Markt gilt als erreichbar, wenn es in mindestens 7 von 10 Verläufen erreicht wird. Sicherheit rechnet mit der Erwartung.</li>
+              <li>Markt und Wachstum werden gemeinsam in 1.000 möglichen Verläufen gerechnet, mit den Renditen, Schwankungen und Zusammenhängen der Anlageklassen. Ein Ziel in Markt gilt als erreichbar, wenn es in mindestens 7 von 10 Verläufen erreicht wird. Sicherheit rechnet mit der Erwartung.</li>
               <li>Aufteilung: Verändert wird nur dein freies liquides Vermögen aus Cash, Gold, Aktien, Anleihen und Digitalen Assets. Gesperrt bleibt, was Sicherheit für Reserve, Grundkosten und Eigenheim braucht, soweit es heute in Cash, Gold und Anleihen liegt. Die gewählte Aufteilung gilt auch für neue Sparbeiträge in Markt und Wachstum und wird jedes Jahr wiederhergestellt. Davon gehen mindestens 10 % in Wachstum, mit eigenem Unternehmen 5 %, solange dein Ruhestand damit noch in 7 von 10 Fällen aufgeht. Sonst 5 % oder nichts. Digitale Assets rechnen mit 13 % realer Rendite und 45 % Schwankung pro Jahr, einer eigenen Annahme von brinks investments.</li>
               <li>Ruhestand: Als Grundkosten zählt die Hälfte deiner heutigen Ausgaben. Was davon nicht durch deine Rente gedeckt ist, liegt in Sicherheit. So sind die Grundkosten auch nach einem Börsencrash bezahlt. Das entspricht dem Wealth Allocation Framework: Der sichere Topf deckt die Grundkosten, egal was der Markt macht. Alles darüber bis zu deinem Wunschbedarf liegt in Markt.</li>
               <li>Entnahme aus Kapital mit 3,5 % realer Rendite. „Für immer“: Ab 67 decken die Erträge den Teil, den die Rente nicht deckt, das Kapital schrumpft dann nicht mehr. Das sind 343 € Kapital je Euro Monatsbedarf. Hörst du vor 67 auf, kommt die Brücke bis zur Rente dazu. „Bis 95“: Das Kapital trägt bis 67 den vollen Bedarf, danach den Teil, den die Rente nicht deckt, und ist mit 95 aufgebraucht. Ab 67 sind das 212 € Kapital je Euro Monatsbedarf. Die gesetzliche Rente beginnt mit 67. Schwankungen in der Entnahmephase sind nicht simuliert; der Puffer liegt darin, dass das Kapital in Markt mit Aktien rechnet, die mehr als 3,5 % erwarten lassen.</li>
@@ -299,7 +299,6 @@
         <button type="button" class="btn btn-ghost" data-go="3">Eingaben ändern</button>
         <div style="display:flex;flex-wrap:wrap;gap:12px">
           <button type="button" class="btn btn-ghost" onclick="window.print()">Report als PDF speichern</button>
-          <a class="btn btn-ghost" id="to-vp" href="vermoegenspfade.html">Aufteilung in den Vermögenspfaden durchspielen</a>
           <a class="btn btn-green" href="mailto:info@brinksinvestments.com?subject=Vorgespr%C3%A4ch%20Verm%C3%B6gensstruktur">Ergebnis besprechen</a>
         </div>
       </div>
@@ -369,7 +368,7 @@
   function loanCost(k,taxOn){if(taxOn&&k==="re")return LOAN.re-0.035*0.30;return LOAN[k]}
   var VOL={pe:0.30,crypto:0.45,biz:0.30,coll:0.15},RHO=0.5;
 
-  // Simulation für Markt und Wachstum: gleiche Annahmen wie die Vermögenspfade
+  // Simulation für Markt und Wachstum
   var SK=["cash","gold","eq","bonds","pe","crypto"],SSIG={cash:0.01,gold:0.15,eq:0.155,bonds:0.05,pe:0.30,crypto:0.45};
   var SCORR=[[1,0,0,.1,0,0],[0,1,.1,.3,.1,.1],[0,.1,1,.2,.8,.4],[.1,.3,.2,1,.2,0],[0,.1,.8,.2,1,.4],[0,.1,.4,0,.4,1]];
   var SIMN=1000,SIMH=60,ZZ=null;
@@ -854,14 +853,6 @@
   }
   function k(a,b,c,em){return'<div class="kpi'+(em?" em":"")+'"><span class="k">'+a+'</span><span class="v">'+b+'</span><span class="s">'+c+'</span></div>'}
   function seg(parts,max){return'<div class="bar" role="img" aria-label="Füllstand">'+parts.map(function(p){return'<span style="width:'+Math.max(0,Math.min(100,p[0]/max*100))+'%;background:'+p[1]+'"></span>'}).join("")+'</div>'}
-  // Übergabe an die Vermögenspfade: freies Vermögen, Sparrate, gewählte Aufteilung, Ruhestandsziel
-  (function(){var a=$("to-vp");if(!a)return;a.addEventListener("click",function(){try{
-    var R=compute({dry:true,w:varW(VSEL)}),w=varW(VSEL)||R.freeW||{},p=new URLSearchParams(),ag=Math.max(18,Math.min(85,parseFloat($("age").value)||40));
-    p.set("start",Math.round(R.freeAmt||0));p.set("save",Math.round(R.save||0));
-    ["cash","gold","eq","bonds","crypto"].forEach(function(k){p.set("w_"+k,Math.round((w[k]||0)*100))});
-    if(!R.none&&R.amt>0){p.set("target",Math.round(R.amt));p.set("years",Math.max(1,Math.min(25,R.RA-ag)))}
-    p.set("from","zp");a.href="vermoegenspfade.html?"+p.toString();
-  }catch(e){a.href="vermoegenspfade.html"}})})();
 })();
 </script>
 <script>

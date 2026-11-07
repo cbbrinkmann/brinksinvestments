@@ -12,7 +12,6 @@ Sprache der Inhalte: Deutsch. Keine Anlageberatung und keine Empfehlung einzelne
 
 - [Freiheitsrechner](https://www.brinksinvestments.com/freiheitsrechner.html): Ab welchem Alter das Vermögen den Lebensstil trägt.
 - [Zielplaner](https://www.brinksinvestments.com/zielplaner.html): Ob Reserve, Eigenheim und Ruhestand mit Vermögen und Sparrate aufgehen, verteilt auf Sicherheit, Markt und Wachstum.
-- [Vermögenspfade](https://www.brinksinvestments.com/vermoegenspfade.html): Monte-Carlo-Simulation über bis zu 25 Jahre mit sechs Anlageklassen.
 
 Alle Rechner rechnen real (nach 2 % Inflation), vor Steuern und mit offengelegten Kapitalmarktannahmen von Amundi und Fidelity (Stand Oktober 2026); digitale Assets nach eigener Annahme. Eingaben werden nicht gespeichert.
 
