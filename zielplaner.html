@@ -154,7 +154,7 @@
         <h2 style="font-size:28px">Was soll dein Vermögen für dich leisten?</h2>
         <p class="muted">Wähle deine Ziele. Jedes landet automatisch im passenden Topf.</p>
         <div class="choice">
-          <label><input type="checkbox" name="g" value="reserve" checked disabled><span>Ich will jederzeit handlungsfähig sein.<span class="desc">Eine Reserve von 6 Monatsausgaben, mit eigenem Unternehmen 12.</span><span class="tag">Sicherheit</span></span></label>
+          <label><input type="checkbox" name="g" value="reserve" checked disabled><span>Ich will jederzeit handlungsfähig sein.<span class="desc">Eine Reserve von 3 Monatsausgaben, mit eigenem Unternehmen 6.</span><span class="tag">Sicherheit</span></span></label>
           <label><input type="checkbox" name="g" value="ruhestand" checked><span>Ich will im Alter gut leben.<span class="desc">Ab deinem Wunschalter, gern auch vor 67. Deine Grundkosten sind abgesichert, dein Wunschbedarf ist finanziert.</span><span class="tag">Sicherheit und Markt</span></span></label>
           <label id="g-heim-l"><input type="checkbox" name="g" value="eigenheim"><span>Ich will im eigenen Zuhause wohnen.<span class="desc">Das Eigenkapital für den Kauf: 20 % des Preises plus Nebenkosten.</span><span class="tag">Sicherheit</span></span></label>
         </div>
@@ -203,6 +203,12 @@
         <fieldset class="fieldset group"><legend>Deine Situation</legend>
           <div class="f"><span class="lab">Eigenes Unternehmen?</span><div class="choice" style="max-width:460px"><label><input type="radio" name="biz" value="0" checked><span>Nein</span></label><label><input type="radio" name="biz" value="1"><span>Ja</span></label></div></div>
           <div class="f"><span class="lab">Eigenheim vorhanden?</span><div class="choice" style="max-width:460px"><label><input type="radio" name="home" value="0" checked><span>Nein</span></label><label><input type="radio" name="home" value="1"><span>Ja</span></label></div></div>
+        </fieldset>
+        <fieldset class="fieldset group"><legend>Deine Absicherung</legend>
+          <p class="hint" style="margin-top:0">Erst absichern, dann anlegen. Ein ungedecktes Risiko kann mehr kosten, als jede Rendite bringt.</p>
+          <div class="f"><span class="lab">Berufsunfähigkeitsversicherung?</span><div class="choice"><label><input type="radio" name="bu" value="1"><span>Ja</span></label><label><input type="radio" name="bu" value="0"><span>Nein</span></label><label><input type="radio" name="bu" value="na"><span>Brauche ich nicht<span class="desc">zum Beispiel im Ruhestand</span></span></label></div></div>
+          <div class="f"><span class="lab">Privathaftpflicht?</span><div class="choice" style="max-width:460px"><label><input type="radio" name="hp" value="1"><span>Ja</span></label><label><input type="radio" name="hp" value="0"><span>Nein</span></label></div></div>
+          <div class="f"><span class="lab">Risikolebensversicherung?</span><div class="choice"><label><input type="radio" name="rl" value="1"><span>Ja</span></label><label><input type="radio" name="rl" value="0"><span>Nein</span></label><label><input type="radio" name="rl" value="na"><span>Niemand hängt finanziell von mir ab</span></label></div></div>
         </fieldset>
         <div style="display:flex;justify-content:space-between;gap:12px"><button type="button" class="btn btn-ghost" data-go="1">Zurück</button><button type="button" class="btn btn-green" data-go="3">Weiter</button></div>
       </div>
@@ -261,11 +267,12 @@
       <div class="kpis" id="topline"></div>
       <h2 style="font-size:26px">Wo dein Geld liegt</h2><div class="grid-auto" id="pots"></div>
       <div class="panel stack"><h2 style="font-size:26px">Dein Plan</h2><div id="plan" class="stack"></div></div>
+      <div class="panel stack" id="risk-box" hidden><h2 style="font-size:26px">Zuerst absichern</h2><div id="risk" class="stack"></div></div>
       <div class="panel stack" id="levers-box"><h2 style="font-size:26px" id="levers-title">So schließt du die Lücke</h2><div id="levers" class="stack"></div></div>
       <div class="panel stack"><details class="disclose"><summary>Meilensteine</summary><p class="muted small">Wann dein Vermögen nach Abzug der Schulden diese Schwellen in 7 von 10 Fällen mindestens erreicht, in heutiger Kaufkraft, bis zu deinem Ruhestand.</p><div class="scroll-x"><table class="data" id="miles"></table></div></details></div>
       <div class="panel stack"><details class="disclose"><summary>Zusammensetzung</summary><p class="muted small">Dein Vermögen vor Abzug der Schulden, nach Anlageklassen.</p><div class="scroll-x"><table class="data" id="mix"></table></div></details></div>
+      <div class="panel stack" id="rules-box"><h2 style="font-size:26px">Deine Regeln</h2><p class="muted small">Ein guter Plan scheitert selten an der Rechnung, sondern am Verhalten. Anleger verlieren durch falsches Timing im Schnitt 1 bis 1,5 % Rendite pro Jahr.</p><ol id="rules" class="stack" style="margin:0;padding-left:20px"></ol></div>
       <div class="panel stack" id="notes-box"><h2 style="font-size:26px">Hinweise</h2><div id="notes" class="stack"></div></div>
-      <div class="panel stack print-only" id="inputs-box" style="display:none"><h2 style="font-size:26px">Deine Angaben</h2><table class="data" id="inputs"></table></div>
       <div class="panel stack">
         <details class="disclose" open>
           <summary>Annahmen dieser Rechnung</summary>
@@ -278,7 +285,7 @@
               <li>Aufteilung: Verändert wird nur dein freies liquides Vermögen aus Cash, Gold, Aktien, Anleihen und Digitalen Assets. Gesperrt bleibt, was Sicherheit für Reserve, Grundkosten und Eigenheim braucht, soweit es heute in Cash, Gold und Anleihen liegt. Die gewählte Aufteilung gilt auch für neue Sparbeiträge in Markt und Wachstum und wird jedes Jahr wiederhergestellt. Davon gehen mindestens 10 % in Wachstum, mit eigenem Unternehmen 5 %, solange dein Ruhestand damit noch in 7 von 10 Fällen aufgeht. Sonst 5 % oder nichts. Digitale Assets rechnen mit 13 % realer Rendite und 45 % Schwankung pro Jahr, einer eigenen Annahme von brinks investments.</li>
               <li>Ruhestand: Als Grundkosten zählt die Hälfte deiner heutigen Ausgaben. Was davon nicht durch deine Rente gedeckt ist, liegt in Sicherheit. So sind die Grundkosten auch nach einem Börsencrash bezahlt. Das entspricht dem Wealth Allocation Framework: Der sichere Topf deckt die Grundkosten, egal was der Markt macht. Alles darüber bis zu deinem Wunschbedarf liegt in Markt.</li>
               <li>Entnahme aus Kapital mit 3,5 % realer Rendite. „Für immer“: Ab 67 decken die Erträge den Teil, den die Rente nicht deckt, das Kapital schrumpft dann nicht mehr. Das sind 343 € Kapital je Euro Monatsbedarf. Hörst du vor 67 auf, kommt die Brücke bis zur Rente dazu. „Bis 95“: Das Kapital trägt bis 67 den vollen Bedarf, danach den Teil, den die Rente nicht deckt, und ist mit 95 aufgebraucht. Ab 67 sind das 212 € Kapital je Euro Monatsbedarf. Die gesetzliche Rente beginnt mit 67. Schwankungen in der Entnahmephase sind nicht simuliert; der Puffer liegt darin, dass das Kapital in Markt mit Aktien rechnet, die mehr als 3,5 % erwarten lassen.</li>
-              <li>Reserve: 6 Monatsausgaben, mit eigenem Unternehmen 12. Sie zählt nur aus Cash und Anleihen.</li>
+              <li>Reserve: 3 Monatsausgaben, mit eigenem Unternehmen 6. Sie zählt nur aus Cash und Anleihen.</li>
               <li>Eigenheim-Ziel: Anzusparen sind 30 % des Kaufpreises, 20 % Eigenkapital und 10 % Nebenkosten, der Rest wird finanziert. Ab dem Kauf zählt das Eigenkapital als Eigenheim in Sicherheit und wächst mit 2 % real. Die Kreditrate ersetzt die bisherige Miete, die Sparrate bleibt gleich. Der vorgeschlagene Kaufpreis ergibt sich aus einer Rate von 35 % des Nettoeinkommens bei 4,4 % Zins, 2 % Tilgung und 80 % Finanzierung. Die 4,4 % entsprechen dem Bauzins für 10 Jahre Zinsbindung, Stand Oktober 2026 (Biallo-Index 4,36 %).</li>
               <li>Sparrate: Einkommen minus Ausgaben. Im Berufsleben steigt das Einkommen bis 40 real um 2 % pro Jahr, von 40 bis 50 um 0,5 % pro Jahr, danach bleibt es gleich. Das folgt der Verdiensterhebung 2025 des Statistischen Bundesamts: Vollzeitverdienste steigen von Ende 20 bis Ende 30 um rund 2 % pro Jahr, danach im Durchschnitt nur noch um rund 0,5 %. Von jeder Gehaltssteigerung fließt die Hälfte in die Sparrate, die andere Hälfte in höhere Ausgaben.</li>
               <li>Sparplan: zuerst Konsumkredite tilgen und die Reserve aufbauen, mit der ganzen Sparrate. Danach bekommt jedes Ziel den Monatsbetrag, der es bis zu seinem Termin füllt. Vorhandenes Vermögen im Topf deckt zuerst das früheste Ziel. Reicht die Sparrate nicht, gehen Sicherheitsziele vor Markt und Markt vor Wachstum. Was übrig bleibt, geht zu 75 % in Markt und 25 % in Wachstum, mit eigenem Unternehmen 90 : 10.</li>
@@ -408,8 +415,8 @@
   }
   function renderStand(){
     var R=compute({dry:true,w:null,rows:true});
-    var pots=[["Sicherheit","Was nie ausfallen darf",R.sEq,R.safeT],["Markt","Was wichtig ist",R.mEq,R.marketT],["Wachstum","Was darüber hinaus geht",R.wEq,0]];
-    var ph='<div class="standpots">'+pots.map(function(p){return'<div class="sp"><div class="sp-h"><span><strong>'+p[0]+'</strong> <span class="small muted">'+p[1]+'</span></span><span class="sp-v">'+short(Math.max(0,p[2]))+(p[3]>0?' <span class="small muted">von '+short(p[3])+' Ziel</span>':'')+'</span></div>'+(p[3]>0?seg([[Math.max(0,p[2]),"#1F3A2E"]],p[3]):'<span class="small muted">kein Zielwert, schwankt stark</span>')+'</div>'}).join("")+'</div>';
+    var pots=[["Sicherheit","Notreserve, Grundkosten im Alter und Geld, das du in wenigen Jahren brauchst, zum Beispiel für den Hauskauf. Liegt in Tagesgeld, Anleihen, Gold.",R.sEq,R.safeT],["Markt","Dein Lebensstandard im Ruhestand über die Grundkosten hinaus. Liegt breit gestreut in Aktien und vermieteten Immobilien: schwankt, wächst über Jahrzehnte aber am stärksten.",R.mEq,R.marketT],["Wachstum","Chancen mit hohem Risiko: Digitale Assets, Beteiligungen, eigenes Unternehmen. Kann sich vervielfachen oder ausfallen.",R.wEq,0]];
+    var ph='<div class="standpots">'+pots.map(function(p){return'<div class="sp"><div class="sp-h"><span><strong>'+p[0]+'</strong><span class="small muted" style="display:block;max-width:520px">'+p[1]+'</span></span><span class="sp-v">'+short(Math.max(0,p[2]))+(p[3]>0?' <span class="small muted">von '+short(p[3])+' Ziel</span>':'')+'</span></div>'+(p[3]>0?seg([[Math.max(0,p[2]),"#1F3A2E"]],p[3]):'<span class="small muted">kein Zielwert, schwankt stark</span>')+'</div>'}).join("")+'</div>';
     var nGap=R.rows.filter(function(r){return r.st==="gap"}).length;
     var next=nGap?'<p class="lever">Im nächsten Schritt siehst du, was eine andere Aufteilung deines Vermögens ändert. Im Ergebnis folgen alle Stellschrauben mit Beträgen: mehr sparen, später aufhören, weniger brauchen.</p>':'<p class="lever">Deine heutige Struktur trägt deine Ziele. Mehr Risiko brauchst du dafür nicht. Im nächsten Schritt kannst du trotzdem andere Aufteilungen vergleichen.</p>';
     $("stand").innerHTML='<div class="stack"><p class="small muted">Deine Sparrate: '+eur(R.save)+' im Monat, Sparquote '+Math.round(R.quote*100)+' %</p>'+goalsHtml(R.rows)+'</div><div class="stack"><h3 style="font-size:20px">Deine Töpfe heute</h3><p class="small muted">Das Ziel ist der Betrag, den der Topf bis zum jeweiligen Termin erreichen soll.</p>'+ph+'</div>'+next;
@@ -515,7 +522,7 @@
     var v={cash:n("v-cash"),gold:n("v-gold"),bonds:n("v-bonds"),ins:n("v-ins"),home:home?n("v-home"):0,eq:n("v-eq"),re:n("v-re"),pe:n("v-pe"),crypto:n("v-crypto"),biz:biz?n("v-biz"):0,coll:n("v-coll")};
     var d={home:home?n("d-home"):0,re:n("d-re"),cons:n("d-cons")};
     // Ziele
-    var reserveMonths=biz?12:6, reserveT=exp*reserveMonths;
+    var reserveMonths=biz?6:3, reserveT=exp*reserveMonths;
     var gapY=Math.max(0,67-exitAge),retOn=!!(g.ruhestand||g.freiheit);
     var sockel=retOn?capNeed(F,Math.max(0,F-P),exitAge,keep):0;
     var homeGuessP=false,homeGuessY=false,maxHome=0,homeEK=0,homePrice=0,homeYears=0;
@@ -610,6 +617,12 @@
     if(!simAll)simAll=runSim(left);
     var goalName=mg?(mg.name==="Finanzielle Freiheit"?"deine finanzielle Freiheit":"deinen Lebensstandard im Ruhestand"):"";
     // Ziele mit Status: heute erreicht, klappt mit der Sparrate, oder Lücke
+    function homeGapHtml(h){var later=h.fullAge?h.fullAge-Math.round(age+homeYears):0;
+      return 'Du sparst bis dahin '+r100(h.saved)+' an. Nötig sind '+r100(homeEK)+' Eigenkapital, 30 % von '+r100(homePrice)+'. Es fehlen '+r100(h.miss)+'.'+
+      '<br><strong>Bekommst du bis dahin Geld aus einer Erbschaft oder Schenkung?</strong>'+
+      '<br>Ja: Dann brauchst du daraus '+r100(h.miss)+' bis zum Kauf.'+
+      '<br>Nein: Dann sparst du '+eur(h.short)+' mehr im Monat, oder du planst mit einem Kaufpreis von etwa '+r100(Math.floor(h.price/10000)*10000)+'.'+
+      (h.fullAge?' Mit deiner heutigen Sparrate reicht es für den geplanten Preis mit '+h.fullAge+', '+later+(later===1?' Jahr':' Jahre')+' später.':'')}
     var rowsOut=[];
     if(opt.rows||!DRY){
       var rSub=reserveMonths+" Monatsausgaben für den Notfall";
@@ -617,7 +630,7 @@
       var hg0=G.filter(function(x){return x.home})[0];
       if(hg0)rowsOut.push({name:"Eigenheim mit "+Math.round(age+homeYears),sub:"Eigenkapital "+short(homeEK)+" für "+short(homePrice)+" Kaufpreis",st:hg0.gap<=0?"ok":hg0.short<=1?"go":"gap",
         txt:hg0.gap<=0?"Eigenkapital ist da":hg0.short<=1?"klappt mit "+eur(hg0.got)+" im Monat":"beim Kauf fehlen "+short(hg0.miss),
-        det:hg0.short>1?"Bis "+inMonthsTxt(homeYears*12)+" sparst du "+short(hg0.saved)+" an. Damit reicht es für etwa "+short(Math.floor(hg0.price/10000)*10000)+" Kaufpreis"+(hg0.fullAge?". Das volle Eigenkapital hast du mit "+hg0.fullAge:"")+". Für den Kauf wie geplant fehlen "+eur(hg0.short)+" im Monat.":""});
+        det:hg0.short>1?homeGapHtml(hg0):""});
       if(retOn){var sg=G.filter(function(x){return x.pot==="S"&&!x.home})[0],st="go",txt,det=[];
         var mOK=!mg||mg.prob>=70,sShort=!!(sg&&sg.short>1),ab=sg&&sg.phaseB?" ab dem Hauskauf":"";
         st=mOK&&!sShort?"go":"gap";
@@ -689,8 +702,8 @@
     // Kennzahlen
     $("topline").innerHTML=
       k("Vermögen netto",short(total),"nach Abzug aller Schulden")+
-      k("Sparrate",eur(save)+" / Monat","Sparquote "+Math.round(quote*100)+" %",quote>=0.3)+
-      k("Zielsparquote","30 %",quote>=0.3?"erreicht":"Lücke "+eur(Math.max(0,net*0.3-save))+" pro Monat")+
+      k("Sparrate",eur(save)+" / Monat","Sparquote "+Math.round(quote*100)+" %",quote>=0.2)+
+      k("Zielsparquote","20 %",quote>=0.2?"erreicht":"Lücke "+eur(Math.max(0,net*0.2-save))+" pro Monat")+
       k("Vermögen mit "+RA,yrsTo67>0?short(simQ30(simAll[Math.min(Yr,TS)])+a67.s):"–",yrsTo67>0?"in 7 von 10 Fällen mindestens, heutige Kaufkraft":"du bist bereits im Ruhestand");
 
     // Töpfe
@@ -708,7 +721,7 @@
         (P>=F?'Ab 67 deckt deine Rente von '+eur(P)+' sie vollständig. ':'Ab 67 deckt deine Rente davon '+eur(P)+'. ')+keepTxt(gapY,keep)+' Gerechnet wird mit 3,5 % realer Rendite. Alles, was du darüber hinaus ausgeben willst, liegt in Markt.')}
     var sBody=head("Ziel")+row("Reserve ("+reserveMonths+" Monatsausgaben)",eur(reserveT))+(sockel?row("Grundkosten ab "+RA+(gapY>0?", bis 67 ohne Rente":", soweit die Rente sie nicht deckt"),eur(sockel)):'')+(sockelBridge?row("Grundkosten von "+RA+" bis 67, vor der Rente",eur(sockelBridge)):'')+(homeEK?row("Eigenkapital Eigenheim (30 % von "+short(homePrice)+(homeGuessP?", Vorschlag":"")+")",eur(homeEK)):'')+row("Ziel gesamt",eur(safeT),"sum")+
       head("Stand")+row("Reserve sofort verfügbar",eur(Math.max(0,liquid))+(liquid>=reserveT?" ✓":""))+(fut?row("Mit "+RA+", erwartet",short(a67.s)):'')+row("Rendite real",p1(S.r));
-    var safeHtml=card("Sicherheit","Was nie ausfallen darf",short(Math.max(0,S.eq)),S.eq>=safeT?"Ziel erreicht":"von <strong>"+short(safeT)+" Ziel</strong> · Lücke "+short(safeT-S.eq),seg([[Math.max(0,S.eq),"#1F3A2E"]],Math.max(safeT,1)),sBody,
+    var safeHtml=card("Sicherheit","Notreserve, Grundkosten im Alter und Geld, das du in wenigen Jahren brauchst, zum Beispiel für den Hauskauf. Liegt in Tagesgeld, Anleihen, Gold.",short(Math.max(0,S.eq)),S.eq>=safeT?"Ziel erreicht":"von <strong>"+short(safeT)+" Ziel</strong> · Lücke "+short(safeT-S.eq),seg([[Math.max(0,S.eq),"#1F3A2E"]],Math.max(safeT,1)),sBody,
       (homeEK?more('Wie viel Eigenheim ist finanzierbar?','Kaufpreis '+short(homePrice)+' in '+homeYears+' Jahren. '+finText(net)):'')+
       safeExplain);
     // Markt
@@ -719,14 +732,14 @@
     var riskNote='';
     if(transferUsed>0){var tR=G.filter(function(x){return x.tr>0})[0],nR=pmt(tR.gap+tR.tr,POTS.M.c,tR.y-resY);
       riskNote=more('Bewusstes Risiko: '+short(transferUsed)+' aus Wachstum eingeplant',''+short(transferUsed)+' deines Markt-Ziels sollen mit '+RA+' aus Wachstum kommen. In 3 von 10 Fällen ist dort weniger, bei Totalverlust fehlt der ganze Betrag. Ohne Umschichtung bräuchtest du '+eur(nR)+' statt '+eur(tR.need)+' pro Monat. Du kannst die Umschichtung oben mit dem Schalter „Wachstum zum Ruhestand umschichten“ ausschalten.',true)}
-    var marketHtml=card("Markt","Was wichtig ist",short(Math.max(0,M.eq)),marketT<=0?"kein Zielwert gewählt":"von <strong>"+short(marketT)+" Ziel</strong> · "+(mg?"klappt in "+tenth(mg.prob)+" Fällen":"nicht erreicht"),marketT>0?seg([[Math.max(0,M.eq),"#1F3A2E"]],marketT):'',mBody,
+    var marketHtml=card("Markt","Dein Lebensstandard im Ruhestand über die Grundkosten hinaus. Liegt breit gestreut in Aktien und vermieteten Immobilien: schwankt, wächst über Jahrzehnte aber am stärksten.",short(Math.max(0,M.eq)),marketT<=0?"kein Zielwert gewählt":"von <strong>"+short(marketT)+" Ziel</strong> · "+(mg?"klappt in "+tenth(mg.prob)+" Fällen":"nicht erreicht"),marketT>0?seg([[Math.max(0,M.eq),"#1F3A2E"]],marketT):'',mBody,
       (v.re&&d.re?more('Hebel durch den Kredit','Der Kredit hebelt deine vermieteten Immobilien: '+p1(rate("re",taxOn))+' auf den Marktwert ergeben '+p1((v.re*rate("re",taxOn)-d.re*loanCost("re",taxOn))/Math.max(1,v.re-d.re))+' auf dein Eigenkapital.'):'')+marketExplain+riskNote);
     // Wachstum
     var wBody=(legacy?head("Ziel")+row("Weitergeben",eur(legacy),"sum"):'')+
       (fut&&W.eq>0?head("Mit "+RA)+row("in 7 von 10 Fällen mindestens",short(wP10)):'')+
       (transferUsed>0?row("Umschichtung in Markt",short(transferUsed),"sum"):'')+head("Rendite")+row("Rendite real (Erwartung)",p1(W.eq>0?W.r:cW));
     var growthFoot=(W.eq>0&&fut?more('Jedes Jahr neu rechnen','Eingeplant ist, was dein Wachstumstopf in 7 von 10 Fällen mindestens erreicht. Läuft es gut, steigt dieser Betrag bei der nächsten Rechnung von selbst, und je näher der Ruhestand rückt, desto mehr zählt davon. Für dein Markt-Ziel rechnet das Tool Markt und Wachstum gemeinsam.'):'');
-    var growthHtml=card("Wachstum","Was darüber hinaus geht",short(W.eq),"kein Mindestziel · schwankt stark",'<div class="bar" aria-hidden="true" style="visibility:hidden"></div>',wBody,growthFoot);
+    var growthHtml=card("Wachstum","Chancen mit hohem Risiko: Digitale Assets, Beteiligungen, eigenes Unternehmen. Kann sich vervielfachen oder ausfallen.",short(W.eq),"kein Mindestziel · schwankt stark",'<div class="bar" aria-hidden="true" style="visibility:hidden"></div>',wBody,growthFoot);
     $("pots").innerHTML=safeHtml+marketHtml+growthHtml;
 
     // Dein Plan: Ergebnis auf einen Blick, was zu tun ist, Details
@@ -750,11 +763,10 @@
       var mwSave=save*(split[1]+split[2]),parts=[["Sicherheit",split[0],"Tagesgeld, Anleihen, Gold"]].filter(function(x){return save*x[1]>=1});
       var hg=G.filter(function(x){return x.home})[0],homeGot=hg?hg.got:0;
       todo.push('<strong>'+(resGap>0?'Ab '+inMonths(resMonths+1):'Ab sofort')+' jeden Monat:</strong> '+parts.map(function(x){return eur(save*x[1])+' in '+x[0]+' ('+x[2]+')'}).concat(mwSave>=1?[eur(mwSave)+' in Markt und Wachstum, aufgeteilt so: '+LIQ.filter(function(k){return saveW[k]>0.004}).map(function(k){return LNAME[k]+' '+eur(mwSave*saveW[k])}).join(', ')]:[]).join('; ')+'.'+
-        (homeGot>=1?'<br><span class="small muted"><strong>Warum so viel in Sicherheit?</strong> Davon sind '+eur(homeGot)+' für dein Eigenkapital. Geld, das du in wenigen Jahren brauchst, gehört nicht in Aktien: Ein Einbruch wie 2008/09 kurz vor dem Kauf kann die Hälfte kosten.</span>':''));
+        (homeGot>=1?'<br><span class="small muted"><strong>Warum so viel in Sicherheit?</strong> '+(homeGot>=save-1?'Deine ganze Sparrate fließt in das Eigenkapital deiner Immobilie.':eur(homeGot)+' davon sparst du für das Eigenkapital deiner Immobilie.')+' Geld, das du in wenigen Jahren brauchst, gehört nicht in Aktien. Fällt der Aktienmarkt kurz vor dem Kauf so stark wie in der Finanzkrise 2008/09, halbiert sich dein Eigenkapital genau dann, wenn du es brauchst.</span>':''));
       if(hg&&homeEK){var hDate=inMonths(homeYears*12);
         todo.push('<strong>Bis zum Hauskauf ('+hDate+', mit '+Math.round(age+homeYears)+'):</strong> '+(hg.miss>1?
-          'Du hast dann '+r100(hg.saved)+' Eigenkapital angespart. Nötig sind '+r100(homeEK)+', 30 % von '+r100(homePrice)+'. Es fehlen '+r100(hg.miss)+'.'+
-          '<br><span class="small muted">Mit '+r100(hg.saved)+' reicht es für einen Kaufpreis von etwa '+r100(Math.floor(hg.price/10000)*10000)+'. '+(hg.fullAge?'Das volle Eigenkapital hast du mit '+hg.fullAge+', '+(hg.fullAge-Math.round(age+homeYears))+((hg.fullAge-Math.round(age+homeYears))===1?' Jahr':' Jahre')+' später als geplant. ':'')+'Oder du sparst '+eur(hg.short)+' mehr im Monat.</span>':
+          homeGapHtml(hg):
           'Dein Eigenkapital von '+r100(homeEK)+' für '+r100(homePrice)+' Kaufpreis steht.'))}
       var phB=hg&&homeGot>=1,sB=0,mwB=0;
       if(phB){var topB=G.filter(function(x){return x.gotB>=1});sB=save*split[0]-homeGot+topB.reduce(function(a,x){return a+x.gotB},0);mwB=mwSave+freeB;
@@ -790,9 +802,9 @@
         opts.push('<li>Mit weniger auskommen: Wunschbedarf um '+eur(cut)+' auf '+eur(Math.max(0,B-cut))+' im Monat senken.</li>')}
       if(x.y===Yr){var k=0;for(var j=1;j<=15;j++){if(pmt(x.gap,c,x.y+j-resY)<=x.got+1){k=j;break}}
         if(k)opts.push('<li>Später aufhören: mit etwa '+(RA+k)+' statt '+RA+'.</li>')}
-      if(x.home)opts.push('<li>Später oder günstiger kaufen.</li>');
+      if(x.home){opts.push('<li>Günstiger kaufen: etwa '+r100(Math.floor(x.price/10000)*10000)+' statt '+r100(homePrice)+'.</li>');opts.push('<li>Geld aus Erbschaft oder Schenkung: '+r100(x.miss)+' bis zum Kauf.</li>')}
       L.push('<p><strong>'+x.name+': Es fehlen '+eur(x.short)+' im Monat'+(x.phaseB?' ab dem Hauskauf':'')+'.</strong> '+(x.phaseB?'Ab dem Kauf sind '+eur(x.got+x.needB)+' im Monat nötig, frei werden dafür '+eur(x.got+x.gotB)+'.':'Nötig sind '+eur(x.need)+' im Monat, deine Sparrate reicht für '+eur(x.got)+'.')+' Jede dieser Möglichkeiten schließt die Lücke allein:</p><ul style="margin:6px 0 0;padding-left:20px">'+opts.join("")+'</ul>'+(opts.length>1?'<p class="small muted" style="margin-top:6px">Du kannst sie auch kombinieren, zum Beispiel etwas mehr sparen und etwas später aufhören.</p>':''))}});
-    if(quote<0.3&&net>0)L.push('<p><strong>Sparquote:</strong> Du sparst '+Math.round(quote*100)+' % deines Einkommens. Empfehlenswert sind 30 %, dafür fehlen '+eur(net*0.3-save)+' im Monat.</p>');
+    if(quote<0.2&&net>0)L.push('<p><strong>Sparquote:</strong> Du sparst '+Math.round(quote*100)+' % deines Einkommens. Empfehlenswert sind mindestens 20 %, dafür fehlen '+eur(net*0.2-save)+' im Monat.</p>');
     if(bridge>0&&aExit&&aExit.w<bridge)L.push("<p>Früherer Ausstieg: In der Erwartung liegen mit "+Math.round(exitAge)+" nur "+short(aExit.w)+" statt "+short(bridge)+" im Wachstumstopf. Später aussteigen oder mehr in Wachstum sparen.</p>");
     $("levers-title").textContent=shortSum>1?"So schließt du die Lücke":"Gut zu wissen";
     if(!L.length)L.push("<p>Keine Lücke: Deine Struktur trägt deine Ziele. Rechne einmal im Jahr neu.</p>");
@@ -817,6 +829,22 @@
     N.push("Dein wichtigster Vermögenswert ist oft dein Einkommen. Es ist hier über die Sparrate berücksichtigt.");
     $("notes").innerHTML=N.map(function(t){return'<p class="small">'+t+'</p>'}).join("");
 
+    // Absicherung
+    var RK=[],yrs=Math.max(0,retAge-age),bu=radio("bu"),hp=radio("hp"),rl=radio("rl");
+    if(bu!=="1"&&bu!=="na"&&yrs>0)RK.push('<p><strong>Berufsunfähigkeit:</strong> Bis zum Ruhestand verdienst du noch rund '+short(net*12*yrs)+' netto. Das ist meist dein größter Vermögenswert. Eine BU-Rente von 70 bis 80 % deines Nettos, also '+eur(net*0.7)+' bis '+eur(net*0.8)+' im Monat, sichert ihn ab.</p>');
+    if(hp!=="1")RK.push('<p><strong>Privathaftpflicht:</strong> Kostet etwa 50 bis 100 € im Jahr und schützt vor Schäden, die dein ganzes Vermögen aufzehren können. Deckungssumme mindestens 10 Mio. €.</p>');
+    if(rl!=="1"&&rl!=="na")RK.push('<p><strong>Risikolebensversicherung:</strong> Wenn jemand finanziell von dir abhängt, gilt als Richtwert das 3- bis 5-Fache deines Jahresnettos: '+short(net*12*3)+' bis '+short(net*12*5)+'.</p>');
+    $("risk-box").hidden=!RK.length;
+    $("risk").innerHTML=RK.map(function(t){return'<div class="lever">'+t+'</div>'}).join("");
+
+    // Deine Regeln
+    var R=[];
+    if(save>0)R.push('<strong>Automatisch sparen:</strong> '+eur(save)+' per Dauerauftrag am Monatsanfang, nicht am Monatsende mit dem, was übrig bleibt.');
+    R.push('<strong>Einmal im Jahr prüfen:</strong> Weicht ein Topf mehr als 5 Prozentpunkte von deiner Aufteilung ab, schichtest du zurück. Sonst nichts tun.');
+    R.push('<strong>Im Crash nicht verkaufen:</strong> Einbrüche von 30 % und mehr kommen in den durchgerechneten Verläufen vor, das Ergebnis berücksichtigt sie. Deine Reserve von '+reserveMonths+' Monatsausgaben sorgt dafür, dass du nichts verkaufen musst.');
+    R.push('<strong>Neu rechnen bei Lebensereignissen:</strong> Jobwechsel, Kind, Hauskauf, Erbschaft, Trennung.');
+    $("rules").innerHTML=R.map(function(t){return'<li class="small">'+t+'</li>'}).join("");
+
     // Annahmen-Tabelle
     var r='<thead><tr><th>Anlage</th><th>Topf</th><th>Rendite real'+(taxOn?' nach Steuern':'')+'</th></tr></thead><tbody>';
     ["cash","gold","bonds","ins","home","eq","re","pe","crypto","biz","coll"].forEach(function(k){r+='<tr><td>'+A[k].name+(A[k].own?' *':'')+'</td><td>'+A[k].pot+'</td><td>'+p1(rate(k,taxOn))+'</td></tr>'});
@@ -826,28 +854,6 @@
   }
   function k(a,b,c,em){return'<div class="kpi'+(em?" em":"")+'"><span class="k">'+a+'</span><span class="v">'+b+'</span><span class="s">'+c+'</span></div>'}
   function seg(parts,max){return'<div class="bar" role="img" aria-label="Füllstand">'+parts.map(function(p){return'<span style="width:'+Math.max(0,Math.min(100,p[0]/max*100))+'%;background:'+p[1]+'"></span>'}).join("")+'</div>'}
-  // PDF: alle Eingaben ausgeben und zugeklappte Abschnitte öffnen
-  function fillInputs(){
-    var rows=[],g=goals(),biz=radio("biz")==="1",home=radio("home")==="1",retOn=g.ruhestand||g.freiheit;
-    function add(l,t){if(t!==""&&t!=null)rows.push([l,t])}
-    function money(l,id){var v=n(id);if(v)add(l,eur(v))}
-    add("Ziele",[g.reserve?"Reserve":"",g.ruhestand?"Ruhestand":"",g.freiheit?"Finanzielle Freiheit":"",g.eigenheim?"Eigenheim":""].filter(Boolean).join(", "));
-    add("Alter",$("age").value);
-    money("Nettoeinkommen pro Monat","net");money("Ausgaben pro Monat","exp");
-    add("Beruf",radio("phase")==="0"?"Einkommen bleibt etwa gleich":"im Berufsleben, Einkommen steigt");
-    if(g.ruhestand)add("Ruhestand mit",$("retAge").value);
-    if(retOn){add("Wunschbedarf pro Monat",$("need").value!==""?eur(n("need")):"heutiger Lebensstandard");
-      money("Erwartete Rente netto pro Monat","pension");
-      add("Vermögen soll reichen",radio("keep")==="erhalt"?"für immer":"bis 95")}
-    if(g.eigenheim&&!home){money("Geplanter Kaufpreis Eigenheim","homePrice");if(n("homePrice"))add("Kauf in Jahren",$("homeYears").value)}
-    add("Eigenes Unternehmen",biz?"ja":"nein");add("Eigenheim vorhanden",home?"ja":"nein");
-    [["Cash","v-cash"],["Gold","v-gold"],["Aktien","v-eq"],["Anleihen","v-bonds"],["Direkte Beteiligungen","v-pe"],["Digitale Assets","v-crypto"],["Eigenheim (Marktwert)","v-home"],["Vermietete Immobilien (Marktwert)","v-re"],["Eigenes Unternehmen (dein Anteil)","v-biz"],["Lebens- und Rentenversicherungen","v-ins"],["Sammlerwerte","v-coll"],["Restschuld Eigenheim","d-home"],["Darlehen auf vermietete Immobilien","d-re"],["Konsum- und sonstige Kredite","d-cons"]].forEach(function(x){money(x[0],x[1])});
-    $("inputs").innerHTML="<tbody>"+rows.map(function(r){return"<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>"}).join("")+"</tbody>";
-  }
-  var closedForPrint=[];
-  window.addEventListener("beforeprint",function(){fillInputs();closedForPrint=[].slice.call(document.querySelectorAll("#result details:not([open])"));closedForPrint.forEach(function(d){d.open=true})});
-  window.addEventListener("afterprint",function(){closedForPrint.forEach(function(d){d.open=false});closedForPrint=[]});
-
   // Übergabe an die Vermögenspfade: freies Vermögen, Sparrate, gewählte Aufteilung, Ruhestandsziel
   (function(){var a=$("to-vp");if(!a)return;a.addEventListener("click",function(){try{
     var R=compute({dry:true,w:varW(VSEL)}),w=varW(VSEL)||R.freeW||{},p=new URLSearchParams(),ag=Math.max(18,Math.min(85,parseFloat($("age").value)||40));
