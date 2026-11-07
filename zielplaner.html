@@ -619,7 +619,7 @@
     // Ziele mit Status: heute erreicht, klappt mit der Sparrate, oder Lücke
     function homeGapHtml(h){var later=h.fullAge?h.fullAge-Math.round(age+homeYears):0;
       return 'Du sparst bis dahin '+r100(h.saved)+' an. Nötig sind '+r100(homeEK)+' Eigenkapital, 30 % von '+r100(homePrice)+'. Es fehlen '+r100(h.miss)+'.'+
-      '<br><strong>Bekommst du bis dahin Geld aus einer Erbschaft oder Schenkung?</strong>'+
+      '<br><strong>Erwartest du bis dahin eine größere Einmalzahlung?</strong> Zum Beispiel einen Bonus, eine Erbschaft, eine Schenkung oder die Auszahlung einer Lebensversicherung.'+
       '<br>Ja: Dann brauchst du daraus '+r100(h.miss)+' bis zum Kauf.'+
       '<br>Nein: Dann sparst du '+eur(h.short)+' mehr im Monat, oder du planst mit einem Kaufpreis von etwa '+r100(Math.floor(h.price/10000)*10000)+'.'+
       (h.fullAge?' Mit deiner heutigen Sparrate reicht es für den geplanten Preis mit '+h.fullAge+', '+later+(later===1?' Jahr':' Jahre')+' später.':'')}
@@ -802,7 +802,7 @@
         opts.push('<li>Mit weniger auskommen: Wunschbedarf um '+eur(cut)+' auf '+eur(Math.max(0,B-cut))+' im Monat senken.</li>')}
       if(x.y===Yr){var k=0;for(var j=1;j<=15;j++){if(pmt(x.gap,c,x.y+j-resY)<=x.got+1){k=j;break}}
         if(k)opts.push('<li>Später aufhören: mit etwa '+(RA+k)+' statt '+RA+'.</li>')}
-      if(x.home){opts.push('<li>Günstiger kaufen: etwa '+r100(Math.floor(x.price/10000)*10000)+' statt '+r100(homePrice)+'.</li>');opts.push('<li>Geld aus Erbschaft oder Schenkung: '+r100(x.miss)+' bis zum Kauf.</li>')}
+      if(x.home){opts.push('<li>Günstiger kaufen: etwa '+r100(Math.floor(x.price/10000)*10000)+' statt '+r100(homePrice)+'.</li>');opts.push('<li>Eine Einmalzahlung bis zum Kauf, etwa Bonus, Erbschaft oder Auszahlung einer Lebensversicherung: '+r100(x.miss)+'.</li>')}
       L.push('<p><strong>'+x.name+': Es fehlen '+eur(x.short)+' im Monat'+(x.phaseB?' ab dem Hauskauf':'')+'.</strong> '+(x.phaseB?'Ab dem Kauf sind '+eur(x.got+x.needB)+' im Monat nötig, frei werden dafür '+eur(x.got+x.gotB)+'.':'Nötig sind '+eur(x.need)+' im Monat, deine Sparrate reicht für '+eur(x.got)+'.')+' Jede dieser Möglichkeiten schließt die Lücke allein:</p><ul style="margin:6px 0 0;padding-left:20px">'+opts.join("")+'</ul>'+(opts.length>1?'<p class="small muted" style="margin-top:6px">Du kannst sie auch kombinieren, zum Beispiel etwas mehr sparen und etwas später aufhören.</p>':''))}});
     if(quote<0.2&&net>0)L.push('<p><strong>Sparquote:</strong> Du sparst '+Math.round(quote*100)+' % deines Einkommens. Empfehlenswert sind mindestens 20 %, dafür fehlen '+eur(net*0.2-save)+' im Monat.</p>');
     if(bridge>0&&aExit&&aExit.w<bridge)L.push("<p>Früherer Ausstieg: In der Erwartung liegen mit "+Math.round(exitAge)+" nur "+short(aExit.w)+" statt "+short(bridge)+" im Wachstumstopf. Später aussteigen oder mehr in Wachstum sparen.</p>");
