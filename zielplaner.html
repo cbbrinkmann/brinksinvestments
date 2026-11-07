@@ -265,7 +265,7 @@
         <p id="profile" class="serif" style="font-size:clamp(20px,2.4vw,26px);line-height:1.4;color:var(--green)"></p>
       </div>
       <div class="kpis" id="topline"></div>
-      <h2 style="font-size:26px">Wo dein Geld liegt</h2><div class="grid-auto" id="pots"></div>
+      <h2 style="font-size:26px">Wo dein Geld liegt</h2><p class="small muted" id="pots-note" hidden style="margin-top:-8px">Dein heutiger Bestand. Was die gewählte Aufteilung ändert, steht in deinem Plan.</p><div class="grid-auto" id="pots"></div>
       <div class="panel stack"><h2 style="font-size:26px">Dein Plan</h2><div id="plan" class="stack"></div></div>
       <div class="panel stack" id="risk-box" hidden><h2 style="font-size:26px">Zuerst absichern</h2><div id="risk" class="stack"></div></div>
       <div class="panel stack" id="levers-box"><h2 style="font-size:26px" id="levers-title">So schließt du die Lücke</h2><div id="levers" class="stack"></div></div>
@@ -505,7 +505,9 @@
   show(1);
 
   function compute(opt){
-    opt=opt||{};var DRY=!!opt.dry,WSEL=DRY?opt.w:varW(VSEL);
+    opt=opt||{};var DRY=!!opt.dry,WSEL=DRY?opt.w:(opt.today?null:varW(VSEL));
+    // "Wo dein Geld liegt" zeigt immer den heutigen Bestand, die gewählte Aufteilung wirkt nur im Plan
+    var potsToday=(!DRY&&!opt.today&&WSEL)?compute({today:true}):null;
     var taxOn=false;
     var g=goals(),biz=radio("biz")==="1",home=radio("home")==="1";if(opt.ret)g.freiheit=false;
     var keep=radio("keep")||"verzehr";
@@ -739,7 +741,10 @@
       (transferUsed>0?row("Umschichtung in Markt",short(transferUsed),"sum"):'')+head("Rendite")+row("Rendite real (Erwartung)",p1(W.eq>0?W.r:cW));
     var growthFoot=(W.eq>0&&fut?more('Jedes Jahr neu rechnen','Eingeplant ist, was dein Wachstumstopf in 7 von 10 Fällen mindestens erreicht. Läuft es gut, steigt dieser Betrag bei der nächsten Rechnung von selbst, und je näher der Ruhestand rückt, desto mehr zählt davon. Für dein Markt-Ziel rechnet das Tool Markt und Wachstum gemeinsam.'):'');
     var growthHtml=card("Wachstum","Chancen mit hohem Risiko: Digitale Assets, Beteiligungen, eigenes Unternehmen. Kann sich vervielfachen oder ausfallen.",short(W.eq),"kein Mindestziel · schwankt stark",'<div class="bar" aria-hidden="true" style="visibility:hidden"></div>',wBody,growthFoot);
-    $("pots").innerHTML=safeHtml+marketHtml+growthHtml;
+    var potsHtml=safeHtml+marketHtml+growthHtml;
+    if(opt.today)return potsHtml;
+    $("pots").innerHTML=potsToday||potsHtml;
+    $("pots-note").hidden=!potsToday;
 
     // Dein Plan: Ergebnis auf einen Blick, was zu tun ist, Details
     var plan="",yNow=new Date().getFullYear();
@@ -818,9 +823,10 @@
 
     // Zusammensetzung
     var items=[["cash"],["gold"],["eq"],["bonds"],["pe"],["crypto"],["home","Eigenheim"],["re","Vermietete Immobilien"],["biz"],["ins","Versicherungen"],["coll"]];
-    var gross=items.reduce(function(a,x){return a+v[x[0]]},0),N=[];
+    var vNow=function(k){return vOrig[k]!=null?vOrig[k]:v[k]};
+    var gross=items.reduce(function(a,x){return a+vNow(x[0])},0),N=[];
     var mix='<thead><tr><th>Anlageklasse</th><th>Topf</th><th>Betrag</th><th>Anteil</th><th style="width:30%"></th></tr></thead><tbody>';
-    items.forEach(function(x,i){var val=v[x[0]];if(i>5&&!val)return;var s=gross>0?val/gross:0;
+    items.forEach(function(x,i){var val=vNow(x[0]);if(i>5&&!val)return;var s=gross>0?val/gross:0;
       mix+='<tr><td>'+(x[1]||A[x[0]].name)+'</td><td>'+A[x[0]].pot+'</td><td>'+eur(val)+'</td><td>'+Math.round(s*100)+' %</td><td><div class="bar"><span style="width:'+(s*100)+'%;background:#1F3A2E"></span></div></td></tr>'});
     $("mix").innerHTML=mix+'<tr><td><strong>Brutto gesamt</strong></td><td></td><td><strong>'+eur(gross)+'</strong></td><td></td><td></td></tr></tbody>';
     if(biz)N.push("Mit eigenem Unternehmen ist es besonders wichtig, außerhalb der Firma breit im Markt investiert zu sein und den Markttopf kontinuierlich aufzubauen.");
